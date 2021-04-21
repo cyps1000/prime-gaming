@@ -56,6 +56,8 @@ function App() {
         >
           Learn React
         </a>
+        <h1>Hellloooo</h1>
+        <h2>Jesus</h2>
       </header>
     </div>
   );
