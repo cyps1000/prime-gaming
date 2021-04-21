@@ -1,7 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import logo from "./logo.svg";
+import axios from "axios";
+import "./App.css";
 
 function App() {
+  const getApiUrl = () => {
+    if (process.env.NODE_ENV === "development")
+      return process.env.REACT_APP_LOCAL_API;
+    return process.env.REACT_APP_STAGING_API;
+  };
+
+  const testApi = async () => {
+    try {
+      const urlBase = getApiUrl();
+      const response = await axios.get(`${urlBase}/test-api`);
+      const { data } = response;
+
+      console.log("FROM API:", data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // const createUser = async () => {
+  //   try {
+  //     const response = await axios.post("http://localhost:3001/api/users/new", {
+  //       email: "test@test.com",
+  //     });
+
+  //     const { data } = response;
+
+  //     console.log("CREATE USER: FROM API:", data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  useEffect(() => {
+    testApi();
+    // createUser();
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
