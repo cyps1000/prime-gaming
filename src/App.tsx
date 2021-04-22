@@ -3,7 +3,7 @@ import logo from "./logo.svg";
 import axios from "axios";
 import "./App.css";
 
-function App() {
+const App = () => {
   const getApiUrl = () => {
     if (process.env.NODE_ENV === "development")
       return process.env.REACT_APP_LOCAL_API;
@@ -21,20 +21,6 @@ function App() {
       console.error(error);
     }
   };
-
-  // const createUser = async () => {
-  //   try {
-  //     const response = await axios.post("http://localhost:3001/api/users/new", {
-  //       email: "test@test.com",
-  //     });
-
-  //     const { data } = response;
-
-  //     console.log("CREATE USER: FROM API:", data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   useEffect(() => {
     testApi();
@@ -61,6 +47,6 @@ function App() {
       </header>
     </div>
   );
-}
+};
 
 export default App;
