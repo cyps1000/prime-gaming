@@ -37,8 +37,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test-precommit": "react-scripts test --findRelatedTests \"src/.*\\.test\\.tsx\" --onlyChanged --findRelatedTests --watchAll=false",
+    "test": "react-scripts test --setupFilesAfterEnv ./src/setupTests.ts",
+    "test-precommit": "react-scripts test --findRelatedTests \"src/.*\\.test\\.tsx\" --onlyChanged --findRelatedTests --setupFilesAfterEnv ./src/setupTests.ts --watchAll=false",
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
     "storybook": "start-storybook -p 6006 -s public",

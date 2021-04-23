@@ -1,5 +1,6 @@
 /**
  * @see https://testing-library.com/docs/react-testing-library/intro
+ * @see https://www.robinwieruch.de/react-testing-library
  */
 import { render } from "@testing-library/react";
 
@@ -11,7 +12,8 @@ import MainTest from "./MainTest";
 /**
  * Default test
  */
-it("has a MainTest component", () => {
-  const { getByText } = render(<MainTest text="MainTest" />);
-  expect(getByText("MainTest")).toBeInTheDocument();
+describe("MainTest", () => {
+  test("renders MainTest", () => {
+    render(<MainTest text="Hello World" />);
+  });
 });
