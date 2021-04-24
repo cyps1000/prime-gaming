@@ -1,12 +1,13 @@
 /**
  * @see https://testing-library.com/docs/react-testing-library/intro
+ * @see https://www.robinwieruch.de/react-testing-library
  */
 import { render } from "@testing-library/react";
 
 /**
  * Imports component
  */
-import PrimeButton from "./PrimeButton";
+import Footer from "./Footer";
 
 /**
  * Mocking the useTranslation hook
@@ -20,8 +21,8 @@ jest.mock("react-i18next", () => ({
 /**
  * Default test
  */
-describe("PrimeButton", () => {
-  test("renders PrimeButton", () => {
-    render(<PrimeButton text="asdas" variant="text" />);
+describe("Footer", () => {
+  test("renders Footer", () => {
+    render(<Footer />);
   });
 });
