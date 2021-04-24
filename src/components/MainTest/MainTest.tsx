@@ -6,6 +6,11 @@ import { useEffect } from "react";
 import axios from "axios";
 
 /**
+ * Imports Hooks
+ */
+import { useActions, useSelector } from "../../hooks";
+
+/**
  * Imports the component styles
  */
 import { useStyles } from "./MainTest.styles";
@@ -29,6 +34,19 @@ const MainTest: React.FC<MainTestProps> = (props) => {
   const classes = useStyles();
 
   /**
+   * Gets the actions.
+   */
+  const { getUser } = useActions();
+
+  /**
+   * Gets the User
+   */
+  const user = useSelector((state) => {
+    const { user } = state;
+    return user;
+  });
+  console.log(user);
+  /**
    * Handles getting the api url
    */
   const getApiUrl = () => {
@@ -40,7 +58,7 @@ const MainTest: React.FC<MainTestProps> = (props) => {
   /**
    * Handles making a request to our api
    */
-  const testApi = async () => {
+  /*const testApi = async () => {
     try {
       const urlBase = getApiUrl();
       const response = await axios.get(`${urlBase}/test-api`);
@@ -50,13 +68,13 @@ const MainTest: React.FC<MainTestProps> = (props) => {
     } catch (error) {
       console.error(error);
     }
-  };
+  };*/
 
   /**
    * Triggers the request to the api on mount.
    */
   useEffect(() => {
-    testApi();
+    getUser();
   }, []);
 
   return (
