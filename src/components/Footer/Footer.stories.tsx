@@ -7,25 +7,24 @@ import { Story, Meta } from "@storybook/react";
 /**
  * Component Imports
  */
-import PrimeButton, { PrimeButtonProps } from "./PrimeButton";
+import Footer, { FooterProps } from "./Footer";
 
 export default {
-  title: "Components/PrimeButton",
-  component: PrimeButton,
+  title: "Components/Footer",
+  component: Footer,
 } as Meta;
 
 /**
  * Defines the Template
- * @param args PrimeButtonProps
+ * @param args FooterProps
  * @returns
  */
-const Template: Story<PrimeButtonProps> = (args) => <PrimeButton {...args} />;
+const Template: Story<FooterProps> = (args) => (
+  <Footer {...args} />
+);
 
 /**
  * Default case
  */
 export const Default = Template.bind({});
-Default.args = {
-  text: "Button",
-  variant: "text",
-};
+Default.args = {};
