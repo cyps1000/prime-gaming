@@ -16,6 +16,18 @@ import "./i18n";
  */
 import "normalize.css";
 
+/**
+ * Imports Mock API server
+ */
+import { makeServer } from "./mock/server";
+
+/**
+ * Mocks an api server during development only
+ */
+if (process.env.NODE_ENV === "development") {
+  makeServer({ environment: "development" });
+}
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

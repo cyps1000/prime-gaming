@@ -27,4 +27,5 @@ const Template: Story<PrimeButtonProps> = (args) => <PrimeButton {...args} />;
 export const Default = Template.bind({});
 Default.args = {
   text: "Button",
+  variant: "text",
 };

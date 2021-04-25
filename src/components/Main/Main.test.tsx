@@ -7,7 +7,7 @@ import { render } from "@testing-library/react";
 /**
  * Imports component
  */
-import Navigation from "./Navigation";
+import Main from "./Main";
 
 /**
  * Mocking the useTranslation hook
@@ -21,8 +21,8 @@ jest.mock("react-i18next", () => ({
 /**
  * Default test
  */
-describe("Navigation", () => {
-  test("renders Navigation", () => {
-    //render(<Navigation />);
+describe("Main", () => {
+  it("renders the component", () => {
+    // render(<Main />);
   });
 });

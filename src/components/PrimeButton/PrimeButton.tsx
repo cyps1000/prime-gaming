@@ -18,18 +18,19 @@ import { useStyles } from "./PrimeButton.styles";
  */
 export interface PrimeButtonProps {
   text: string;
+  variant: "contained" | "outlined" | "text";
 }
 
 /**
  * Displays the component
  */
 const PrimeButton: React.FC<PrimeButtonProps> = (props) => {
-  const { text } = props;
+  const { text, variant } = props;
 
   /**
    * Handles the translations
    */
-  //const { t } = useTranslation();
+  const { t } = useTranslation();
 
   /**
    * Gets the component styles
@@ -38,7 +39,7 @@ const PrimeButton: React.FC<PrimeButtonProps> = (props) => {
 
   return (
     <div className={classes.root}>
-      <Button variant="outlined" color={"secondary"}>
+      <Button variant={variant} color={"secondary"}>
         {text}
       </Button>
     </div>
