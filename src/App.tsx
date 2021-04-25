@@ -11,7 +11,7 @@ import Providers from "./components/Providers";
 const App: React.FC = () => {
   return (
     <Providers>
-      <Routes />{" "}
+      <Routes />
     </Providers>
   );
 };

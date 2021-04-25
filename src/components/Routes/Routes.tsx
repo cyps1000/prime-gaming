@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 /**
  * Component Imports
  */
-import MainTest from "../MainTest";
+import Main from "../Main";
 
 /**
  *  Material UI Imports
@@ -19,16 +19,9 @@ import Grid from "@material-ui/core/Grid";
 import { useStyles } from "./Routes.styles";
 
 /**
- * Defines the props interface
- */
-export interface RoutesProps {}
-
-/**
  * Displays the component
  */
-const Routes: React.FC<RoutesProps> = (props) => {
-  const {} = props;
-
+const Routes: React.FC = () => {
   /**
    * Gets the component styles
    */
@@ -38,7 +31,7 @@ const Routes: React.FC<RoutesProps> = (props) => {
     <Router>
       <Grid container className={classes.routes}>
         <Switch>
-          <Route exact path="/" children={<MainTest text="Hello World" />} />
+          <Route exact path="/" children={<Main text="Hello World" />} />
         </Switch>
       </Grid>
     </Router>
