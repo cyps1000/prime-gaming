@@ -1,5 +1,9 @@
 import { Dispatch } from "redux";
-import axios from "axios";
+
+/**
+ * Imports utils
+ */
+import { getApiClient } from "../../utils/api";
 
 import { UserActionTypes as ActionTypes, User } from "../types";
 import { UsersAction } from "../actions";
@@ -12,13 +16,18 @@ import { UsersAction } from "../actions";
 
 export const getUser = () => {
   return async (dispatch: Dispatch<UsersAction>) => {
+    /**
+     * Gets the api caller
+     */
+    const { apiClient } = getApiClient({ mock: true });
+
     dispatch({ type: ActionTypes.GET_USER });
 
     try {
       // const baseUrl = getApiUrl();
 
       // const response = await axios.get(`${baseUrl}/test-api`);
-      const response = await axios.get(`/v1/users/1`);
+      const response = await apiClient.get(`/v1/users/1`);
       const { data } = response;
       const { user }: { user: User } = data;
 

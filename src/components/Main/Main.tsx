@@ -1,11 +1,6 @@
 import { useState, useEffect } from "react";
 
 /**
- * External Imports
- */
-import axios from "axios";
-
-/**
  * Imports from store
  */
 import { Article } from "../../redux";
@@ -14,6 +9,11 @@ import { Article } from "../../redux";
  * Imports Hooks
  */
 import { useActions, useSelector } from "../../hooks";
+
+/**
+ * Imports utils
+ */
+import { getApiClient } from "../../utils/api";
 
 /**
  * Imports the component styles
@@ -49,6 +49,11 @@ const Main: React.FC<MainProps> = (props) => {
   const [articles, setArticles] = useState<Article[]>([]);
 
   /**
+   * Gets the api caller
+   */
+  const { apiClient } = getApiClient({ mock: true });
+
+  /**
    * Gets the User
    */
   const user = useSelector((state) => {
@@ -61,7 +66,7 @@ const Main: React.FC<MainProps> = (props) => {
    */
   const mockApiCall = async () => {
     try {
-      const response = await axios.get(`/v1/articles`);
+      const response = await apiClient.get(`/v1/articles`);
       const { data } = response;
 
       console.log("FROM MOCK API:", data);
