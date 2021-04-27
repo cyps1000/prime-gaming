@@ -23,14 +23,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   themeFix: {
     display: "flex",
     alignItems: "center",
-    paddingLeft: 20,
-    paddingRight: 30,
+    paddingLeft: 10,
   },
   switchFix: {
     paddingLeft: 10,
   },
   logo: {
     maxWidth: 150,
+    marginTop: -5,
   },
   search: {
     position: "relative",
@@ -43,8 +43,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginRight: 15,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(1),
+      marginLeft: "2rem",
       width: "auto",
+      minWidth: 350,
     },
   },
   searchIcon: {
@@ -71,6 +72,30 @@ const useStyles = makeStyles((theme: Theme) => ({
         width: "20ch",
       },
     },
+  },
+  switchPrimary: {},
+  switchTrack: {
+    backgroundColor: theme.palette.common.white,
+  },
+  menuItems: {
+    display: "flex",
+    alignItems: "center",
+    flex: 3,
+    justifyContent: "flex-end",
+    paddingRight: "2.5rem",
+    "& button": {
+      margin: "0 10px",
+      fontSize: 16,
+      color: theme.palette.secondary.main,
+      fontWeight: 800,
+    },
+  },
+  actions: {
+    display: "flex",
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "flex-start",
+    marginRight: "2rem",
   },
 }));
 

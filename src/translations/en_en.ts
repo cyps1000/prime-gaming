@@ -1,4 +1,5 @@
-export const en_en = {
-  code: "Code",
-  text: "Text",
+const en_en = {
+  signIn: "Sign in",
 };
+
+export { en_en };

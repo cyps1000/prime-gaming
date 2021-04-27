@@ -1,17 +1,9 @@
-import React, { useContext, createContext } from "react";
-import PropTypes from "prop-types";
+import { useContext, createContext, ReactNode } from "react";
 
 /**
  * Hooks
  */
-import { useLocalStorage } from "./index";
-
-/**
- * Defines the prop types
- */
-const propTypes = {
-  themeKey: PropTypes.string,
-};
+import useLocalStorage from "./useLocalStorage/useLocalStorage";
 
 /**
  * Defines the default props
@@ -21,27 +13,32 @@ const defaultProps = {
 };
 
 /**
+ * Defines the useThemeHookProps interface
+ */
+interface useThemeHookProps {
+  themeKey?: string;
+}
+
+/**
  * Provides the state of the modal
  * By default it will be open
  */
-const useThemeHook = (props) => {
-  const { themeKey: defaultThemeKey } = defaultProps;
+const useThemeHook = (props: useThemeHookProps) => {
+  const { themeKey } = props;
 
   /**
    * Sets the theme
    */
   const [activeTheme, setActiveTheme] = useLocalStorage(
     "activeTheme",
-    defaultThemeKey
+    themeKey ? themeKey : defaultProps.themeKey
   );
-
-  // console.log('activeTheme:', activeTheme)
 
   /**
    * Handles changing the theme key
    * @param {String} themeKey
    */
-  const changeTheme = (themeKey) => setActiveTheme(themeKey);
+  const changeTheme = (themeKey: string) => setActiveTheme(themeKey);
 
   return {
     changeTheme,
@@ -50,17 +47,17 @@ const useThemeHook = (props) => {
 };
 
 /**
- * Sets the prop types
- */
-useThemeHook.propTypes = propTypes;
-
-/**
  * Defines a context where the completion state is stored and shared
  *
  * - This serves as a cache.
  * - Rather than each instance of the hook fetch the current state, the hook simply calls useContext to get the data from the top level provider
  */
-const themeContext = createContext();
+const themeContext = createContext({
+  activeTheme: "",
+  changeTheme: (themeKey: string) => {},
+});
+
+type ThemeProviderType = (props: { children?: ReactNode }) => any;
 
 /**
  * Provides a top level wrapper with the context
@@ -68,10 +65,10 @@ const themeContext = createContext();
  * - This is the main provider
  * - It makes the object available to any child component that calls the hook.
  */
-const ThemeProvider = (props) => {
+const ThemeProvider: ThemeProviderType = (props) => {
   const { children } = props;
 
-  const data = useThemeHook();
+  const data = useThemeHook({});
 
   return (
     <themeContext.Provider value={{ ...data }}>
@@ -80,13 +77,18 @@ const ThemeProvider = (props) => {
   );
 };
 
+type useThemeHook = () => {
+  activeTheme: string;
+  changeTheme: (themeKey: string) => void;
+};
+
 /**
  * Defines the main hook
  *
  * - Returns the  context / object
  * - To be used inside components
  */
-const useTheme = () => {
+const useTheme: useThemeHook = () => {
   return useContext(themeContext);
 };
 

@@ -7,7 +7,7 @@ import { Story, Meta } from "@storybook/react";
 /**
  * Component Imports
  */
-import Navbar, { NavbarProps } from "./Navbar";
+import Navbar from "./Navbar";
 
 export default {
   title: "Components/Navbar",
@@ -19,9 +19,7 @@ export default {
  * @param args NavbarProps
  * @returns
  */
-const Template: Story<NavbarProps> = (args) => (
-  <Navbar {...args} />
-);
+const Template: Story = (args) => <Navbar {...args} />;
 
 /**
  * Default case

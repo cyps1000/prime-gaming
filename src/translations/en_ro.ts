@@ -1,4 +1,5 @@
-export const en_ro = {
-  code: "Code",
-  text: "Text",
+const en_ro = {
+  signIn: "Autentificare",
 };
+
+export { en_ro };

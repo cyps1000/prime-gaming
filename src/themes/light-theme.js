@@ -18,7 +18,7 @@ const palette = {
   },
   primary: {
     // light: "#6e8ba9",
-    main: "red",
+    main: "#5881ab",
     // main: "#5881ab",
     // dark: "#4c6886",
     // accent: "#3454DB",

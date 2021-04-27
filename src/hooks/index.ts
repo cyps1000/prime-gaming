@@ -1,4 +1,5 @@
 export * from "./useActions";
 export * from "./useSelector";
-export { default as useLocalStorage } from "./useLocalStorage";
-export { useTheme } from "./useTheme";
+export * from "./useLocalStorage";
+export * from "./useTheme";
+export * from "./useLanguage";
