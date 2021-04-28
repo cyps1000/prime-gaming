@@ -90,7 +90,14 @@ const Navbar: React.FC = () => {
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.nav}>
         <Toolbar>
+          {/**
+           *  Logoi
+           */}
           <img className={classes.logo} src={logo} alt="logo" />
+
+          {/**
+           *  NavbarSearchForm
+           */}
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -104,7 +111,9 @@ const Navbar: React.FC = () => {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
-
+          {/**
+           *  ThemeSwitcher
+           */}
           <div className={classes.actions}>
             <div className={classes.themeFix}>
               <Brightness7Icon />
@@ -121,7 +130,9 @@ const Navbar: React.FC = () => {
               />
               <Brightness4Icon />
             </div>
-
+            {/**
+             *  LanguageSwitcher
+             */}
             <div className={classes.themeFix}>
               <img
                 className={classes.flag}
@@ -149,6 +160,9 @@ const Navbar: React.FC = () => {
             </div>
           </div>
 
+          {/**
+           *  NavbarUserMenu
+           */}
           <div className={classes.menuItems}>
             <Button onClick={goToHome} color="inherit">
               Home
