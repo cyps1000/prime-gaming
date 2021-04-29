@@ -21,6 +21,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "flex-start",
     marginRight: "2rem",
   },
+  list: {
+    width: 250,
+  },
+  paper: {
+    background: theme.palette.primary.main,
+  },
 }));
 
 export { useStyles };

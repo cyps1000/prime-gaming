@@ -49,14 +49,12 @@ const NavbarUserMenu: React.FC<NavbarUserMenuProps> = (props) => {
 
   return (
     <div className={classes.menuItems}>
-      <Button onClick={goToHome} color="inherit">
-        {t("home")}
-      </Button>
-      <Button color="inherit">{t("news")}</Button>
-      <Button color="inherit">{t("about")}</Button>
-      <Button color="inherit">{t("contact")}</Button>
-      <Button color="inherit">{t("signIn")}</Button>
-      <Button color="inherit">{t("signUp")}</Button>
+      <Button onClick={goToHome}>{t("home")}</Button>
+      <Button>{t("news")}</Button>
+      <Button>{t("about")}</Button>
+      <Button>{t("contact")}</Button>
+      <Button>{t("signIn")}</Button>
+      <Button>{t("signUp")}</Button>
     </div>
   );
 };

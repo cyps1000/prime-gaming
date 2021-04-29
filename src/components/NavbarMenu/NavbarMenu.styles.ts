@@ -8,20 +8,11 @@ import { makeStyles } from "@material-ui/core/styles";
  * Styles the component
  */
 const useStyles = makeStyles((theme) => ({
-  themeFix: {
-    display: "flex",
-    alignItems: "center",
-    paddingLeft: 10,
+  menuButton: {
+    marginRight: theme.spacing(2),
     "& svg": {
-      color: "#ffffff",
+      color: theme.palette.secondary.main,
     },
-  },
-  switchFix: {
-    paddingLeft: 10,
-  },
-  switchPrimary: {},
-  switchTrack: {
-    backgroundColor: theme.palette.common.white,
   },
 }));
 

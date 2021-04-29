@@ -9,7 +9,8 @@ import { makeStyles } from "@material-ui/core/styles";
  */
 const useStyles = makeStyles((theme) => ({
   flag: {
-    width: 20,
+    width: 23,
+    height: 19,
   },
   themeFix: {
     display: "flex",

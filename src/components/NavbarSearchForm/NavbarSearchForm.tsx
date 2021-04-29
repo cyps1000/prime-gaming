@@ -1,4 +1,9 @@
 /**
+ * External Imports
+ */
+import clsx from "clsx";
+
+/**
  * Imports i18n
  */
 import { useTranslation } from "react-i18next";
@@ -19,13 +24,14 @@ import { useStyles } from "./NavbarSearchForm.styles";
  */
 export interface NavbarSearchFormProps {
   text?: string;
+  withExpandAnimation: boolean;
 }
 
 /**
  * Displays the component
  */
 const NavbarSearchForm: React.FC<NavbarSearchFormProps> = (props) => {
-  const { text } = props;
+  const { text, withExpandAnimation } = props;
 
   /**
    * Handles the translations
@@ -46,7 +52,9 @@ const NavbarSearchForm: React.FC<NavbarSearchFormProps> = (props) => {
         placeholder={t("searchNav")}
         classes={{
           root: classes.inputRoot,
-          input: classes.inputInput,
+          input: clsx(classes.inputInput, {
+            [classes.expandAnimation]: withExpandAnimation,
+          }),
         }}
         inputProps={{ "aria-label": "search" }}
       />
