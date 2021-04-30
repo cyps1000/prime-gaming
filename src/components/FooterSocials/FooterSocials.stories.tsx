@@ -7,7 +7,7 @@ import { Story, Meta } from "@storybook/react";
 /**
  * Component Imports
  */
-import FooterSocials, { FooterSocialsProps } from "./FooterSocials";
+import FooterSocials from "./FooterSocials";
 
 export default {
   title: "Components/FooterSocials",
@@ -19,9 +19,7 @@ export default {
  * @param args FooterSocialsProps
  * @returns
  */
-const Template: Story<FooterSocialsProps> = (args) => (
-  <FooterSocials {...args} />
-);
+const Template: Story = (args) => <FooterSocials {...args} />;
 
 /**
  * Default case

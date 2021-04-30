@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   nav: {
     background: theme.palette.primary.main,
+    boxShadow: "none",
   },
   actions: {
     display: "flex",

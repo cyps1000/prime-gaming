@@ -18,10 +18,18 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   fab: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.secondary.main,
+    color: theme.palette.primary.main,
+    background: theme.palette.secondary.main,
+    borderRadius: 6,
+    marginRight: "1rem",
+    height: 40,
+    width: 40,
+    "& svg": {
+      fontSize: "2rem",
+    },
     "&:hover": {
-      backgroundColor: "#000000b8",
+      background: "#008cde",
+      color: theme.palette.common.white,
     },
   },
 }));

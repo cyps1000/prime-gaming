@@ -10,6 +10,7 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import InstagramIcon from "@material-ui/icons/Instagram";
 import YouTubeIcon from "@material-ui/icons/YouTube";
+import IconButton from "@material-ui/core/IconButton";
 
 /**
  * Imports the component styles
@@ -17,18 +18,9 @@ import YouTubeIcon from "@material-ui/icons/YouTube";
 import { useStyles } from "./FooterSocials.styles";
 
 /**
- * Defines the props interface
- */
-export interface FooterSocialsProps {
-  text?: string;
-}
-
-/**
  * Displays the component
  */
-const FooterSocials: React.FC<FooterSocialsProps> = (props) => {
-  const { text } = props;
-
+const FooterSocials: React.FC = () => {
   /**
    * Handles the translations
    */
@@ -41,10 +33,18 @@ const FooterSocials: React.FC<FooterSocialsProps> = (props) => {
 
   return (
     <div className={classes.root}>
-      <FacebookIcon className={classes.icon} />
-      <TwitterIcon className={classes.icon} />
-      <InstagramIcon className={classes.icon} />
-      <YouTubeIcon className={classes.icon} />
+      <IconButton>
+        <FacebookIcon className={classes.icon} />
+      </IconButton>
+      <IconButton>
+        <TwitterIcon className={classes.icon} />
+      </IconButton>
+      <IconButton>
+        <InstagramIcon className={classes.icon} />
+      </IconButton>
+      <IconButton>
+        <YouTubeIcon className={classes.icon} />
+      </IconButton>
     </div>
   );
 };

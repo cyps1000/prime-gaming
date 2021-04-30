@@ -1,4 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+/**
+ * External Imports
+ */
+import clsx from "clsx";
 
 /**
  * Imports i18n
@@ -8,22 +13,23 @@ import { useTranslation } from "react-i18next";
 /**
  * Material UI Imports
  */
-import clsx from "clsx";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Fab from "@material-ui/core/Fab";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Button from "@material-ui/core/Button";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
+import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
+import Fade from "@material-ui/core/Fade";
 
 /**
  * Internal Imports
  */
-import Logo from "../Logo";
 import FooterSocials from "../FooterSocials";
 
 /**
@@ -60,62 +66,108 @@ const FooterDefault: React.FC<FooterDefaultProps> = (props) => {
   const [expanded, setExpanded] = useState(false);
 
   /**
+   * Init the trigger minify flag
+   */
+  const [triggerMinify, setTriggerMinify] = useState(false);
+
+  /**
+   * Init the appear flag
+   */
+  const [appear, setAppear] = useState(false);
+
+  /**
+   * Init the timer
+   */
+  const [show, setShow] = useState(true);
+
+  /**
    * Handles expanding the list
    */
-  const expandList = () => setExpanded(true);
+  const expandList = () => {
+    setShow(false);
+    setExpanded(true);
+  };
 
   /**
    * Handles shrinking the list
    */
-  const shrinkList = () => setExpanded(false);
-
-  /**
-   *
-   */
-  const renderExpansionIcon = () => {
-    const onClick = expanded ? shrinkList : expandList;
-    const icon = expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />;
-
-    const className = clsx(classes.fabButton, {
-      [classes.expandedFab]: expanded,
-    });
-    return (
-      <Fab
-        size="medium"
-        aria-label="Hide"
-        className={className}
-        onClick={onClick}
-      >
-        {icon}
-      </Fab>
-    );
+  const shrinkList = () => {
+    setExpanded(false);
+    setTimeout(() => {
+      setShow(true);
+    }, 250);
   };
 
+  const handleMinify = () => setTriggerMinify(true);
+
+  useEffect(() => {
+    if (triggerMinify) {
+      setAppear(false);
+      setTimeout(() => {
+        minifyFooter();
+      }, 400);
+    }
+  }, [triggerMinify]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAppear(true);
+    }, 50);
+  }, []);
+
   return (
-    <AppBar position="fixed" className={classes.appBar}>
-      <Toolbar>
-        <Logo className={classes.logo} />
-        {renderExpansionIcon()}
-        {expanded && (
-          <div className={classes.listWrapper}>
-            <List
-              component="nav"
-              aria-label="secondary mailbox folders"
-              className={classes.list}
-            >
-              <ListItem button>
-                <ListItemText primary="Trash" />
-              </ListItem>
-              <ListItem>
-                <ListItemText primary="Spam" />
-              </ListItem>
-            </List>
-          </div>
+    <AppBar
+      position="fixed"
+      className={clsx(classes.appBar, {
+        [classes.appBarMinified]: triggerMinify,
+        [classes.appBarEnter]: appear,
+      })}
+    >
+      <Toolbar className={classes.toolbar}>
+        <Grid container>
+          <Grid item xs={3}>
+            <Typography className={classes.copyright}>
+              © 2021 Prime Gaming
+            </Typography>
+          </Grid>
+          <Grid item container xs={6} justify="center">
+            <FooterSocials />
+          </Grid>
+          <Grid item container xs={3} justify="flex-end" alignItems="center">
+            <IconButton onClick={handleMinify} className={classes.iconButton}>
+              <ArrowBackOutlinedIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+        {show && (
+          <Fab size="small" className={classes.fabButton} onClick={expandList}>
+            <ExpandLessIcon />
+          </Fab>
         )}
-        <FooterSocials />
-        <Button variant="contained" onClick={minifyFooter}>
-          <ArrowBackIcon />
-        </Button>
+
+        <div className={classes.listWrapper}>
+          <List
+            component="nav"
+            aria-label="secondary mailbox folders"
+            className={clsx(classes.list, {
+              [classes.listAppear]: expanded,
+            })}
+          >
+            <ListItem button>
+              <ListItemText primary="Trash" />
+            </ListItem>
+            <ListItem>
+              <ListItemText primary="Spam" />
+            </ListItem>
+            <Fab
+              size="small"
+              className={classes.fabButton}
+              onClick={shrinkList}
+            >
+              <ExpandMoreIcon />
+            </Fab>
+          </List>
+        </div>
       </Toolbar>
     </AppBar>
   );

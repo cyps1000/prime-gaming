@@ -10,14 +10,24 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    alignItems: "center",
     flex: 1,
-    justifyContent: "flex-end",
+    alignItems: "center",
+    justifyContent: "center",
+    "& button": {
+      borderRadius: 0,
+    },
+    "& button:hover": {
+      background: theme.palette.secondary.main,
+      "& $icon": {
+        color: theme.palette.primary.main,
+      },
+    },
   },
   icon: {
     width: "2em",
     height: "1.2em",
-    color: "#fcff3d",
+    color: theme.palette.secondary.main,
+    cursor: "pointer",
   },
 }));
 
