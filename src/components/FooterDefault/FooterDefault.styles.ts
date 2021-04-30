@@ -36,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
     margin: "0 auto",
     color: theme.palette.secondary.main,
     background: theme.palette.primary.main,
+    "&:hover": {
+      color: theme.palette.primary.main,
+      background: theme.palette.secondary.main,
+    },
   },
   logo: {
     marginTop: 0,
@@ -67,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
   },
   listAppear: {
-    transform: "translateY(0vh)",
+    transform: "translateY(-10vh)",
   },
   expandedFab: {
     top: -130,

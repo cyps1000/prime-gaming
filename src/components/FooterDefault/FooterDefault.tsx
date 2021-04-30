@@ -154,10 +154,16 @@ const FooterDefault: React.FC<FooterDefaultProps> = (props) => {
             })}
           >
             <ListItem button>
-              <ListItemText primary="Trash" />
+              <ListItemText primary={t("termsOfService")} />
             </ListItem>
-            <ListItem>
-              <ListItemText primary="Spam" />
+            <ListItem button>
+              <ListItemText primary={t("privacyPolicy")} />
+            </ListItem>
+            <ListItem button>
+              <ListItemText primary={t("cookiePolicy")} />
+            </ListItem>
+            <ListItem button>
+              <ListItemText primary={t("contactUs")} />
             </ListItem>
             <Fab
               size="small"
