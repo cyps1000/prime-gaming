@@ -1,4 +1,9 @@
 /**
+ * External Imports
+ */
+import clsx from "clsx";
+
+/**
  * Imports assets
  */
 import logo from "./logo.png";
@@ -12,21 +17,28 @@ import { useStyles } from "./Logo.styles";
  * Defines the props interface
  */
 export interface LogoProps {
-  text?: string;
+  className?: string | any;
 }
 
 /**
  * Displays the component
  */
 const Logo: React.FC<LogoProps> = (props) => {
-  const { text } = props;
+  const { className } = props;
 
   /**
    * Gets the component styles
    */
   const classes = useStyles();
 
-  return <img className={classes.logo} src={logo} alt="logo" />;
+  /**
+   * Defines the component classes
+   */
+  const componentClasses = clsx(classes.logo, {
+    [className]: !!className,
+  });
+
+  return <img className={componentClasses} src={logo} alt="logo" />;
 };
 
 export default Logo;

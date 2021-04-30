@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Main from "../Main";
 import Navbar from "../Navbar";
 import Body from "../Body";
+import FooterDefault from "../FooterDefault";
 
 /**
  *  Material UI Imports
@@ -41,6 +42,7 @@ const Routes: React.FC = () => {
           </Switch>
         </Grid>
       </Body>
+      <FooterDefault />
     </Router>
   );
 };
