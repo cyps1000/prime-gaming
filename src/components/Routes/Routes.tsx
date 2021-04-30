@@ -7,6 +7,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
  * Component Imports
  */
 import Main from "../Main";
+import Navbar from "../Navbar";
+import Body from "../Body";
 
 /**
  *  Material UI Imports
@@ -29,11 +31,16 @@ const Routes: React.FC = () => {
 
   return (
     <Router>
-      <Grid container className={classes.routes}>
-        <Switch>
-          <Route exact path="/" children={<Main text="Hello World" />} />
-        </Switch>
-      </Grid>
+      <Navbar />
+      <Body>
+        <Grid container className={classes.routes}>
+          <Switch>
+            <Route exact path="/" children={<Main text="Home" />} />
+            <Route exact path="/test1" children={<h1>test1</h1>} />
+            <Route exact path="/test2" children={<h1>test2</h1>} />
+          </Switch>
+        </Grid>
+      </Body>
     </Router>
   );
 };
