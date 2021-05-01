@@ -1,8 +1,18 @@
 /**
  * @see https://testing-library.com/docs/react-testing-library/intro
  * @see https://www.robinwieruch.de/react-testing-library
+ * @see https://www.smashingmagazine.com/2020/07/react-apps-testing-library/
  */
-import { render } from "@testing-library/react";
+
+/**
+ * Imports test utils
+ */
+import { render, userEvent } from "../../utils/test-utils";
+
+/**
+ * External Imports
+ */
+import pretty from "pretty";
 
 /**
  * Imports component
@@ -10,19 +20,43 @@ import { render } from "@testing-library/react";
 import Footer from "./Footer";
 
 /**
- * Mocking the useTranslation hook
- * @see https://github.com/i18next/react-i18next/issues/876
- *
+ * Footer rendering tests
  */
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
+describe("Footer Rendering Tests", () => {
+  it("renders the component without errors", () => {
+    render(<Footer />);
+  });
+});
 
 /**
- * Default test
+ * Footer logic tests
  */
-describe("Footer", () => {
-  it("renders the component", () => {
-    // render(<Footer />);
+describe("Footer Logic Tests", () => {
+  it("renders the FooterDefault component by default", () => {
+    const { getByText, getByTestId } = render(<Footer />);
+
+    expect(getByText(/© 2021 Prime Gaming/i)).toBeInTheDocument();
+    expect(getByTestId("footer-default")).not.toEqual(null);
+  });
+
+  it("renders the FooterMinified component when clicking on the minify button", async () => {
+    const { getByTestId, findByTestId } = render(<Footer />);
+
+    userEvent.click(getByTestId("minify-button"));
+    await findByTestId("footer-minified");
+
+    expect(getByTestId("footer-minified")).toBeInTheDocument();
+    expect(() => getByTestId("footer-default")).toThrow();
+  });
+});
+
+/**
+ * Footer snapshot test
+ */
+describe("Footer Snapshot Test", () => {
+  it("passes the snapshot test", () => {
+    const { container } = render(<Footer />);
+
+    expect(pretty(container.innerHTML)).toMatchSnapshot();
   });
 });

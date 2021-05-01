@@ -1,13 +1,12 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import i18n, { i18n as i18nType, ThirdPartyModule } from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
 /**
  * Imports translations
  */
-import { en_en } from "./translations/en_en";
-import { en_ro } from "./translations/en_ro";
-console.log("initReactI18next:", initReactI18next);
+import { en_en } from "../translations/en_en";
+import { en_ro } from "../translations/en_ro";
+
 /**
  *  Defines the resources
  */
@@ -18,6 +17,14 @@ const resources = {
   en_ro: {
     translation: en_ro,
   },
+};
+
+/**
+ * Mocks the init react-i18next
+ */
+const mockInitReactI18next: ThirdPartyModule = {
+  type: "3rdParty",
+  init: (i18next: i18nType) => {},
 };
 
 /**
@@ -32,10 +39,7 @@ i18n
    * @see https://github.com/i18next/i18next-browser-languageDetector
    */
   .use(LanguageDetector)
-  /**
-   * Passes the i18n instance to react-i18next.
-   */
-  .use(initReactI18next)
+  .use(mockInitReactI18next)
   /**
    * Inits i18next
    *

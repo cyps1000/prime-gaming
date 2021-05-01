@@ -1,4 +1,9 @@
-const en_ro = {
+import { LanguageResource } from "./index";
+
+/**
+ * Defines the english to romanian translations
+ */
+const en_ro: LanguageResource = {
   signIn: "Autentificare",
   signUp: "Înregistrare",
   searchNav: "Caută...",

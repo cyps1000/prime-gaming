@@ -44,7 +44,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test-precommit": "react-scripts test --findRelatedTests \"src/.*\\.test\\.tsx\" --onlyChanged --findRelatedTests --watchAll=false",
+    "test-coverage": "npm run test -- --coverage --watchAll=false",
+    "test-final": "npm run test -- --coverage --findRelatedTests \"src/.*\\.test\\.tsx\" --onlyChanged --findRelatedTests --watchAll=false",
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
     "storybook": "start-storybook -p 6006 -s public",
@@ -86,18 +87,36 @@
     "@storybook/preset-create-react-app": "^3.1.7",
     "@storybook/react": "^6.2.8",
     "@types/faker": "^5.5.3",
+    "@types/pretty": "^2.0.0",
     "faker": "^5.5.3",
     "husky": "^6.0.0",
     "lint-staged": "^10.5.4",
     "miragejs": "^0.1.41",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "pretty": "^2.0.0"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "test-precommit && lint-staged"
+      "pre-commit": "test-final && lint-staged"
     }
   },
   "resolutions": {
     "babel-loader": "8.1.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "**/src/components/**/*.{ts,tsx}",
+      "!**/src/components/**/*.{stories,styles}.{ts,tsx}",
+      "!**/src/components/**/index.{ts,tsx}",
+      "!**/node_modules/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 30,
+        "functions": 30,
+        "lines": 30,
+        "statements": 30
+      }
+    }
   }
 }

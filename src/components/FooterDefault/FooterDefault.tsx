@@ -110,13 +110,16 @@ const FooterDefault: React.FC<FooterDefaultProps> = (props) => {
   }, [triggerMinify]);
 
   useEffect(() => {
-    setTimeout(() => {
+    let timer = setTimeout(() => {
       setAppear(true);
     }, 50);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
     <AppBar
+      data-testid="footer-default"
       position="fixed"
       className={clsx(classes.appBar, {
         [classes.appBarMinified]: triggerMinify,
@@ -134,7 +137,11 @@ const FooterDefault: React.FC<FooterDefaultProps> = (props) => {
             <FooterSocials />
           </Grid>
           <Grid item container xs={3} justify="flex-end" alignItems="center">
-            <IconButton onClick={handleMinify} className={classes.iconButton}>
+            <IconButton
+              data-testid="minify-button"
+              onClick={handleMinify}
+              className={classes.iconButton}
+            >
               <ArrowBackOutlinedIcon />
             </IconButton>
           </Grid>

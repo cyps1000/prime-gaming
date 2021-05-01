@@ -1,4 +1,9 @@
-const en_en = {
+import { LanguageResource } from "./index";
+
+/**
+ * Defines the english to english translations
+ */
+const en_en: LanguageResource = {
   signIn: "Sign In",
   signUp: "Sign Up",
   searchNav: "Search...",

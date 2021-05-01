@@ -38,7 +38,9 @@ const Footer: React.FC = (props) => {
   /**
    * Handles minifying the footer
    */
-  const minifyFooter = () => setMinified(true);
+  const minifyFooter = () => {
+    setMinified(true);
+  };
 
   /**
    * Handles expanding the footer

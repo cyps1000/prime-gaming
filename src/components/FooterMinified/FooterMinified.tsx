@@ -32,7 +32,7 @@ const FooterMinified: React.FC<FooterMinifiedProps> = (props) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} data-testid="footer-minified">
       <Fab className={classes.fab} onClick={expandFooter}>
         <ArrowForwardIcon />
       </Fab>
