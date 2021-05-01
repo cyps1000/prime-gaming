@@ -45,7 +45,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test-coverage": "npm run test -- --coverage --watchAll=false",
-    "test-final": "npm run test -- --coverage --findRelatedTests \"src/.*\\.test\\.tsx\" --onlyChanged --findRelatedTests --watchAll=false",
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
     "storybook": "start-storybook -p 6006 -s public",
@@ -97,7 +96,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "test-final && lint-staged"
+      "pre-commit": "test-coverage && lint-staged"
     }
   },
   "resolutions": {

@@ -16,7 +16,7 @@ jobs:
           command: npm install
       - run:
           name: Run tests
-          command: npm run test-final
+          command: npm run test-coverage
 
 workflows:
   heroku_deploy:
