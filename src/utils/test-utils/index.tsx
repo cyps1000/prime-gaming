@@ -1,14 +1,24 @@
 import React, { ReactElement } from "react";
-import { render, RenderOptions } from "@testing-library/react";
+/**
+ * External Imports
+ */
 import { MemoryRouter } from "react-router-dom";
 
 /**
- * Imports app providers
+ * Imports testing utils
+ */
+import { render, RenderOptions } from "@testing-library/react";
+
+/**
+ * Imports providers
  */
 
 import { ThemeProvider, LanguageProvider } from "../../hooks";
 import Providers from "../../components/Providers";
 
+/**
+ * Defines the Wrapper component
+ */
 const Wrapper: React.FC = ({ children }) => {
   return (
     <ThemeProvider>
@@ -21,16 +31,18 @@ const Wrapper: React.FC = ({ children }) => {
   );
 };
 
+/**
+ * Defines the custom render
+ */
 const customRender = (ui: ReactElement, options?: RenderOptions) =>
   render(ui, { wrapper: Wrapper, ...options });
 
 /**
- * Re-exports everything
+ * Re-exports everything from the testing library
  */
 export * from "@testing-library/react";
 
-/**
- * Overrides the render method
- */
+export * from "./changeViewport";
+export * from "./mocks";
 export { default as userEvent } from "@testing-library/user-event";
 export { customRender as render };

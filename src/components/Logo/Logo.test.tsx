@@ -7,7 +7,7 @@
 /**
  * Imports test utils
  */
-import { render, screen, fireEvent } from "../../utils/test-utils";
+import { render, fireEvent } from "../../utils/test-utils";
 import { mockHistoryPush } from "../../utils/test-utils/mocks";
 
 /**

@@ -15,18 +15,9 @@ import Button from "@material-ui/core/Button";
 import { useStyles } from "./NavbarUserMenu.styles";
 
 /**
- * Defines the props interface
- */
-export interface NavbarUserMenuProps {
-  text?: string;
-}
-
-/**
  * Displays the component
  */
-const NavbarUserMenu: React.FC<NavbarUserMenuProps> = (props) => {
-  const { text } = props;
-
+const NavbarUserMenu: React.FC = (props) => {
   /**
    * Handles the translations
    */

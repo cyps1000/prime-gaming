@@ -2,7 +2,6 @@
  * Modules Imports
  */
 import React, { useState } from "react";
-//import { useTranslation } from "react-i18next";
 
 /**
  * Imports Material UI Components
@@ -15,8 +14,6 @@ import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
-
-import i18n from "../../i18n";
 
 /**
  * Components Imports
@@ -38,11 +35,6 @@ import { useStyles } from "./Navbar.styles";
  * Displays the component
  */
 const Navbar: React.FC = () => {
-  /**
-   * Handles the translations
-   */
-  //const { t } = useTranslation();
-
   const theme = useTheme();
 
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -60,22 +52,22 @@ const Navbar: React.FC = () => {
 
   if (isMobile || isTablet) {
     return (
-      <div className={classes.root}>
+      <div className={classes.root} data-testid="navbar-mobile">
         <AppBar position="fixed" className={classes.nav}>
           <Toolbar>
             <NavbarMenu onClick={openDrawer} />
             <Logo />
           </Toolbar>
         </AppBar>
-
         <Drawer
+          data-testid="navbar-drawer-mobile"
           open={open}
           onClose={closeDrawer}
           classes={{
             paper: classes.paper,
           }}
         >
-          <div className={classes.list} role="presentation">
+          <div className={classes.list} data-testid="navbar-list-container">
             <List>
               <ListItem>
                 <NavbarSearchForm withExpandAnimation={false} />
@@ -98,12 +90,13 @@ const Navbar: React.FC = () => {
             </List>
           </div>
         </Drawer>
+        u
       </div>
     );
   }
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} data-testid="navbar">
       <AppBar position="fixed" className={classes.nav}>
         <Toolbar>
           <Logo />

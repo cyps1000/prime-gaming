@@ -27,6 +27,7 @@ describe("FooterDefault Rendering Tests", () => {
     const minifyFooter = jest.fn();
     render(<FooterDefault minifyFooter={minifyFooter} />);
   });
+
   it("renders with the menu items not expanded", () => {
     const minifyFooter = jest.fn();
     const { getByTestId } = render(
@@ -70,6 +71,7 @@ describe("FooterDefault Logic Tests", () => {
      * Gets the default class list (animation should have entered by now)
      */
     const { classList: defaultClassList } = getByTestId("footer-default");
+
     expect(defaultClassList.toString().includes("appBarEnter")).toBe(true);
 
     /**
@@ -85,12 +87,14 @@ describe("FooterDefault Logic Tests", () => {
      * Gets the final class list (the footer should be in the minifying state)
      */
     const { classList: finalClassList } = getByTestId("footer-default");
+
     expect(finalClassList.toString().includes("appBarMinified")).toBe(true);
     expect(minifyFooter).toHaveBeenCalledTimes(1);
   });
 
   it("expands the list with menu items in the middle", () => {
     jest.useFakeTimers();
+
     const minifyFooter = jest.fn();
     const { getByTestId } = render(
       <FooterDefault minifyFooter={minifyFooter} />
@@ -102,7 +106,6 @@ describe("FooterDefault Logic Tests", () => {
     expect(getByTestId("shrink-list-button")).toBeInTheDocument();
 
     userEvent.click(getByTestId("shrink-list-button"));
-
     act(() => {
       jest.advanceTimersByTime(250);
     });

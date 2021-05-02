@@ -7,8 +7,7 @@
 /**
  * Imports test utils
  */
-import { render, fireEvent } from "../../utils/test-utils";
-import { mockHistoryPush } from "../../utils/test-utils/mocks";
+import { render } from "../../utils/test-utils";
 
 /**
  * External Imports
@@ -26,6 +25,14 @@ import Body from "./Body";
 describe("Body Rendering Tests", () => {
   it("renders the component without errors", () => {
     const { getByText } = render(<Body>Children</Body>);
+
+    expect(getByText("Children")).toBeInTheDocument();
+  });
+
+  it("has a default className", () => {
+    const { container, getByText } = render(<Body> Children </Body>);
+
+    expect(container.firstChild).toHaveAttribute("class");
     expect(getByText("Children")).toBeInTheDocument();
   });
 });
@@ -36,13 +43,8 @@ describe("Body Rendering Tests", () => {
 describe("Body Snapshot Test", () => {
   it("passes the snapshot test", () => {
     const { container, getByText } = render(<Body>Children</Body>);
+
     expect(getByText("Children")).toBeInTheDocument();
     expect(pretty(container.innerHTML)).toMatchSnapshot();
-  });
-
-  it("has a default className", () => {
-    const { container, getByText } = render(<Body> Children </Body>);
-    expect(container.firstChild).toHaveAttribute("class");
-    expect(getByText("Children")).toBeInTheDocument();
   });
 });

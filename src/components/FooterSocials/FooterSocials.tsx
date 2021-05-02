@@ -1,9 +1,4 @@
 /**
- * Imports i18n
- */
-import { useTranslation } from "react-i18next";
-
-/**
  * Material UI Imports
  */
 import FacebookIcon from "@material-ui/icons/Facebook";
@@ -21,11 +16,6 @@ import { useStyles } from "./FooterSocials.styles";
  * Displays the component
  */
 const FooterSocials: React.FC = () => {
-  /**
-   * Handles the translations
-   */
-  const { t } = useTranslation();
-
   /**
    * Gets the component styles
    */

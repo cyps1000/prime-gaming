@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Routes Snapshot Test passes the snapshot test 1`] = `
-"<div class=\\"makeStyles-root-45\\">
+"<div class=\\"makeStyles-root-45\\" data-testid=\\"navbar\\">
   <header class=\\"MuiPaper-root MuiAppBar-root MuiAppBar-positionFixed MuiAppBar-colorPrimary makeStyles-nav-46 mui-fixed MuiPaper-elevation4\\">
     <div class=\\"MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters\\"><img class=\\"makeStyles-logo-50\\" src=\\"logo.png\\" alt=\\"logo\\">
       <div class=\\"makeStyles-search-51\\">
@@ -26,8 +26,8 @@ exports[`Routes Snapshot Test passes the snapshot test 1`] = `
 </div>
 <div class=\\"makeStyles-root-70\\">
   <div class=\\"MuiGrid-root makeStyles-routes-44 MuiGrid-container\\" data-testid=\\"router-grid\\">
-    <div class=\\"makeStyles-root-71\\">Home<h1> Hello </h1>
-      <ul></ul>
+    <div class=\\"makeStyles-root-71\\">
+      <h1>Home</h1>
     </div>
   </div>
 </div>

@@ -160,6 +160,7 @@ const FooterDefault: React.FC<FooterDefaultProps> = (props) => {
        */
       return () => clearTimeout(timer);
     }
+    // eslint-disable-next-line
   }, [triggerMinify]);
 
   /**

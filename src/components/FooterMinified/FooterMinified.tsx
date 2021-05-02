@@ -1,9 +1,4 @@
 /**
- * Imports i18n
- */
-import { useTranslation } from "react-i18next";
-
-/**
  * Material UI Imports
  */
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
