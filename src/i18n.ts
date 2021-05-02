@@ -7,7 +7,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
  */
 import { en_en } from "./translations/en_en";
 import { en_ro } from "./translations/en_ro";
-console.log("initReactI18next:", initReactI18next);
+
 /**
  *  Defines the resources
  */

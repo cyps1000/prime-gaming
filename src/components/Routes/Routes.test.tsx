@@ -1,7 +1,18 @@
 /**
  * @see https://testing-library.com/docs/react-testing-library/intro
+ * @see https://www.robinwieruch.de/react-testing-library
+ * @see https://www.smashingmagazine.com/2020/07/react-apps-testing-library/
  */
-import { render } from "@testing-library/react";
+
+/**
+ * Imports test utils
+ */
+import { render } from "../../utils/test-utils";
+
+/**
+ * External Imports
+ */
+import pretty from "pretty";
 
 /**
  * Imports component
@@ -9,6 +20,25 @@ import { render } from "@testing-library/react";
 import Routes from "./Routes";
 
 /**
- * Default test
+ * Routes rendering tests
  */
-it("has a Routes component", () => {});
+describe("Routes Rendering Tests", () => {
+  it("renders the component without errors", () => {
+    render(<Routes />);
+  });
+});
+
+/**
+ * Routes snapshot test
+ */
+describe("Routes Snapshot Test", () => {
+  it("passes the snapshot test", () => {
+    const { container } = render(<Routes />);
+    expect(pretty(container.innerHTML)).toMatchSnapshot();
+  });
+
+  it("has a default className", () => {
+    const { getByTestId } = render(<Routes />);
+    expect(getByTestId("router-grid")).toHaveAttribute("class");
+  });
+});

@@ -1,8 +1,18 @@
 /**
  * @see https://testing-library.com/docs/react-testing-library/intro
  * @see https://www.robinwieruch.de/react-testing-library
+ * @see https://www.smashingmagazine.com/2020/07/react-apps-testing-library/
  */
-import { render } from "@testing-library/react";
+
+/**
+ * Imports test utils
+ */
+import { render, userEvent, act } from "../../utils/test-utils";
+
+/**
+ * External Imports
+ */
+import pretty from "pretty";
 
 /**
  * Imports component
@@ -10,19 +20,56 @@ import { render } from "@testing-library/react";
 import FooterMinified from "./FooterMinified";
 
 /**
- * Mocking the useTranslation hook
- * @see https://github.com/i18next/react-i18next/issues/876
- *
+ * FooterMinified rendering tests
  */
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
+describe("FooterMinified Rendering Tests", () => {
+  it("renders the component without errors", () => {
+    const expandFooter = jest.fn();
+    render(<FooterMinified expandFooter={expandFooter} />);
+  });
+});
 
 /**
- * Default test
+ * FooterMinified logic tests
  */
-describe("FooterMinified", () => {
-  it("renders the component", () => {
-    // render(<FooterMinified />);
+describe("FooterMinified Logic Tests", () => {
+  it("triggers the expand footer on click", () => {
+    /**
+     * Mock the minify footer function
+     */
+    const expandFooter = jest.fn();
+
+    /**
+     * Renders the component
+     */
+    const { getByTestId } = render(
+      <FooterMinified expandFooter={expandFooter} />
+    );
+
+    /**
+     * Gets the base class list (without any animation)
+     */
+    expect(getByTestId("footer-minified")).toBeInTheDocument();
+
+    /**
+     * Trigger the expand button
+     */
+    userEvent.click(getByTestId("expand-button"));
+
+    expect(expandFooter).toHaveBeenCalledTimes(1);
+  });
+});
+
+/**
+ * FooterMinified snapshot test
+ */
+describe("FooterMinified Snapshot Test", () => {
+  it("passes the snapshot test", () => {
+    const expandFooter = jest.fn();
+    const { container } = render(
+      <FooterMinified expandFooter={expandFooter} />
+    );
+
+    expect(pretty(container.innerHTML)).toMatchSnapshot();
   });
 });

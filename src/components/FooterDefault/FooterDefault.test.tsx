@@ -7,13 +7,7 @@
 /**
  * Imports test utils
  */
-import {
-  render,
-  screen,
-  userEvent,
-  waitForElementToBeRemoved,
-  act,
-} from "../../utils/test-utils";
+import { render, userEvent, act } from "../../utils/test-utils";
 
 /**
  * External Imports
@@ -32,6 +26,14 @@ describe("FooterDefault Rendering Tests", () => {
   it("renders the component without errors", () => {
     const minifyFooter = jest.fn();
     render(<FooterDefault minifyFooter={minifyFooter} />);
+  });
+  it("renders with the menu items not expanded", () => {
+    const minifyFooter = jest.fn();
+    const { getByTestId } = render(
+      <FooterDefault minifyFooter={minifyFooter} />
+    );
+
+    expect(getByTestId("expand-list-button")).toBeInTheDocument();
   });
 });
 
@@ -85,6 +87,27 @@ describe("FooterDefault Logic Tests", () => {
     const { classList: finalClassList } = getByTestId("footer-default");
     expect(finalClassList.toString().includes("appBarMinified")).toBe(true);
     expect(minifyFooter).toHaveBeenCalledTimes(1);
+  });
+
+  it("expands the list with menu items in the middle", () => {
+    jest.useFakeTimers();
+    const minifyFooter = jest.fn();
+    const { getByTestId } = render(
+      <FooterDefault minifyFooter={minifyFooter} />
+    );
+
+    expect(getByTestId("expand-list-button")).toBeInTheDocument();
+
+    userEvent.click(getByTestId("expand-list-button"));
+    expect(getByTestId("shrink-list-button")).toBeInTheDocument();
+
+    userEvent.click(getByTestId("shrink-list-button"));
+
+    act(() => {
+      jest.advanceTimersByTime(250);
+    });
+
+    expect(getByTestId("expand-list-button")).toBeInTheDocument();
   });
 });
 

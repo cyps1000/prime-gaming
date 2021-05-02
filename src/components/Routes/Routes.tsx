@@ -34,7 +34,7 @@ const Routes: React.FC = () => {
     <Router>
       <Navbar />
       <Body>
-        <Grid container className={classes.routes}>
+        <Grid data-testid="router-grid" container className={classes.routes}>
           <Switch>
             <Route exact path="/" children={<Main text="Home" />} />
             <Route exact path="/news" children={<Main text="News" />} />

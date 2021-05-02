@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
  * Styles the component
  */
 const useStyles = makeStyles((theme) => ({
-  themeFix: {
+  container: {
     display: "flex",
     alignItems: "center",
     paddingLeft: 10,
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
       color: "#ffffff",
     },
   },
-  switchFix: {
+  switch: {
     paddingLeft: 10,
   },
   switchPrimary: {},

@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Fab from "@material-ui/core/Fab";
+import Box from "@material-ui/core/Box";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import List from "@material-ui/core/List";
@@ -25,7 +26,6 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
-import Fade from "@material-ui/core/Fade";
 
 /**
  * Internal Imports
@@ -41,14 +41,23 @@ import { useStyles } from "./FooterDefault.styles";
  * Defines the props interface
  */
 export interface FooterDefaultProps {
+  copyrightText?: string;
   minifyFooter: () => void;
 }
+
+/**
+ * Defines the default props
+ */
+const defaultProps: FooterDefaultProps = {
+  copyrightText: "© 2021 Prime Gaming",
+  minifyFooter: () => {},
+};
 
 /**
  * Displays the component
  */
 const FooterDefault: React.FC<FooterDefaultProps> = (props) => {
-  const { minifyFooter } = props;
+  const { minifyFooter, copyrightText } = props;
 
   /**
    * Handles the translations
@@ -78,7 +87,22 @@ const FooterDefault: React.FC<FooterDefaultProps> = (props) => {
   /**
    * Init the timer
    */
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
+
+  /**
+   * Defines the appbar classes
+   */
+  const appbarClasses = clsx(classes.appBar, {
+    [classes.appBarMinified]: triggerMinify,
+    [classes.appBarEnter]: appear,
+  });
+
+  /**
+   * Defines the list classes
+   */
+  const listClasses = clsx(classes.list, {
+    [classes.listAppear]: expanded,
+  });
 
   /**
    * Handles expanding the list
@@ -98,22 +122,59 @@ const FooterDefault: React.FC<FooterDefaultProps> = (props) => {
     }, 250);
   };
 
+  /**
+   * Handles triggering the minify state
+   */
   const handleMinify = () => setTriggerMinify(true);
 
+  /**
+   * Handles rendering the expand button
+   */
+  const renderExpandButton = () => {
+    if (!show) return null;
+    return (
+      <Fab
+        data-testid="expand-list-button"
+        size="small"
+        className={classes.fabButton}
+        onClick={expandList}
+      >
+        <ExpandLessIcon />
+      </Fab>
+    );
+  };
+
+  /**
+   * Handles minifying the footer
+   * and triggering the appbar minify animation
+   */
   useEffect(() => {
     if (triggerMinify) {
       setAppear(false);
-      setTimeout(() => {
+      let timer = setTimeout(() => {
         minifyFooter();
       }, 400);
+
+      /**
+       * Clear timeout when unmounting
+       */
+      return () => clearTimeout(timer);
     }
   }, [triggerMinify]);
 
+  /**
+   * Handles expanding the footer
+   * and triggering the appbar appear animation
+   */
   useEffect(() => {
+    setShow(true);
     let timer = setTimeout(() => {
       setAppear(true);
     }, 50);
 
+    /**
+     * Clear timeout when unmounting
+     */
     return () => clearTimeout(timer);
   }, []);
 
@@ -121,16 +182,13 @@ const FooterDefault: React.FC<FooterDefaultProps> = (props) => {
     <AppBar
       data-testid="footer-default"
       position="fixed"
-      className={clsx(classes.appBar, {
-        [classes.appBarMinified]: triggerMinify,
-        [classes.appBarEnter]: appear,
-      })}
+      className={appbarClasses}
     >
       <Toolbar className={classes.toolbar}>
         <Grid container>
           <Grid item xs={3}>
             <Typography className={classes.copyright}>
-              © 2021 Prime Gaming
+              {copyrightText}
             </Typography>
           </Grid>
           <Grid item container xs={6} justify="center">
@@ -146,20 +204,9 @@ const FooterDefault: React.FC<FooterDefaultProps> = (props) => {
             </IconButton>
           </Grid>
         </Grid>
-        {show && (
-          <Fab size="small" className={classes.fabButton} onClick={expandList}>
-            <ExpandLessIcon />
-          </Fab>
-        )}
-
-        <div className={classes.listWrapper}>
-          <List
-            component="nav"
-            aria-label="secondary mailbox folders"
-            className={clsx(classes.list, {
-              [classes.listAppear]: expanded,
-            })}
-          >
+        {renderExpandButton()}
+        <Box className={classes.listWrapper}>
+          <List component="nav" className={listClasses}>
             <ListItem button>
               <ListItemText primary={t("termsOfService")} />
             </ListItem>
@@ -176,14 +223,16 @@ const FooterDefault: React.FC<FooterDefaultProps> = (props) => {
               size="small"
               className={classes.fabButton}
               onClick={shrinkList}
+              data-testid="shrink-list-button"
             >
               <ExpandMoreIcon />
             </Fab>
           </List>
-        </div>
+        </Box>
       </Toolbar>
     </AppBar>
   );
 };
 
+FooterDefault.defaultProps = defaultProps;
 export default FooterDefault;

@@ -1,35 +1,15 @@
 import { useState } from "react";
 
 /**
- * Imports i18n
- */
-import { useTranslation } from "react-i18next";
-
-/**
  * Imports Components
  */
 import FooterDefault from "../FooterDefault";
 import FooterMinified from "../FooterMinified";
 
 /**
- * Imports the component styles
- */
-import { useStyles } from "./Footer.styles";
-
-/**
  * Displays the component
  */
-const Footer: React.FC = (props) => {
-  /**
-   * Handles the translations
-   */
-  const { t } = useTranslation();
-
-  /**
-   * Gets the component styles
-   */
-  const classes = useStyles();
-
+const Footer: React.FC = () => {
   /**
    * Init the Footer state
    */

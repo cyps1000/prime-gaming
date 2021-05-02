@@ -5,11 +5,6 @@
 import { render } from "@testing-library/react";
 
 /**
- * Imports component
- */
-import Main from "./Main";
-
-/**
  * Mocking the useTranslation hook
  * @see https://github.com/i18next/react-i18next/issues/876
  *

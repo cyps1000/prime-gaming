@@ -68,8 +68,6 @@ const Main: React.FC<MainProps> = (props) => {
     try {
       const response = await apiClient.get(`/v1/articles`);
       const { data } = response;
-
-      console.log("FROM MOCK API:", data);
       setArticles(data.articles);
     } catch (error) {
       console.error(error);
