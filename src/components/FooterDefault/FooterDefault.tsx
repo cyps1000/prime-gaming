@@ -13,6 +13,8 @@ import { useTranslation } from "react-i18next";
 /**
  * Material UI Imports
  */
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Fab from "@material-ui/core/Fab";
@@ -58,6 +60,13 @@ const defaultProps: FooterDefaultProps = {
  */
 const FooterDefault: React.FC<FooterDefaultProps> = (props) => {
   const { minifyFooter, copyrightText } = props;
+
+  /**
+   * Handles the mobile/desktop transition
+   */
+  const theme = useTheme();
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   /**
    * Handles the translations
@@ -178,6 +187,14 @@ const FooterDefault: React.FC<FooterDefaultProps> = (props) => {
      */
     return () => clearTimeout(timer);
   }, []);
+
+  /**
+   * Componnent will be displayed only
+   * on desktop.
+   */
+  if (isMobile || isTablet) {
+    return null;
+  }
 
   return (
     <AppBar

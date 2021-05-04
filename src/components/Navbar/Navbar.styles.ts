@@ -28,6 +28,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   paper: {
     background: theme.palette.primary.main,
   },
+  menuIcon: {
+    width: "1em",
+  },
+  copyright: {
+    color: theme.palette.secondary.main,
+    fontSize: 15,
+    fontFamily: theme.typography.fontFamily,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 20,
+  },
 }));
 
 export { useStyles };

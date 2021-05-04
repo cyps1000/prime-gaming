@@ -4,6 +4,11 @@
 import React, { useState } from "react";
 
 /**
+ * Imports i18n
+ */
+import { useTranslation } from "react-i18next";
+
+/**
  * Imports Material UI Components
  */
 import { useTheme } from "@material-ui/core/styles";
@@ -14,6 +19,7 @@ import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
+import Typography from "@material-ui/core/Typography";
 
 /**
  * Components Imports
@@ -25,6 +31,8 @@ import LanguageSwitcher from "../LanguageSwitcher";
 import NavbarUserMenu from "../NavbarUserMenu";
 import NavbarMenu from "../NavbarMenu";
 import NavbarUserMenuMobile from "../NavbarUserMenuMobile";
+import NavbarMobileFooter from "../NavbarMobileFooter";
+import FooterSocials from "../FooterSocials";
 
 /**
  * Imports the component styles
@@ -39,6 +47,11 @@ const Navbar: React.FC = () => {
 
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  /**
+   * Handles the translations
+   */
+  const { t } = useTranslation();
 
   /**
    * Gets the component styles
@@ -88,9 +101,16 @@ const Navbar: React.FC = () => {
                 </div>
               </ListItem>
             </List>
+            <Divider />
+            <NavbarMobileFooter close={closeDrawer} />
+            <Divider />
+            <FooterSocials className={classes.menuIcon} />
+            <Divider />
+            <Typography className={classes.copyright}>
+              © 2021 Prime Gaming
+            </Typography>
           </div>
         </Drawer>
-        u
       </div>
     );
   }

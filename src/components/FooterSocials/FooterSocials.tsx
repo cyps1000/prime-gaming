@@ -1,4 +1,9 @@
 /**
+ * External Imports
+ */
+import clsx from "clsx";
+
+/**
  * Material UI Imports
  */
 import FacebookIcon from "@material-ui/icons/Facebook";
@@ -13,27 +18,42 @@ import IconButton from "@material-ui/core/IconButton";
 import { useStyles } from "./FooterSocials.styles";
 
 /**
+ * Defines the props interface
+ */
+export interface FooterSocialsProps {
+  className?: string | any;
+}
+
+/**
  * Displays the component
  */
-const FooterSocials: React.FC = () => {
+const FooterSocials: React.FC<FooterSocialsProps> = (props) => {
+  const { className } = props;
+
   /**
    * Gets the component styles
    */
   const classes = useStyles();
 
+  /**
+   * Defines the component classes
+   */
+  const componentClasses = clsx(classes.icon, {
+    [className]: className,
+  });
   return (
     <div className={classes.root}>
       <IconButton>
-        <FacebookIcon className={classes.icon} />
+        <FacebookIcon className={componentClasses} />
       </IconButton>
       <IconButton>
-        <TwitterIcon className={classes.icon} />
+        <TwitterIcon className={componentClasses} />
       </IconButton>
       <IconButton>
-        <InstagramIcon className={classes.icon} />
+        <InstagramIcon className={componentClasses} />
       </IconButton>
       <IconButton>
-        <YouTubeIcon className={classes.icon} />
+        <YouTubeIcon className={componentClasses} />
       </IconButton>
     </div>
   );
