@@ -10,7 +10,7 @@ import Main from "../Main";
 import Navbar from "../Navbar";
 import Body from "../Body";
 import Footer from "../Footer";
-import Banner from "../Banner";
+import LandingPage from "../LandingPage";
 
 /**
  *  Material UI Imports
@@ -34,11 +34,10 @@ const Routes: React.FC = () => {
   return (
     <Router>
       <Navbar />
-      <Banner />
       <Body>
         <Grid data-testid="router-grid" container className={classes.routes}>
           <Switch>
-            <Route exact path="/" children={<Main text="Home" />} />
+            <Route exact path="/" children={<LandingPage />} />
             <Route exact path="/news" children={<Main text="News" />} />
             <Route exact path="/about" children={<Main text="About" />} />
             <Route exact path="/contact" children={<Main text="Contact" />} />

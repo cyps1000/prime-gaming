@@ -5,10 +5,29 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 /**
+ * Defines the root class interface
+ */
+interface UseStylesProps {
+  banner: string;
+}
+
+/**
  * Styles the component
  */
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: (props: UseStylesProps) => {
+    const { banner } = props;
+
+    return {
+      backgroundImage: `url(${banner})`,
+      width: "100%",
+      height: "100%",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "50% 100%",
+      backgroundSize: "cover",
+      position: "relative",
+    };
+  },
   img: {
     height: "42rem",
     width: "118.96rem",

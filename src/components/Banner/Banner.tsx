@@ -39,15 +39,15 @@ const Banner: React.FC<BannerProps> = (props) => {
   /**
    * Gets the component styles
    */
-  const classes = useStyles();
+  const classes = useStyles({ banner: BannerImage });
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={0}>
+      {/* <Grid container spacing={0}>
         <Grid item xs={12} sm={12} md={12}>
           <img className={classes.img} src={BannerImage} alt="banner" />
         </Grid>
-      </Grid>
+      </Grid> */}
     </div>
   );
 };

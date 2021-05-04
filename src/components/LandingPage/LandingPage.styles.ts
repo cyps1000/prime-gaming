@@ -9,8 +9,8 @@ import { makeStyles } from "@material-ui/core/styles";
  */
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: "0",
-    height: "100%",
+    display: "flex",
+    flex: 1,
   },
 }));
 
