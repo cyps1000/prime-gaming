@@ -16,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: "2.5rem",
     "& button": {
       "&:hover": {
-        backgroundColor: fade(theme.palette.common.white, 0.15),
+        backgroundColor: fade(theme.palette.common.white, 0.35),
       },
       margin: "0 10px",
       fontSize: 16,
-      color: theme.palette.secondary.main,
+      color: theme.palette.common.white,
       fontWeight: 800,
       textTransform: "initial",
     },

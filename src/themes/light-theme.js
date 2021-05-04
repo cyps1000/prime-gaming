@@ -1,14 +1,4 @@
 /**
- * Material UI Imports
- */
-import createBreakpoints from "@material-ui/core/styles/createBreakpoints";
-
-/**
- * Creates the breakpoints
- */
-const breakpoints = createBreakpoints({});
-
-/**
  * Defines the palette of colors
  */
 const palette = {

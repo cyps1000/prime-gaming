@@ -1,8 +1,19 @@
 /**
  * @see https://testing-library.com/docs/react-testing-library/intro
  * @see https://www.robinwieruch.de/react-testing-library
+ * @see https://www.smashingmagazine.com/2020/07/react-apps-testing-library/
  */
-import { render } from "@testing-library/react";
+
+/**
+ * Imports test utils
+ */
+import { render, fireEvent } from "../../utils/test-utils";
+import { mockHistoryPush } from "../../utils/test-utils/mocks";
+
+/**
+ * External Imports
+ */
+import pretty from "pretty";
 
 /**
  * Imports component
@@ -10,19 +21,44 @@ import { render } from "@testing-library/react";
 import NavbarUserMenu from "./NavbarUserMenu";
 
 /**
- * Mocking the useTranslation hook
- * @see https://github.com/i18next/react-i18next/issues/876
- *
+ * NavbarUserMenu rendering tests
  */
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
+describe("NavbarUserMenu Rendering Tests", () => {
+  it("renders the component without errors", () => {
+    render(<NavbarUserMenu />);
+  });
+});
 
 /**
- * Default test
+ * NavbarUserMenu logic tests
  */
-describe("NavbarUserMenu", () => {
-  it("renders the component", () => {
-    // render(<NavbarUserMenu />);
+describe("NavbarUserMenu Logic Tests", () => {
+  it("takes the user to the home page when clicked", () => {
+    const { getByText } = render(<NavbarUserMenu />);
+
+    fireEvent.click(getByText(global.en_en["home"]));
+    expect(mockHistoryPush).toHaveBeenCalledWith("/");
+
+    fireEvent.click(getByText(global.en_en["news"]));
+    expect(mockHistoryPush).toHaveBeenCalledWith("/news");
+
+    fireEvent.click(getByText(global.en_en["about"]));
+    expect(mockHistoryPush).toHaveBeenCalledWith("/about");
+
+    fireEvent.click(getByText(global.en_en["contact"]));
+    expect(mockHistoryPush).toHaveBeenCalledWith("/contact");
+
+    expect(mockHistoryPush).toHaveBeenCalledTimes(4);
+  });
+});
+
+/**
+ * NavbarUserMenu snapshot test
+ */
+describe("NavbarUserMenu Snapshot Test", () => {
+  it("passes the snapshot test", () => {
+    const { container } = render(<NavbarUserMenu />);
+
+    expect(pretty(container.innerHTML)).toMatchSnapshot();
   });
 });

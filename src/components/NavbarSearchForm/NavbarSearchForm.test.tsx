@@ -1,8 +1,18 @@
 /**
  * @see https://testing-library.com/docs/react-testing-library/intro
  * @see https://www.robinwieruch.de/react-testing-library
+ * @see https://www.smashingmagazine.com/2020/07/react-apps-testing-library/
  */
-import { render } from "@testing-library/react";
+
+/**
+ * Imports test utils
+ */
+import { render } from "../../utils/test-utils";
+
+/**
+ * External Imports
+ */
+import pretty from "pretty";
 
 /**
  * Imports component
@@ -10,19 +20,30 @@ import { render } from "@testing-library/react";
 import NavbarSearchForm from "./NavbarSearchForm";
 
 /**
- * Mocking the useTranslation hook
- * @see https://github.com/i18next/react-i18next/issues/876
- *
+ * NavbarSearchForm rendering tests
  */
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
+describe("NavbarSearchForm Rendering Tests", () => {
+  it("renders the component without errors", () => {
+    render(<NavbarSearchForm />);
+  });
+
+  it("renders the component without the expand animation", () => {
+    render(<NavbarSearchForm withExpandAnimation={false} />);
+  });
+
+  it("has a default className", () => {
+    const { container } = render(<NavbarSearchForm />);
+    expect(container.firstChild).toHaveAttribute("class");
+  });
+});
 
 /**
- * Default test
+ * NavbarSearchForm snapshot testu
  */
-describe("NavbarSearchForm", () => {
-  it("renders the component", () => {
-    // render(<NavbarSearchForm />);
+describe("NavbarSearchForm Snapshot Test", () => {
+  it("passes the snapshot test", () => {
+    const { container } = render(<NavbarSearchForm />);
+
+    expect(pretty(container.innerHTML)).toMatchSnapshot();
   });
 });

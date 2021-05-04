@@ -17,14 +17,22 @@ import { useStyles } from "./LanguageSwitcher.styles";
  * Defines the props interface
  */
 export interface LanguageSwitcherProps {
-  text?: string;
+  ukFlagUrl?: string;
+  roFlagUrl?: string;
 }
+
+const defaultProps: LanguageSwitcherProps = {
+  ukFlagUrl:
+    "https://www.countryflags.com/wp-content/uploads/united-kingdom-flag-png-large.png",
+  roFlagUrl:
+    "https://www.countryflags.com/wp-content/uploads/romania-flag-png-xl.png",
+};
 
 /**
  * Displays the component
  */
 const LanguageSwitcher: React.FC<LanguageSwitcherProps> = (props) => {
-  const { text } = props;
+  const { ukFlagUrl, roFlagUrl } = props;
 
   /**
    * Gets the active language and language changer
@@ -48,32 +56,24 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = (props) => {
   };
 
   return (
-    <div className={classes.themeFix}>
-      <img
-        className={classes.flag}
-        src="https://www.countryflags.com/wp-content/uploads/romania-flag-png-xl.png"
-        alt="ro"
-      />
+    <div data-testid="language-switcher" className={classes.container}>
+      <img className={classes.flag} src={roFlagUrl} alt="ro" />
       <div>
         <Switch
+          data-testid="language-switch-input"
           checked={activeLanguage === "en_en"}
           onChange={handleLanguageChange}
           color="secondary"
-          name="checkedB"
-          inputProps={{ "aria-label": "primary checkbox" }}
           classes={{
             colorPrimary: classes.switchPrimary,
             track: classes.switchTrack,
           }}
         />
       </div>
-      <img
-        className={classes.flag}
-        src="https://www.countryflags.com/wp-content/uploads/united-kingdom-flag-png-large.png"
-        alt="uk"
-      />
+      <img className={classes.flag} src={ukFlagUrl} alt="uk" />
     </div>
   );
 };
 
+LanguageSwitcher.defaultProps = defaultProps;
 export default LanguageSwitcher;

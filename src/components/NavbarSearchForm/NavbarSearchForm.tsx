@@ -23,15 +23,18 @@ import { useStyles } from "./NavbarSearchForm.styles";
  * Defines the props interface
  */
 export interface NavbarSearchFormProps {
-  text?: string;
-  withExpandAnimation: boolean;
+  withExpandAnimation?: boolean;
 }
+
+const defaultProps: NavbarSearchFormProps = {
+  withExpandAnimation: true,
+};
 
 /**
  * Displays the component
  */
 const NavbarSearchForm: React.FC<NavbarSearchFormProps> = (props) => {
-  const { text, withExpandAnimation } = props;
+  const { withExpandAnimation } = props;
 
   /**
    * Handles the translations
@@ -62,4 +65,5 @@ const NavbarSearchForm: React.FC<NavbarSearchFormProps> = (props) => {
   );
 };
 
+NavbarSearchForm.defaultProps = defaultProps;
 export default NavbarSearchForm;

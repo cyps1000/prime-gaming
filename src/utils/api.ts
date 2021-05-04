@@ -7,6 +7,9 @@ interface Config {
   mock: boolean;
 }
 
+/**
+ * Defines the api client function
+ */
 export const getApiClient = (config: Config) => {
   const { mock } = config;
 
@@ -21,6 +24,9 @@ export const getApiClient = (config: Config) => {
     return process.env.REACT_APP_STAGING_API;
   };
 
+  /**
+   * Creates the api client by configuring axios
+   */
   const apiClient = axios.create({
     baseURL: getApiUrl(),
   });

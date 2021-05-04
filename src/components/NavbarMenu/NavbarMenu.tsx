@@ -31,6 +31,7 @@ const NavbarMenu: React.FC<NavbarMenuProps> = (props) => {
       color="inherit"
       aria-label="menu"
       onClick={onClick}
+      data-testid="navbar-menu-button"
     >
       <MenuIcon />
     </IconButton>

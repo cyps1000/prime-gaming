@@ -77,7 +77,7 @@ const ThemeProvider: ThemeProviderType = (props) => {
   );
 };
 
-type useThemeHook = () => {
+type useThemeHookType = () => {
   activeTheme: string;
   changeTheme: (themeKey: string) => void;
 };
@@ -88,7 +88,7 @@ type useThemeHook = () => {
  * - Returns the  context / object
  * - To be used inside components
  */
-const useTheme: useThemeHook = () => {
+const useTheme: useThemeHookType = () => {
   return useContext(themeContext);
 };
 

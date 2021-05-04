@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     width: 23,
     height: 19,
   },
-  themeFix: {
+  container: {
     display: "flex",
     alignItems: "center",
     paddingLeft: 10,

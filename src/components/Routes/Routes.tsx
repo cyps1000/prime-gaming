@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Main from "../Main";
 import Navbar from "../Navbar";
 import Body from "../Body";
+import Footer from "../Footer";
 
 /**
  *  Material UI Imports
@@ -33,14 +34,16 @@ const Routes: React.FC = () => {
     <Router>
       <Navbar />
       <Body>
-        <Grid container className={classes.routes}>
+        <Grid data-testid="router-grid" container className={classes.routes}>
           <Switch>
             <Route exact path="/" children={<Main text="Home" />} />
-            <Route exact path="/test1" children={<h1>test1</h1>} />
-            <Route exact path="/test2" children={<h1>test2</h1>} />
+            <Route exact path="/news" children={<Main text="News" />} />
+            <Route exact path="/about" children={<Main text="About" />} />
+            <Route exact path="/contact" children={<Main text="Contact" />} />
           </Switch>
         </Grid>
       </Body>
+      <Footer />
     </Router>
   );
 };
