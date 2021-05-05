@@ -6,6 +6,16 @@ import Providers from "./components/Providers";
 import { ThemeProvider, LanguageProvider } from "./hooks";
 
 /**
+ * Normalizes all css for maximum browser compatibility
+ */
+import "normalize.css";
+
+/**
+ * Imports some app specific css
+ */
+import "./App.css";
+
+/**
  * Displays the component
  */
 const App: React.FC = () => {
