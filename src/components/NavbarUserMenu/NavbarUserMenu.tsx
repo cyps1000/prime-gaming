@@ -1,3 +1,4 @@
+import { useState } from "react";
 /**
  * Modules Imports
  */
@@ -5,9 +6,15 @@ import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
 /**
+ * Componnents Imports
+ */
+import RegisterBlock from "../RegisterBlock";
+
+/**
  * Imports Material UI Components
  */
 import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
 
 /**
  * Imports the component styles
@@ -34,6 +41,21 @@ const NavbarUserMenu: React.FC = (props) => {
   const history = useHistory();
 
   /**
+   * Initializes the sign up modal state
+   */
+  const [signUpModal, setSignUpModal] = useState(false);
+
+  /**
+   * Handles opening the sign up modal
+   */
+  const openSignUpModal = () => setSignUpModal(true);
+
+  /**
+   * Handles closing the sign up modal
+   */
+  const closeSignUpModal = () => setSignUpModal(false);
+
+  /**
    * Handles routing
    */
   const routeTo = (url: string) => {
@@ -47,7 +69,6 @@ const NavbarUserMenu: React.FC = (props) => {
   const goToNews = () => routeTo("/news");
   const goToAbout = () => routeTo("/about");
   const goToContact = () => routeTo("/contact");
-  const goToRegister = () => routeTo("/register");
 
   return (
     <div className={classes.menuItems}>
@@ -56,7 +77,10 @@ const NavbarUserMenu: React.FC = (props) => {
       <Button onClick={goToAbout}>{t("about")}</Button>
       <Button onClick={goToContact}>{t("contact")}</Button>
       <Button>{t("signIn")}</Button>
-      <Button onClick={goToRegister}>{t("signUp")}</Button>
+      <Button onClick={openSignUpModal}>{t("signUp")}</Button>
+      <Dialog open={signUpModal} onClose={closeSignUpModal}>
+        <RegisterBlock onClose={closeSignUpModal} />
+      </Dialog>
     </div>
   );
 };
