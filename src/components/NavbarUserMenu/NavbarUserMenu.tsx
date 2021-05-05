@@ -47,6 +47,7 @@ const NavbarUserMenu: React.FC = (props) => {
   const goToNews = () => routeTo("/news");
   const goToAbout = () => routeTo("/about");
   const goToContact = () => routeTo("/contact");
+  const goToRegister = () => routeTo("/register");
 
   return (
     <div className={classes.menuItems}>
@@ -55,7 +56,7 @@ const NavbarUserMenu: React.FC = (props) => {
       <Button onClick={goToAbout}>{t("about")}</Button>
       <Button onClick={goToContact}>{t("contact")}</Button>
       <Button>{t("signIn")}</Button>
-      <Button>{t("signUp")}</Button>
+      <Button onClick={goToRegister}>{t("signUp")}</Button>
     </div>
   );
 };

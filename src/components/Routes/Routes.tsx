@@ -11,6 +11,7 @@ import Navbar from "../Navbar";
 import Body from "../Body";
 import Footer from "../Footer";
 import LandingPage from "../LandingPage";
+import Register from "../Register";
 
 /**
  *  Material UI Imports
@@ -41,6 +42,7 @@ const Routes: React.FC = () => {
             <Route exact path="/news" children={<Main text="News" />} />
             <Route exact path="/about" children={<Main text="About" />} />
             <Route exact path="/contact" children={<Main text="Contact" />} />
+            <Route exact path="/register" children={<Register />} />
           </Switch>
         </Grid>
       </Body>

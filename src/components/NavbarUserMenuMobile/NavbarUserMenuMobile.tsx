@@ -59,6 +59,7 @@ const NavbarUserMenuMobile: React.FC<NavbarUserMenuMobileProps> = (props) => {
   const goToNews = () => routeTo("/news");
   const goToAbout = () => routeTo("/about");
   const goToContact = () => routeTo("/contact");
+  const goToRegister = () => routeTo("/register");
 
   return (
     <List className={classes.listItem}>
@@ -77,7 +78,7 @@ const NavbarUserMenuMobile: React.FC<NavbarUserMenuMobileProps> = (props) => {
       <ListItem button>
         <ListItemText primary={t("signIn")} />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={goToRegister}>
         <ListItemText primary={t("signUp")} />
       </ListItem>
     </List>
