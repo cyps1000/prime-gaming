@@ -2,7 +2,7 @@
  *  Material UI Imports
  * @see https://material-ui.com/styles/basics/
  */
-import { lighten, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 /**
  * Styles the component
@@ -31,7 +31,30 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#ee82ee73",
     },
   },
+  googleButton: {
+    margin: theme.spacing(1, 0, 1),
+    backgroundColor: "#ea4335",
+    "&:hover": {
+      backgroundColor: "#ea433573",
+    },
+  },
+  facebookButton: {
+    margin: theme.spacing(0, 0, 1),
+    backgroundColor: "#1877f2",
+    "&:hover": {
+      backgroundColor: "#1877f275",
+    },
+  },
+  facebookIcon: {
+    marginRight: theme.spacing(1),
+  },
+  googleIcon: {
+    marginRight: theme.spacing(1),
+  },
   inputs: {
+    color: theme.palette.secondary.main,
+  },
+  linkItem: {
     color: theme.palette.secondary.main,
   },
   inputOutlined: {

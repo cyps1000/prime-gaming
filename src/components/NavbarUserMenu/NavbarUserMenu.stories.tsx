@@ -19,7 +19,13 @@ export default {
  * @param args NavbarUserMenuProps
  * @returns
  */
-const Template: Story = (args) => <NavbarUserMenu {...args} />;
+const Template: Story = (args) => (
+  <NavbarUserMenu
+    openSignUpModal={() => {}}
+    openSignInModal={() => {}}
+    {...args}
+  />
+);
 
 /**
  * Default case
