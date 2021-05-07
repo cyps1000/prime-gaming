@@ -1,8 +1,18 @@
 /**
  * @see https://testing-library.com/docs/react-testing-library/intro
  * @see https://www.robinwieruch.de/react-testing-library
+ * @see https://www.smashingmagazine.com/2020/07/react-apps-testing-library/
  */
-import { render } from "@testing-library/react";
+
+/**
+ * Imports test utils
+ */
+import { render } from "../../utils/test-utils";
+
+/**
+ * External Imports
+ */
+import pretty from "pretty";
 
 /**
  * Imports component
@@ -10,19 +20,31 @@ import { render } from "@testing-library/react";
 import Body from "./Body";
 
 /**
- * Mocking the useTranslation hook
- * @see https://github.com/i18next/react-i18next/issues/876
- *
+ * Body rendering tests
  */
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
+describe("Body Rendering Tests", () => {
+  it("renders the component without errors", () => {
+    const { getByText } = render(<Body>Children</Body>);
+
+    expect(getByText("Children")).toBeInTheDocument();
+  });
+
+  it("has a default className", () => {
+    const { container, getByText } = render(<Body> Children </Body>);
+
+    expect(container.firstChild).toHaveAttribute("class");
+    expect(getByText("Children")).toBeInTheDocument();
+  });
+});
 
 /**
- * Default test
+ * Body snapshot test
  */
-describe("Body", () => {
-  it("renders the component", () => {
-    // render(<Body />);
+describe("Body Snapshot Test", () => {
+  it("passes the snapshot test", () => {
+    const { container, getByText } = render(<Body>Children</Body>);
+
+    expect(getByText("Children")).toBeInTheDocument();
+    expect(pretty(container.innerHTML)).toMatchSnapshot();
   });
 });

@@ -1,8 +1,18 @@
 /**
  * @see https://testing-library.com/docs/react-testing-library/intro
  * @see https://www.robinwieruch.de/react-testing-library
+ * @see https://www.smashingmagazine.com/2020/07/react-apps-testing-library/
  */
-import { render } from "@testing-library/react";
+
+/**
+ * Imports test utils
+ */
+import { render } from "../../utils/test-utils";
+
+/**
+ * External Imports
+ */
+import pretty from "pretty";
 
 /**
  * Imports component
@@ -10,19 +20,43 @@ import { render } from "@testing-library/react";
 import ThemeSwitcher from "./ThemeSwitcher";
 
 /**
- * Mocking the useTranslation hook
- * @see https://github.com/i18next/react-i18next/issues/876
- *
+ * ThemeSwitcher rendering tests
  */
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
+describe("ThemeSwitcher Rendering Tests", () => {
+  it("renders the component without errors", () => {
+    render(<ThemeSwitcher />);
+  });
+});
 
 /**
- * Default test
+ * ThemeSwitcher logic tests
  */
-describe("ThemeSwitcher", () => {
-  it("renders the component", () => {
-    // render(<ThemeSwitcher />);
+describe("ThemeSwitcher Logic Tests", () => {
+  it("changes the theme of the app when switching", () => {
+    const { getByRole } = render(<ThemeSwitcher />);
+
+    expect(getByRole("checkbox")).toHaveProperty("value", "dark-theme");
+    expect(getByRole("checkbox")).toHaveProperty("checked", true);
+
+    getByRole("checkbox").click();
+
+    expect(getByRole("checkbox")).toHaveProperty("value", "light-theme");
+    expect(getByRole("checkbox")).toHaveProperty("checked", false);
+
+    getByRole("checkbox").click();
+
+    expect(getByRole("checkbox")).toHaveProperty("value", "dark-theme");
+    expect(getByRole("checkbox")).toHaveProperty("checked", true);
+  });
+});
+
+/**
+ * ThemeSwitcher snapshot test
+ */
+describe("ThemeSwitcher Snapshot Test", () => {
+  it("passes the snapshot test", () => {
+    const { container } = render(<ThemeSwitcher />);
+
+    expect(pretty(container.innerHTML)).toMatchSnapshot();
   });
 });

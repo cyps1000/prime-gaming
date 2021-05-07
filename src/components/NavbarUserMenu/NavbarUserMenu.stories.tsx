@@ -7,7 +7,7 @@ import { Story, Meta } from "@storybook/react";
 /**
  * Component Imports
  */
-import NavbarUserMenu, { NavbarUserMenuProps } from "./NavbarUserMenu";
+import NavbarUserMenu from "./NavbarUserMenu";
 
 export default {
   title: "Components/NavbarUserMenu",
@@ -19,9 +19,7 @@ export default {
  * @param args NavbarUserMenuProps
  * @returns
  */
-const Template: Story<NavbarUserMenuProps> = (args) => (
-  <NavbarUserMenu {...args} />
-);
+const Template: Story = (args) => <NavbarUserMenu {...args} />;
 
 /**
  * Default case

@@ -20,7 +20,6 @@ import { useStyles } from "./NavbarUserMenuMobile.styles";
  * Defines the props interface
  */
 export interface NavbarUserMenuMobileProps {
-  text?: string;
   close: () => void;
 }
 
@@ -28,7 +27,7 @@ export interface NavbarUserMenuMobileProps {
  * Displays the component
  */
 const NavbarUserMenuMobile: React.FC<NavbarUserMenuMobileProps> = (props) => {
-  const { text, close } = props;
+  const { close } = props;
 
   /**
    * Handles the translations
@@ -46,25 +45,33 @@ const NavbarUserMenuMobile: React.FC<NavbarUserMenuMobileProps> = (props) => {
   const history = useHistory();
 
   /**
-   * Handles Routing to Home Page
+   * Handles routing
    */
-  const goToHome = () => {
-    history.push("/");
+  const routeTo = (url: string) => {
+    history.push(url);
     close();
   };
 
+  /**
+   * Defines the routing functions
+   */
+  const goToHome = () => routeTo("/");
+  const goToNews = () => routeTo("/news");
+  const goToAbout = () => routeTo("/about");
+  const goToContact = () => routeTo("/contact");
+
   return (
     <List className={classes.listItem}>
-      <ListItem button>
-        <ListItemText onClick={goToHome} primary={t("home")} />
+      <ListItem button onClick={goToHome}>
+        <ListItemText primary={t("home")} />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={goToNews}>
         <ListItemText primary={t("news")} />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={goToAbout}>
         <ListItemText primary={t("about")} />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={goToContact}>
         <ListItemText primary={t("contact")} />
       </ListItem>
       <ListItem button>

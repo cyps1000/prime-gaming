@@ -2,7 +2,11 @@
  * Modules Imports
  */
 import React, { useState } from "react";
-//import { useTranslation } from "react-i18next";
+
+/**
+ * Imports i18n
+ */
+import { useTranslation } from "react-i18next";
 
 /**
  * Imports Material UI Components
@@ -15,8 +19,7 @@ import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
-
-import i18n from "../../i18n";
+import Typography from "@material-ui/core/Typography";
 
 /**
  * Components Imports
@@ -28,6 +31,8 @@ import LanguageSwitcher from "../LanguageSwitcher";
 import NavbarUserMenu from "../NavbarUserMenu";
 import NavbarMenu from "../NavbarMenu";
 import NavbarUserMenuMobile from "../NavbarUserMenuMobile";
+import NavbarMobileFooter from "../NavbarMobileFooter";
+import FooterSocials from "../FooterSocials";
 
 /**
  * Imports the component styles
@@ -38,15 +43,15 @@ import { useStyles } from "./Navbar.styles";
  * Displays the component
  */
 const Navbar: React.FC = () => {
-  /**
-   * Handles the translations
-   */
-  //const { t } = useTranslation();
-
   const theme = useTheme();
 
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  /**
+   * Handles the translations
+   */
+  const { t } = useTranslation();
 
   /**
    * Gets the component styles
@@ -60,22 +65,22 @@ const Navbar: React.FC = () => {
 
   if (isMobile || isTablet) {
     return (
-      <div className={classes.root}>
+      <div className={classes.root} data-testid="navbar-mobile">
         <AppBar position="fixed" className={classes.nav}>
           <Toolbar>
             <NavbarMenu onClick={openDrawer} />
             <Logo />
           </Toolbar>
         </AppBar>
-
         <Drawer
+          data-testid="navbar-drawer-mobile"
           open={open}
           onClose={closeDrawer}
           classes={{
             paper: classes.paper,
           }}
         >
-          <div className={classes.list} role="presentation">
+          <div className={classes.list} data-testid="navbar-list-container">
             <List>
               <ListItem>
                 <NavbarSearchForm withExpandAnimation={false} />
@@ -96,6 +101,14 @@ const Navbar: React.FC = () => {
                 </div>
               </ListItem>
             </List>
+            <Divider />
+            <NavbarMobileFooter close={closeDrawer} />
+            <Divider />
+            <FooterSocials className={classes.menuIcon} />
+            <Divider />
+            <Typography className={classes.copyright}>
+              © 2021 Prime Gaming
+            </Typography>
           </div>
         </Drawer>
       </div>
@@ -103,7 +116,7 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} data-testid="navbar">
       <AppBar position="fixed" className={classes.nav}>
         <Toolbar>
           <Logo />
