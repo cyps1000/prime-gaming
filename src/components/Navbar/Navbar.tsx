@@ -20,6 +20,7 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import Typography from "@material-ui/core/Typography";
+import Dialog from "@material-ui/core/Dialog";
 
 /**
  * Components Imports
@@ -33,11 +34,18 @@ import NavbarMenu from "../NavbarMenu";
 import NavbarUserMenuMobile from "../NavbarUserMenuMobile";
 import NavbarMobileFooter from "../NavbarMobileFooter";
 import FooterSocials from "../FooterSocials";
+import RegisterBlock from "../RegisterBlock";
+import LoginBlock from "../LoginBlock";
 
 /**
  * Imports the component styles
  */
 import { useStyles } from "./Navbar.styles";
+
+interface ModalState {
+  signUpModal: boolean;
+  signInModal: boolean;
+}
 
 /**
  * Displays the component
@@ -58,9 +66,50 @@ const Navbar: React.FC = () => {
    */
   const classes = useStyles();
 
+  /**
+   * Initializes the Drawer state
+   */
   const [open, setOpen] = useState(false);
 
+  /**
+   * Initializes the Modal state
+   */
+  const [modals, setModals] = useState({
+    signUpModal: false,
+    signInModal: false,
+  } as ModalState);
+
+  const openModal = (modalType: string) => {
+    setModals((prevState) => {
+      console.log("Previous State", prevState);
+      return { ...prevState, [modalType]: true };
+    });
+  };
+
+  /**
+   * Handles opening the Sign In Modal
+   */
+  const openSignInModal = () => openModal("signInModal");
+
+  /**
+   * Handles opening the Sign Up Modal
+   */
+  const openSignUpModal = () => openModal("signUpModal");
+
+  /**
+   * Handles closing the Sign In and Sign Up Modal
+   */
+  const closeModal = () =>
+    setModals({ signUpModal: false, signInModal: false });
+
+  /**
+   * Handles opening the Drawer
+   */
   const openDrawer = () => setOpen(true);
+
+  /**
+   * Handles closing the Drawer
+   */
   const closeDrawer = () => setOpen(false);
 
   if (isMobile || isTablet) {
@@ -87,7 +136,11 @@ const Navbar: React.FC = () => {
               </ListItem>
             </List>
             <Divider />
-            <NavbarUserMenuMobile close={closeDrawer} />
+            <NavbarUserMenuMobile
+              close={closeDrawer}
+              openSignUpModal={openSignUpModal}
+              openSignInModal={openSignInModal}
+            />
             <Divider />
             <List>
               <ListItem button>
@@ -111,6 +164,25 @@ const Navbar: React.FC = () => {
             </Typography>
           </div>
         </Drawer>
+        <Dialog
+          open={modals.signUpModal}
+          onClose={closeModal}
+          classes={{
+            paper: classes.modal,
+          }}
+        >
+          <RegisterBlock onClose={closeModal} />
+        </Dialog>
+
+        <Dialog
+          open={modals.signInModal}
+          onClose={closeModal}
+          classes={{
+            paper: classes.modal,
+          }}
+        >
+          <LoginBlock onClose={closeModal} />
+        </Dialog>
       </div>
     );
   }
@@ -125,9 +197,31 @@ const Navbar: React.FC = () => {
             <ThemeSwitcher />
             <LanguageSwitcher />
           </div>
-          <NavbarUserMenu />
+          <NavbarUserMenu
+            openSignUpModal={openSignUpModal}
+            openSignInModal={openSignInModal}
+          />
         </Toolbar>
       </AppBar>
+      <Dialog
+        open={modals.signUpModal}
+        onClose={closeModal}
+        classes={{
+          paper: classes.modal,
+        }}
+      >
+        <RegisterBlock onClose={closeModal} />
+      </Dialog>
+
+      <Dialog
+        open={modals.signInModal}
+        onClose={closeModal}
+        classes={{
+          paper: classes.modal,
+        }}
+      >
+        <LoginBlock onClose={closeModal} />
+      </Dialog>
     </div>
   );
 };
