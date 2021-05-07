@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     paddingTop: 20,
   },
+  modal: {
+    backgroundColor: theme.palette.primary.main,
+  },
 }));
 
 export { useStyles };
