@@ -15,18 +15,9 @@ import Button from "@material-ui/core/Button";
 import { useStyles } from "./NavbarUserMenu.styles";
 
 /**
- * Defines the props interface
- */
-export interface NavbarUserMenuProps {
-  text?: string;
-}
-
-/**
  * Displays the component
  */
-const NavbarUserMenu: React.FC<NavbarUserMenuProps> = (props) => {
-  const { text } = props;
-
+const NavbarUserMenu: React.FC = (props) => {
   /**
    * Handles the translations
    */
@@ -43,16 +34,26 @@ const NavbarUserMenu: React.FC<NavbarUserMenuProps> = (props) => {
   const history = useHistory();
 
   /**
-   * Handles Routing to Home Page
+   * Handles routing
    */
-  const goToHome = () => history.push("/");
+  const routeTo = (url: string) => {
+    history.push(url);
+  };
+
+  /**
+   * Defines the routing functions
+   */
+  const goToHome = () => routeTo("/");
+  const goToNews = () => routeTo("/news");
+  const goToAbout = () => routeTo("/about");
+  const goToContact = () => routeTo("/contact");
 
   return (
     <div className={classes.menuItems}>
       <Button onClick={goToHome}>{t("home")}</Button>
-      <Button>{t("news")}</Button>
-      <Button>{t("about")}</Button>
-      <Button>{t("contact")}</Button>
+      <Button onClick={goToNews}>{t("news")}</Button>
+      <Button onClick={goToAbout}>{t("about")}</Button>
+      <Button onClick={goToContact}>{t("contact")}</Button>
       <Button>{t("signIn")}</Button>
       <Button>{t("signUp")}</Button>
     </div>

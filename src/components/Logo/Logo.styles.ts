@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     maxWidth: 150,
     marginTop: -5,
+    cursor: "pointer",
   },
 }));
 

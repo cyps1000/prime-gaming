@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Main Snapshot Test passes the snapshot test 1`] = `
+"<div class=\\"makeStyles-root-5\\">
+  <h1>Main</h1>
+</div>"
+`;

@@ -7,7 +7,7 @@ import { Story, Meta } from "@storybook/react";
 /**
  * Component Imports
  */
-import ThemeSwitcher, { ThemeSwitcherProps } from "./ThemeSwitcher";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 export default {
   title: "Components/ThemeSwitcher",
@@ -19,9 +19,7 @@ export default {
  * @param args ThemeSwitcherProps
  * @returns
  */
-const Template: Story<ThemeSwitcherProps> = (args) => (
-  <ThemeSwitcher {...args} />
-);
+const Template: Story = (args) => <ThemeSwitcher {...args} />;
 
 /**
  * Default case

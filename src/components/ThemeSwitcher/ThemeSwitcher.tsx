@@ -16,18 +16,9 @@ import { useStyles } from "./ThemeSwitcher.styles";
 import { useTheme } from "../../hooks";
 
 /**
- * Defines the props interface
- */
-export interface ThemeSwitcherProps {
-  text?: string;
-}
-
-/**
  * Displays the component
  */
-const ThemeSwitcher: React.FC<ThemeSwitcherProps> = (props) => {
-  const { text } = props;
-
+const ThemeSwitcher: React.FC = () => {
   /**
    * Gets the active theme and theme changer
    */
@@ -46,14 +37,15 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = (props) => {
   };
 
   return (
-    <div className={classes.themeFix}>
+    <div className={classes.container}>
       <Brightness7Icon />
       <Switch
         checked={activeTheme === "dark-theme"}
         onChange={handleThemeChange}
         color="secondary"
         name="checkedB"
-        className={classes.switchFix}
+        value={activeTheme}
+        className={classes.switch}
         classes={{
           colorPrimary: classes.switchPrimary,
         }}
