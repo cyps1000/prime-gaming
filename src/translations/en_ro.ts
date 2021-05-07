@@ -15,6 +15,11 @@ const en_ro: LanguageResource = {
   privacyPolicy: "Politica de confidențialitate",
   cookiePolicy: "Politica cookie",
   contactUs: "Contactează-ne",
+  fName: "Prenume",
+  lName: "Nume",
+  email: "Adresa de Email",
+  password: "Parola",
+  emailUpdates: "Vreau să primesc noutăți prin email.",
 };
 
 export { en_ro };
