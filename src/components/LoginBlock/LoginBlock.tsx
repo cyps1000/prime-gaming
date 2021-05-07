@@ -152,7 +152,7 @@ const LoginBlock: React.FC<LoginBlockProps> = (props) => {
                 control={
                   <Checkbox value="allowExtraEmails" color="secondary" />
                 }
-                label="Keep me signed in."
+                label="Keep me signed in!"
               />
             </Grid>
           </Grid>
