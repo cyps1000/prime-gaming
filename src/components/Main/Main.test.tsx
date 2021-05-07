@@ -1,8 +1,18 @@
 /**
  * @see https://testing-library.com/docs/react-testing-library/intro
  * @see https://www.robinwieruch.de/react-testing-library
+ * @see https://www.smashingmagazine.com/2020/07/react-apps-testing-library/
  */
-import { render } from "@testing-library/react";
+
+/**
+ * Imports test utils
+ */
+import { render } from "../../utils/test-utils";
+
+/**
+ * External Imports
+ */
+import pretty from "pretty";
 
 /**
  * Imports component
@@ -10,19 +20,36 @@ import { render } from "@testing-library/react";
 import Main from "./Main";
 
 /**
- * Mocking the useTranslation hook
- * @see https://github.com/i18next/react-i18next/issues/876
- *
+ * Main rendering tests
  */
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
+describe("Main Rendering Tests", () => {
+  it("renders the component without errors", () => {
+    render(<Main />);
+  });
+
+  it("has a default text prop of 'Main'", () => {
+    const { getByText } = render(<Main />);
+    expect(getByText(/Main/i)).toBeInTheDocument();
+  });
+
+  it("has a default className", () => {
+    const { container } = render(<Main />);
+    expect(container.firstChild).toHaveAttribute("class");
+  });
+
+  it("renders an h1 based on the text prop", () => {
+    const { getByText } = render(<Main text="Hello World" />);
+    expect(getByText(/Hello World/i)).toBeInTheDocument();
+  });
+});
 
 /**
- * Default test
+ * Main snapshot test
  */
-describe("Main", () => {
-  it("renders the component", () => {
-    // render(<Main />);
+describe("Main Snapshot Test", () => {
+  it("passes the snapshot test", () => {
+    const { container } = render(<Main />);
+
+    expect(pretty(container.innerHTML)).toMatchSnapshot();
   });
 });
