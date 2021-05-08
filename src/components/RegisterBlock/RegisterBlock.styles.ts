@@ -33,6 +33,10 @@ const useStyles = makeStyles((theme) => ({
   },
   inputs: {
     color: theme.palette.secondary.main,
+    ":-webkit-autofill": {
+      WebkitBoxShadow: "0 0 0 1000px white inset",
+      backgroundColor: "red !important",
+    },
   },
   inputOutlined: {
     borderColor: theme.palette.secondary.main,
@@ -41,6 +45,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   inputRoot: {
+    ":-webkit-autofill": {
+      WebkitBoxShadow: "0 0 0 1000px white inset",
+      backgroundColor: "red !important",
+    },
     "&$inputFocused $inputOutlined": {
       borderColor: theme.palette.secondary.main,
     },
