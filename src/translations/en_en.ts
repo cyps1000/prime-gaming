@@ -15,6 +15,11 @@ const en_en: LanguageResource = {
   privacyPolicy: "Privacy policy",
   cookiePolicy: "Cookie Policy",
   contactUs: "Contact us",
+  fName: "First Name",
+  lName: "Last Name",
+  email: "Email Address",
+  password: "Password",
+  emailUpdates: "I want to receive updates via email.",
 };
 
 export { en_en };

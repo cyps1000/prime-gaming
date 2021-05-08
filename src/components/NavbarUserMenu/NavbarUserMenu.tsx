@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 /**
  * Modules Imports
  */
@@ -14,10 +16,17 @@ import Button from "@material-ui/core/Button";
  */
 import { useStyles } from "./NavbarUserMenu.styles";
 
+interface NavbarUserMenuProps {
+  openSignUpModal: () => void;
+  openSignInModal: () => void;
+}
+
 /**
  * Displays the component
  */
-const NavbarUserMenu: React.FC = (props) => {
+const NavbarUserMenu: React.FC<NavbarUserMenuProps> = (props) => {
+  const { openSignUpModal, openSignInModal } = props;
+
   /**
    * Handles the translations
    */
@@ -54,8 +63,8 @@ const NavbarUserMenu: React.FC = (props) => {
       <Button onClick={goToNews}>{t("news")}</Button>
       <Button onClick={goToAbout}>{t("about")}</Button>
       <Button onClick={goToContact}>{t("contact")}</Button>
-      <Button>{t("signIn")}</Button>
-      <Button>{t("signUp")}</Button>
+      <Button onClick={openSignInModal}>{t("signIn")}</Button>
+      <Button onClick={openSignUpModal}>{t("signUp")}</Button>
     </div>
   );
 };

@@ -21,13 +21,15 @@ import { useStyles } from "./NavbarUserMenuMobile.styles";
  */
 export interface NavbarUserMenuMobileProps {
   close: () => void;
+  openSignUpModal: () => void;
+  openSignInModal: () => void;
 }
 
 /**
  * Displays the component
  */
 const NavbarUserMenuMobile: React.FC<NavbarUserMenuMobileProps> = (props) => {
-  const { close } = props;
+  const { close, openSignUpModal, openSignInModal } = props;
 
   /**
    * Handles the translations
@@ -60,6 +62,16 @@ const NavbarUserMenuMobile: React.FC<NavbarUserMenuMobileProps> = (props) => {
   const goToAbout = () => routeTo("/about");
   const goToContact = () => routeTo("/contact");
 
+  const openRegisterModal = () => {
+    openSignUpModal();
+    close();
+  };
+
+  const closeLoginModal = () => {
+    openSignInModal();
+    close();
+  };
+
   return (
     <List className={classes.listItem}>
       <ListItem button onClick={goToHome}>
@@ -74,10 +86,10 @@ const NavbarUserMenuMobile: React.FC<NavbarUserMenuMobileProps> = (props) => {
       <ListItem button onClick={goToContact}>
         <ListItemText primary={t("contact")} />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={closeLoginModal}>
         <ListItemText primary={t("signIn")} />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={openRegisterModal}>
         <ListItemText primary={t("signUp")} />
       </ListItem>
     </List>

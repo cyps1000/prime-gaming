@@ -7,24 +7,20 @@ import { Story, Meta } from "@storybook/react";
 /**
  * Component Imports
  */
-import NavbarUserMenu from "./NavbarUserMenu";
+import RegisterBlock, { RegisterBlockProps } from "./RegisterBlock";
 
 export default {
-  title: "Components/NavbarUserMenu",
-  component: NavbarUserMenu,
+  title: "Components/RegisterBlock",
+  component: RegisterBlock,
 } as Meta;
 
 /**
  * Defines the Template
- * @param args NavbarUserMenuProps
+ * @param args RegisterBlockProps
  * @returns
  */
-const Template: Story = (args) => (
-  <NavbarUserMenu
-    openSignUpModal={() => {}}
-    openSignInModal={() => {}}
-    {...args}
-  />
+const Template: Story<RegisterBlockProps> = (args) => (
+  <RegisterBlock {...args} />
 );
 
 /**
