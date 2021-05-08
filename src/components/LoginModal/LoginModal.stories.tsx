@@ -7,21 +7,19 @@ import { Story, Meta } from "@storybook/react";
 /**
  * Component Imports
  */
-import LoginBlock, { LoginBlockProps } from "./LoginBlock";
+import LoginModal, { LoginModalProps } from "./LoginModal";
 
 export default {
-  title: "Components/LoginBlock",
-  component: LoginBlock,
+  title: "Components/LoginModal",
+  component: LoginModal,
 } as Meta;
 
 /**
  * Defines the Template
- * @param args LoginBlockProps
+ * @param args LoginModalProps
  * @returns
  */
-const Template: Story<LoginBlockProps> = (args) => (
-  <LoginBlock {...args} />
-);
+const Template: Story<LoginModalProps> = (args) => <LoginModal {...args} />;
 
 /**
  * Default case

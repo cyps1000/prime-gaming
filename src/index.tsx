@@ -11,11 +11,6 @@ import App from "./App";
 import "./i18n";
 
 /**
- * Normalize all css
- */
-import "normalize.css";
-
-/**
  * Imports Mock API server
  */
 import { makeServer } from "./mock/server";

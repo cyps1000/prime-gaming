@@ -41,6 +41,7 @@ const FooterSocials: React.FC<FooterSocialsProps> = (props) => {
   const componentClasses = clsx(classes.icon, {
     [className]: className,
   });
+
   return (
     <div className={classes.root}>
       <IconButton>
