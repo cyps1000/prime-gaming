@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 /**
  * Imports i18n
@@ -17,6 +17,14 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import InputPassword from "../InputPassword";
+import InputText from "../InputText";
+import InputLabel from "../InputLabel";
+
+/**
+ * Imports Hooks
+ */
+import { useForm, FormConfig } from "../../hooks";
 
 /**
  * Font Awesome Imports
@@ -29,6 +37,7 @@ import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
  * Imports the component styles
  */
 import { useStyles } from "./LoginBlock.styles";
+import { faLessThanEqual } from "@fortawesome/free-solid-svg-icons";
 
 /**
  * Defines the props interface
@@ -36,6 +45,14 @@ import { useStyles } from "./LoginBlock.styles";
 export interface LoginBlockProps {
   text?: string;
   onClose: () => void;
+}
+
+/**
+ * Defines the form inputs interface
+ */
+interface FormInputs {
+  email: string;
+  password: string;
 }
 
 /**
@@ -55,54 +72,42 @@ const LoginBlock: React.FC<LoginBlockProps> = (props) => {
   const classes = useStyles();
 
   /**
-   * Initializes the Form state
+   * Handles submitting the form
    */
-  const [inputs, setInputs] = useState({
-    email: "",
-    password: "",
-  });
+  const handleSubmit = (inputs: FormInputs) => {
+    console.log(inputs);
+  };
 
+  /**
+   * Defines the form config
+   */
+  const formConfig: FormConfig<FormInputs> = {
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    autoFocus: true,
+    submitFn: handleSubmit,
+  };
+
+  const {
+    inputs,
+    inputsReady,
+    getAutoFocus,
+    setErrors,
+    submit,
+    handleInputChange,
+  } = useForm<FormInputs>(formConfig);
+
+  /**
+   * Gets the inputs and errors
+   */
   const { email, password } = inputs;
 
   /**
-   *
+   * Gets the autoFocus object
    */
-  const textFieldProps = {
-    inputProps: {
-      className: classes.inputs,
-    },
-    InputProps: {
-      classes: {
-        root: classes.inputRoot,
-        focused: classes.inputFocused,
-        notchedOutline: classes.inputOutlined,
-      },
-    },
-    InputLabelProps: {
-      classes: {
-        root: classes.rootLabel,
-      },
-    },
-  };
-
-  const handleChange = (
-    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    const value = event.target.value;
-    const name = event.target.name;
-    setInputs((prevState) => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
-    });
-  };
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(inputs);
-    onClose();
-  };
+  const autoFocus = inputsReady && getAutoFocus();
 
   return (
     <Grid container>
@@ -114,35 +119,36 @@ const LoginBlock: React.FC<LoginBlockProps> = (props) => {
           <Typography component="h1" variant="h5">
             Sign In
           </Typography>
-          <form className={classes.form} noValidate onSubmit={handleSubmit}>
+          <form className={classes.form} noValidate onSubmit={submit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
+                <InputLabel htmlFor="email" text="Email" />
+                <InputText
                   required
-                  fullWidth
-                  id="email"
-                  label={t("email")}
                   name="email"
                   value={email}
-                  onChange={handleChange}
-                  autoComplete="email"
-                  {...textFieldProps}
+                  min={4}
+                  validate={["isEmail"]}
+                  onChange={handleInputChange}
+                  debounce={inputsReady}
+                  onError={setErrors}
+                  autoFocus={autoFocus}
+                  validateOnChange
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
+                <InputLabel htmlFor="password" text="Password" />
+                <InputPassword
                   required
-                  fullWidth
                   name="password"
-                  label={t("password")}
-                  type="password"
-                  id="password"
                   value={password}
-                  onChange={handleChange}
-                  autoComplete="current-password"
-                  {...textFieldProps}
+                  onChange={handleInputChange}
+                  debounce={inputsReady}
+                  onError={setErrors}
+                  autoFocus={autoFocus}
+                  validateOnChange
+                  validate={["hasToMatch"]}
+                  hasToMatch={email}
                 />
               </Grid>
               <Grid item xs={12}>

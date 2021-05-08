@@ -19,7 +19,15 @@ const en_en: LanguageResource = {
   lName: "Last Name",
   email: "Email Address",
   password: "Password",
+  "the password": "The PW",
+  characters: "characters",
   emailUpdates: "I want to receive updates via email.",
+  errorIsRequired: "This field is required",
+  errorMinLength: "Must be at least {{min}} characters.",
+  errorNotEqual: "The field must match {{field}}",
+  errorNewPasswordNotMatched: "The passwords don't match",
+  errorInvalidEmail: "Please provide a valid email",
+  errorPasswordMinLength: "Password must be at least ",
 };
 
 export { en_en };
