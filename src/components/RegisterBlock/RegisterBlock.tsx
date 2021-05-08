@@ -102,8 +102,7 @@ const RegisterBlock: React.FC<RegisterBlockProps> = (props) => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
+    <Grid container>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -202,7 +201,7 @@ const RegisterBlock: React.FC<RegisterBlockProps> = (props) => {
           </Grid>
         </Grid>
       </div>
-    </Container>
+    </Grid>
   );
 };
 

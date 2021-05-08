@@ -36,6 +36,8 @@ import NavbarMobileFooter from "../NavbarMobileFooter";
 import FooterSocials from "../FooterSocials";
 import RegisterBlock from "../RegisterBlock";
 import LoginBlock from "../LoginBlock";
+import Modal from "../Modal";
+import ModalContent from "../ModalContent";
 
 /**
  * Imports the component styles
@@ -203,25 +205,33 @@ const Navbar: React.FC = () => {
           />
         </Toolbar>
       </AppBar>
-      <Dialog
+      <Modal
+        scroll="paper"
+        maxWidth="sm"
         open={modals.signUpModal}
         onClose={closeModal}
         classes={{
           paper: classes.modal,
         }}
       >
-        <RegisterBlock onClose={closeModal} />
-      </Dialog>
+        <ModalContent>
+          <RegisterBlock onClose={closeModal} />
+        </ModalContent>
+      </Modal>
 
-      <Dialog
+      <Modal
         open={modals.signInModal}
+        scroll="paper"
+        maxWidth="sm"
         onClose={closeModal}
         classes={{
           paper: classes.modal,
         }}
       >
-        <LoginBlock onClose={closeModal} />
-      </Dialog>
+        <ModalContent>
+          <LoginBlock onClose={closeModal} />
+        </ModalContent>
+      </Modal>
     </div>
   );
 };

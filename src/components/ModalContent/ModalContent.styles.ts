@@ -9,10 +9,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
  */
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    padding: 0,
-    "&:first-child": {
-      paddingTop: 0,
-    },
+    padding: 20,
   },
 }));
 

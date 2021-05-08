@@ -9,14 +9,10 @@ import { makeStyles } from "@material-ui/core/styles";
  */
 const useStyles = makeStyles((theme) => ({
   paperWidthSm: {
-    maxWidth: 700,
+    maxWidth: 500,
   },
-  paperWidthMd: {
-    maxWidth: 800,
-  },
-  paperWidthXl: {
-    maxWidth: 1500,
-  },
+  paperWidthMd: {},
+  paperWidthXl: {},
 }));
 
 export { useStyles };

@@ -37,7 +37,7 @@ interface TitleProps {
  */
 export interface ModalTitleProps {
   title: TitleProps["title"];
-  classes: {
+  classes?: {
     root?: TitleProps["className"];
     container?: TitleProps["className"];
     title?: TitleProps["className"];
@@ -102,35 +102,35 @@ const ModalTitle: React.FC<ModalTitleProps> = (props) => {
    * Defines the root classes
    */
   const rootClasses = clsx(_classes.dialogTitle, {
-    [classes.root]: !!classes.root,
+    [classes!.root]: !!classes!.root,
   });
 
   /**
    * Defines the container classes
    */
   const containerClasses = clsx(_classes.container, {
-    [classes.container]: !!classes.container,
+    [classes!.container]: !!classes!.container,
   });
 
   /**
    * Defines the title classes
    */
   const titleClasses = clsx(_classes.title, {
-    [classes.title]: !!classes.title,
+    [classes!.title]: !!classes!.title,
   });
 
   /**
    * Defines the icon container classes
    */
   const iconContainerClasses = clsx(_classes.iconContainer, {
-    [classes.iconContainer]: !!classes.iconContainer,
+    [classes!.iconContainer]: !!classes!.iconContainer,
   });
 
   /**
    * Defines the icon classes
    */
   const iconClasses = clsx(_classes.icon, {
-    [classes.icon]: !!classes.icon,
+    [classes!.icon]: !!classes!.icon,
   });
 
   return (
