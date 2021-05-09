@@ -5,6 +5,8 @@ import { LanguageResource } from "./index";
  */
 const en_en: LanguageResource = {
   signIn: "Sign In",
+  signInGoogle: "Sign In with Google",
+  signInFacebook: "Sign In with Facebook",
   signUp: "Sign Up",
   searchNav: "Search...",
   home: "Home",
@@ -15,11 +17,12 @@ const en_en: LanguageResource = {
   privacyPolicy: "Privacy policy",
   cookiePolicy: "Cookie Policy",
   contactUs: "Contact us",
-  fName: "First Name",
-  lName: "Last Name",
+  firstName: "First Name",
+  lastName: "Last Name",
   email: "Email Address",
   password: "Password",
-  "the password": "The PW",
+  passwordForgot: "Forgot your password?",
+  thePassword: "The PW",
   characters: "characters",
   emailUpdates: "I want to receive updates via email.",
   errorIsRequired: "This field is required",
@@ -28,6 +31,9 @@ const en_en: LanguageResource = {
   errorNewPasswordNotMatched: "The passwords don't match",
   errorInvalidEmail: "Please provide a valid email",
   errorPasswordMinLength: "Password must be at least ",
+  keepSignedIn: "Keep me signed in.",
+  signInAlternative: "Or",
+  alreadyHaveAnAccount: "Already have an account? Sign in",
 };
 
 export { en_en };

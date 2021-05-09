@@ -21,6 +21,10 @@ export interface LanguageSwitcherProps {
   roFlagUrl?: string;
 }
 
+/**
+ * Defines the default props for
+ * the component
+ */
 const defaultProps: LanguageSwitcherProps = {
   ukFlagUrl:
     "https://www.countryflags.com/wp-content/uploads/united-kingdom-flag-png-large.png",

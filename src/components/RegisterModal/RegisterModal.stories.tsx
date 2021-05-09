@@ -7,20 +7,20 @@ import { Story, Meta } from "@storybook/react";
 /**
  * Component Imports
  */
-import RegisterBlock, { RegisterBlockProps } from "./RegisterBlock";
+import RegisterModal, { RegisterModalProps } from "./RegisterModal";
 
 export default {
-  title: "Components/RegisterBlock",
-  component: RegisterBlock,
+  title: "Components/RegisterModal",
+  component: RegisterModal,
 } as Meta;
 
 /**
  * Defines the Template
- * @param args RegisterBlockProps
+ * @param args RegisterModalProps
  * @returns
  */
-const Template: Story<RegisterBlockProps> = (args) => (
-  <RegisterBlock {...args} />
+const Template: Story<RegisterModalProps> = (args) => (
+  <RegisterModal {...args} />
 );
 
 /**

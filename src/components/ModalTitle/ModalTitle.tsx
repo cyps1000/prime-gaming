@@ -28,7 +28,7 @@ import { useStyles } from "./ModalTitle.styles";
  * Defines the Title props interface
  */
 interface TitleProps {
-  title: string | ReactNode;
+  title?: string | ReactNode;
   className: string | number | symbol | any;
 }
 
@@ -36,7 +36,7 @@ interface TitleProps {
  * Defines the props interface
  */
 export interface ModalTitleProps {
-  title: TitleProps["title"];
+  title?: TitleProps["title"];
   classes?: {
     root?: TitleProps["className"];
     container?: TitleProps["className"];
@@ -70,6 +70,8 @@ const defaultProps: ModalTitleProps = {
  */
 const Title: React.FC<TitleProps> = (props) => {
   const { title, className } = props;
+
+  if (!title) return null;
 
   if (typeof title === "string") {
     return (

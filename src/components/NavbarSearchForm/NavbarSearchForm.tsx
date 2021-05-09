@@ -26,6 +26,9 @@ export interface NavbarSearchFormProps {
   withExpandAnimation?: boolean;
 }
 
+/**
+ * Handles the default props of the component
+ */
 const defaultProps: NavbarSearchFormProps = {
   withExpandAnimation: true,
 };

@@ -5,24 +5,31 @@
 import { render } from "@testing-library/react";
 
 /**
+ * External Imports
+ */
+import pretty from "pretty";
+
+/**
  * Imports component
  */
 import Banner from "./Banner";
 
 /**
- * Mocking the useTranslation hook
- * @see https://github.com/i18next/react-i18next/issues/876
- *
- */
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
-
-/**
  * Default test
  */
-describe("Banner", () => {
-  it("renders the component", () => {
-    // render(<Banner />);
+describe("Banner Rendering Tests", () => {
+  it("Renders the component without errors", () => {
+    render(<Banner />);
+  });
+});
+
+/**
+ * Banner snapshot test
+ */
+describe("Banner Snapshot Test", () => {
+  it("Passes the snapshot test", () => {
+    const { container } = render(<Banner />);
+
+    expect(pretty(container.innerHTML)).toMatchSnapshot();
   });
 });
