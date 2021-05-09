@@ -1,12 +1,4 @@
-/**
- * Modules Imports
- */
 import React, { useState } from "react";
-
-/**
- * Imports i18n
- */
-import { useTranslation } from "react-i18next";
 
 /**
  * Imports Material UI Components
@@ -20,7 +12,6 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import Typography from "@material-ui/core/Typography";
-import Dialog from "@material-ui/core/Dialog";
 
 /**
  * Components Imports
@@ -34,32 +25,57 @@ import NavbarMenu from "../NavbarMenu";
 import NavbarUserMenuMobile from "../NavbarUserMenuMobile";
 import NavbarMobileFooter from "../NavbarMobileFooter";
 import FooterSocials from "../FooterSocials";
-import RegisterBlock from "../RegisterBlock";
-import LoginBlock from "../LoginBlock";
+import RegisterModal from "../RegisterModal";
+import LoginModal from "../LoginModal";
+import ModalTitle from "../ModalTitle";
 
 /**
  * Imports the component styles
  */
 import { useStyles } from "./Navbar.styles";
 
+/**
+ * Defines the Modals' State interface
+ */
 interface ModalState {
   signUpModal: boolean;
   signInModal: boolean;
 }
 
 /**
+ * Defines the props interface
+ */
+export interface NavbarProps {
+  copyrightText?: string;
+}
+
+/**
+ * Defines the default props
+ */
+const defaultProps: NavbarProps = {
+  copyrightText: "© 2021 Prime Gaming",
+};
+
+/**
  * Displays the component
  */
-const Navbar: React.FC = () => {
-  const theme = useTheme();
-
-  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+const Navbar: React.FC<NavbarProps> = (props) => {
+  const { copyrightText } = props;
 
   /**
-   * Handles the translations
+   * Initializes the useTheme hook
    */
-  const { t } = useTranslation();
+  const theme = useTheme();
+
+  /**
+   * Handles the tablet view
+   */
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+
+  /**
+   * Handles the mobile view
+   */
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
   /**
    * Gets the component styles
@@ -79,9 +95,11 @@ const Navbar: React.FC = () => {
     signInModal: false,
   } as ModalState);
 
+  /**
+   * Handles opening the modal
+   */
   const openModal = (modalType: string) => {
     setModals((prevState) => {
-      console.log("Previous State", prevState);
       return { ...prevState, [modalType]: true };
     });
   };
@@ -112,6 +130,9 @@ const Navbar: React.FC = () => {
    */
   const closeDrawer = () => setOpen(false);
 
+  /**
+   * Handles the mobile/tablet view
+   */
   if (isMobile || isTablet) {
     return (
       <div className={classes.root} data-testid="navbar-mobile">
@@ -160,29 +181,28 @@ const Navbar: React.FC = () => {
             <FooterSocials className={classes.menuIcon} />
             <Divider />
             <Typography className={classes.copyright}>
-              © 2021 Prime Gaming
+              {copyrightText}
             </Typography>
           </div>
         </Drawer>
-        <Dialog
-          open={modals.signUpModal}
-          onClose={closeModal}
-          classes={{
-            paper: classes.modal,
-          }}
-        >
-          <RegisterBlock onClose={closeModal} />
-        </Dialog>
-
-        <Dialog
-          open={modals.signInModal}
-          onClose={closeModal}
-          classes={{
-            paper: classes.modal,
-          }}
-        >
-          <LoginBlock onClose={closeModal} />
-        </Dialog>
+        <RegisterModal onClose={closeModal} open={modals.signUpModal}>
+          <ModalTitle
+            onClick={closeModal}
+            classes={{
+              container: classes.titleContainer,
+              icon: classes.modalIcon,
+            }}
+          />
+        </RegisterModal>
+        <LoginModal onClose={closeModal} open={modals.signInModal}>
+          <ModalTitle
+            onClick={closeModal}
+            classes={{
+              container: classes.titleContainer,
+              icon: classes.modalIcon,
+            }}
+          />
+        </LoginModal>
       </div>
     );
   }
@@ -203,27 +223,11 @@ const Navbar: React.FC = () => {
           />
         </Toolbar>
       </AppBar>
-      <Dialog
-        open={modals.signUpModal}
-        onClose={closeModal}
-        classes={{
-          paper: classes.modal,
-        }}
-      >
-        <RegisterBlock onClose={closeModal} />
-      </Dialog>
-
-      <Dialog
-        open={modals.signInModal}
-        onClose={closeModal}
-        classes={{
-          paper: classes.modal,
-        }}
-      >
-        <LoginBlock onClose={closeModal} />
-      </Dialog>
+      <RegisterModal onClose={closeModal} open={modals.signUpModal} />
+      <LoginModal onClose={closeModal} open={modals.signInModal} />
     </div>
   );
 };
 
+Navbar.defaultProps = defaultProps;
 export default Navbar;

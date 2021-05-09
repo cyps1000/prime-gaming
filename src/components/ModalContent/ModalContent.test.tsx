@@ -7,7 +7,7 @@ import { render } from "@testing-library/react";
 /**
  * Imports component
  */
-import LoginBlock from "./LoginBlock";
+import ModalContent from "./ModalContent";
 
 /**
  * Mocking the useTranslation hook
@@ -21,8 +21,8 @@ jest.mock("react-i18next", () => ({
 /**
  * Default test
  */
-describe("LoginBlock", () => {
+describe("ModalContent", () => {
   it("renders the component", () => {
-    // render(<LoginBlock />);
+    // render(<ModalContent />);
   });
 });

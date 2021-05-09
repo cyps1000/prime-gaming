@@ -1,8 +1,8 @@
+import { useHistory } from "react-router-dom";
 /**
- * Modules Imports
+ * Imports i18n
  */
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router-dom";
 
 /**
  * Imports Material UI Components
@@ -62,11 +62,19 @@ const NavbarUserMenuMobile: React.FC<NavbarUserMenuMobileProps> = (props) => {
   const goToAbout = () => routeTo("/about");
   const goToContact = () => routeTo("/contact");
 
+  /**
+   * Handles opening the Register modal
+   * while closing the drawer
+   */
   const openRegisterModal = () => {
     openSignUpModal();
     close();
   };
 
+  /**
+   * Handles opening the Login modal
+   * while closing the drawer
+   */
   const closeLoginModal = () => {
     openSignInModal();
     close();

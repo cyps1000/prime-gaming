@@ -5,24 +5,31 @@
 import { render } from "@testing-library/react";
 
 /**
+ * External Imports
+ */
+import pretty from "pretty";
+
+/**
  * Imports component
  */
 import LandingPage from "./LandingPage";
 
 /**
- * Mocking the useTranslation hook
- * @see https://github.com/i18next/react-i18next/issues/876
- *
- */
-jest.mock("react-i18next", () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
-
-/**
  * Default test
  */
-describe("LandingPage", () => {
-  it("renders the component", () => {
-    // render(<LandingPage />);
+describe("LandingPage Rendering Tests", () => {
+  it("Renders the component without errors", () => {
+    render(<LandingPage />);
+  });
+});
+
+/**
+ * LandingPage snapshot test
+ */
+describe("LandingPage Snapshot Test", () => {
+  it("Passes the snapshot test", () => {
+    const { container } = render(<LandingPage />);
+
+    expect(pretty(container.innerHTML)).toMatchSnapshot();
   });
 });

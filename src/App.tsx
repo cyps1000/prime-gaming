@@ -1,3 +1,5 @@
+import { Fragment } from "react";
+
 /**
  * Component Imports
  */
@@ -8,7 +10,7 @@ import { ThemeProvider, LanguageProvider } from "./hooks";
 /**
  * Normalizes all css for maximum browser compatibility
  */
-import "normalize.css";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 /**
  * Imports some app specific css
@@ -20,13 +22,16 @@ import "./App.css";
  */
 const App: React.FC = () => {
   return (
-    <ThemeProvider>
-      <LanguageProvider>
-        <Providers>
-          <Routes />
-        </Providers>
-      </LanguageProvider>
-    </ThemeProvider>
+    <Fragment>
+      <CssBaseline />
+      <ThemeProvider>
+        <LanguageProvider>
+          <Providers>
+            <Routes />
+          </Providers>
+        </LanguageProvider>
+      </ThemeProvider>
+    </Fragment>
   );
 };
 
