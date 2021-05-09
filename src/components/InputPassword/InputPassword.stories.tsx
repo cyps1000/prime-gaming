@@ -7,19 +7,21 @@ import { Story, Meta } from "@storybook/react";
 /**
  * Component Imports
  */
-import Banner from "./Banner";
+import InputPassword, { InputPasswordProps } from "./InputPassword";
 
 export default {
-  title: "Components/Banner",
-  component: Banner,
+  title: "Components/InputPassword",
+  component: InputPassword,
 } as Meta;
 
 /**
  * Defines the Template
- * @param args BannerProps
+ * @param args InputPasswordProps
  * @returns
  */
-const Template: Story = (args) => <Banner {...args} />;
+const Template: Story<InputPasswordProps> = (args) => (
+  <InputPassword {...args} />
+);
 
 /**
  * Default case

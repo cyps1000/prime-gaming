@@ -28,7 +28,7 @@ import { useStyles } from "./ModalTitle.styles";
  * Defines the Title props interface
  */
 interface TitleProps {
-  title: string | ReactNode;
+  title?: string | ReactNode;
   className: string | number | symbol | any;
 }
 
@@ -36,8 +36,8 @@ interface TitleProps {
  * Defines the props interface
  */
 export interface ModalTitleProps {
-  title: TitleProps["title"];
-  classes: {
+  title?: TitleProps["title"];
+  classes?: {
     root?: TitleProps["className"];
     container?: TitleProps["className"];
     title?: TitleProps["className"];
@@ -71,6 +71,8 @@ const defaultProps: ModalTitleProps = {
 const Title: React.FC<TitleProps> = (props) => {
   const { title, className } = props;
 
+  if (!title) return null;
+
   if (typeof title === "string") {
     return (
       <Typography variant="h3" className={className}>
@@ -102,35 +104,35 @@ const ModalTitle: React.FC<ModalTitleProps> = (props) => {
    * Defines the root classes
    */
   const rootClasses = clsx(_classes.dialogTitle, {
-    [classes.root]: !!classes.root,
+    [classes!.root]: !!classes!.root,
   });
 
   /**
    * Defines the container classes
    */
   const containerClasses = clsx(_classes.container, {
-    [classes.container]: !!classes.container,
+    [classes!.container]: !!classes!.container,
   });
 
   /**
    * Defines the title classes
    */
   const titleClasses = clsx(_classes.title, {
-    [classes.title]: !!classes.title,
+    [classes!.title]: !!classes!.title,
   });
 
   /**
    * Defines the icon container classes
    */
   const iconContainerClasses = clsx(_classes.iconContainer, {
-    [classes.iconContainer]: !!classes.iconContainer,
+    [classes!.iconContainer]: !!classes!.iconContainer,
   });
 
   /**
    * Defines the icon classes
    */
   const iconClasses = clsx(_classes.icon, {
-    [classes.icon]: !!classes.icon,
+    [classes!.icon]: !!classes!.icon,
   });
 
   return (

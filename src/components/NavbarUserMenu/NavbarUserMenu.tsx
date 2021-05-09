@@ -1,10 +1,8 @@
-import { useState } from "react";
-
+import { useHistory } from "react-router-dom";
 /**
- * Modules Imports
+ * Imports i18n
  */
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router-dom";
 
 /**
  * Imports Material UI Components
@@ -16,6 +14,9 @@ import Button from "@material-ui/core/Button";
  */
 import { useStyles } from "./NavbarUserMenu.styles";
 
+/**
+ * Defines the props interface
+ */
 interface NavbarUserMenuProps {
   openSignUpModal: () => void;
   openSignInModal: () => void;

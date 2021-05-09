@@ -105,7 +105,6 @@ const Modal: React.FC<ModalProps> = (props) => {
       TransitionProps={{ timeout: 400 }}
       onClose={onClose}
       hideBackdrop={hideBackdrop}
-      disableBackdropClick={true}
     >
       {children}
     </Dialog>
