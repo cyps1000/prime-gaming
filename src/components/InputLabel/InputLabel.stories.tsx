@@ -7,21 +7,19 @@ import { Story, Meta } from "@storybook/react";
 /**
  * Component Imports
  */
-import LoginBlock, { LoginBlockProps } from "./LoginBlock";
+import InputLabel, { InputLabelProps } from "./InputLabel";
 
 export default {
-  title: "Components/LoginBlock",
-  component: LoginBlock,
+  title: "Components/InputLabel",
+  component: InputLabel,
 } as Meta;
 
 /**
  * Defines the Template
- * @param args LoginBlockProps
+ * @param args InputLabelProps
  * @returns
  */
-const Template: Story<LoginBlockProps> = (args) => (
-  <LoginBlock {...args} />
-);
+const Template: Story<InputLabelProps> = (args) => <InputLabel {...args} />;
 
 /**
  * Default case

@@ -40,7 +40,7 @@ const NavbarMobileFooter: React.FC<NavbarMobileFooterProps> = (props) => {
 
   /**
    * Handles closing the drawer when
-   * and item is clicked.
+   * an item is clicked.
    */
   const closeDrawer = () => {
     close();
