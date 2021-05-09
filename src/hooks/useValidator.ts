@@ -44,8 +44,9 @@ const useValidator = (props: UseValidatorProps) => {
 
   /**
    * Gets the utility function
+   * ( temporarily remove of hasUppercase )
    */
-  const { isEmpty, isEmail } = useUtils();
+  const { isEmpty, isEmail, isSecurePassword } = useUtils();
 
   /**
    * Checks if the input has a certain length
@@ -133,6 +134,11 @@ const useValidator = (props: UseValidatorProps) => {
           case "isEmail":
             if (value && !isEmail(value))
               return (error = t("errorInvalidEmail"));
+            return error;
+          case "strongPassword":
+            if (value && !isSecurePassword(value)) {
+              return (error = t("errorWeakPassword"));
+            }
             return error;
           case "hasToMatch":
             return (error = handleMatchInput(value));
