@@ -43,14 +43,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   modal: {
     backgroundColor: theme.palette.primary.main,
   },
-  titleContainer: {
-    display: "flex",
-    justifyContent: "flex-end",
-    borderBottom: "none",
-  },
-  modalIcon: {
-    color: "#ee82ee",
-  },
 }));
 
 export { useStyles };

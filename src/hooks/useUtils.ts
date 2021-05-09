@@ -6,6 +6,7 @@ const hookSettings = {
   urlRegex: /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/,
   telNumberRegex: /[+-\d()\s]/,
   postalCodeRegex: /^[0-9a-zA-Z\s]*$/,
+  // strongPassword: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/,
   passwordRegex: {
     lowerCase: /[a-z]/,
     upperCase: /[A-Z]/,
@@ -115,7 +116,22 @@ const useUtils = () => {
    * Checks if the input is a secure password (weak version)
    */
   const isSecurePassword = (value: string) => {
-    if (!value.match(passwordRegex.lowerCase)) return false;
+    if (
+      value.match(passwordRegex.lowerCase) &&
+      value.match(passwordRegex.upperCase) &&
+      value.match(passwordRegex.number) &&
+      value.match(passwordRegex.special) &&
+      value.length > passwordRegex.minLength
+    ) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const hasUppercase = (value: string) => {
+    if (value.match(passwordRegex.upperCase)) return true;
+    return false;
   };
 
   /**
@@ -223,6 +239,7 @@ const useUtils = () => {
     isSecurePassword,
     isPostalCode,
     hasDigits,
+    hasUppercase,
   };
 };
 
