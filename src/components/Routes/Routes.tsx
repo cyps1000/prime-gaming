@@ -11,6 +11,7 @@ import Navbar from "../Navbar";
 import Body from "../Body";
 import Footer from "../Footer";
 import LandingPage from "../LandingPage";
+import DashboardNav from "../DashboardNav";
 
 /**
  *  Material UI Imports
@@ -36,8 +37,8 @@ const Routes: React.FC = () => {
       <Switch>
         <Route path="/dashboard">
           <Switch>
-            <Route exact path="/dashboard/main">
-              <h1>main</h1>
+            <Route exact path="/dashboard">
+              <DashboardNav />
             </Route>
             <Route exact path="/dashboard/login">
               <h1>login</h1>
