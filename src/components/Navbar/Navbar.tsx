@@ -185,23 +185,13 @@ const Navbar: React.FC<NavbarProps> = (props) => {
             </Typography>
           </div>
         </Drawer>
-        <RegisterModal onClose={closeModal} open={modals.signUpModal}>
-          <ModalTitle
-            onClick={closeModal}
-            classes={{
-              container: classes.titleContainer,
-              icon: classes.modalIcon,
-            }}
-          />
-        </RegisterModal>
+        <RegisterModal
+          onClose={closeModal}
+          open={modals.signUpModal}
+          isMobile
+        />
         <LoginModal onClose={closeModal} open={modals.signInModal}>
-          <ModalTitle
-            onClick={closeModal}
-            classes={{
-              container: classes.titleContainer,
-              icon: classes.modalIcon,
-            }}
-          />
+          <ModalTitle onClick={closeModal} />
         </LoginModal>
       </div>
     );

@@ -22,6 +22,7 @@ import Typography from "@material-ui/core/Typography";
  */
 import Modal from "../Modal";
 import ModalContent from "../ModalContent";
+import ModalTitle from "../ModalTitle";
 
 /**
  * Imports the component styles
@@ -35,13 +36,24 @@ export interface RegisterModalProps {
   text?: string;
   onClose: () => void;
   open: boolean;
+  isMobile?: boolean;
 }
+
+/**
+ * Defines the default props
+ */
+const defaultProps: RegisterModalProps = {
+  text: "",
+  onClose: () => {},
+  open: false,
+  isMobile: false,
+};
 
 /**
  * Displays the component
  */
 const RegisterModal: React.FC<RegisterModalProps> = (props) => {
-  const { onClose, open, children } = props;
+  const { onClose, open, isMobile } = props;
 
   /**
    * Handles the translations
@@ -123,7 +135,15 @@ const RegisterModal: React.FC<RegisterModalProps> = (props) => {
         paper: classes.modal,
       }}
     >
-      {children}
+      {isMobile && (
+        <ModalTitle
+          onClick={onClose}
+          classes={{
+            container: classes.titleContainer,
+            icon: classes.modalIcon,
+          }}
+        />
+      )}
       <ModalContent>
         <Grid container>
           <div className={classes.paper}>
@@ -230,4 +250,5 @@ const RegisterModal: React.FC<RegisterModalProps> = (props) => {
   );
 };
 
+RegisterModal.defaultProps = defaultProps;
 export default RegisterModal;

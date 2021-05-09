@@ -23,6 +23,9 @@ import Checkbox from "@material-ui/core/Checkbox";
  */
 import Modal from "../Modal";
 import ModalContent from "../ModalContent";
+import InputLabel from "../InputLabel";
+import InputPassword from "../InputPassword";
+import InputText from "../InputText";
 
 /**
  * Font Awesome Imports
@@ -30,6 +33,11 @@ import ModalContent from "../ModalContent";
  */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
+
+/**
+ * Imports hooks
+ */
+import { useForm, FormConfig } from "../../hooks";
 
 /**
  * Imports the component styles
@@ -43,6 +51,14 @@ export interface LoginModalProps {
   text?: string;
   onClose: () => void;
   open: boolean;
+}
+
+/**
+ * Defines the form inputs interface
+ */
+interface FormInputs {
+  email: string;
+  password: string;
 }
 
 /**
@@ -61,64 +77,39 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
    */
   const classes = useStyles();
 
+  const handleSubmit = (inputs: FormInputs) => {
+    console.log(inputs);
+  };
+
   /**
-   * Initializes the Form state
+   * Defines the useForm config
    */
-  const [inputs, setInputs] = useState({
-    email: "",
-    password: "",
-  });
+  const formConfig: FormConfig<FormInputs> = {
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    submitFn: handleSubmit,
+    autoFocus: true,
+  };
+
+  const {
+    inputs,
+    inputsReady,
+    getAutoFocus,
+    submit,
+    handleInputChange,
+  } = useForm(formConfig);
+
+  /**
+   * Gets the autoFocus object
+   */
+  const autoFocus = inputsReady && getAutoFocus();
 
   /**
    * Gets the input state
    */
   const { email, password } = inputs;
-
-  /**
-   * Handles the style props
-   */
-  const textFieldProps = {
-    inputProps: {
-      className: classes.inputs,
-    },
-    InputProps: {
-      classes: {
-        root: classes.inputRoot,
-        focused: classes.inputFocused,
-        notchedOutline: classes.inputOutlined,
-      },
-    },
-    InputLabelProps: {
-      classes: {
-        root: classes.rootLabel,
-      },
-    },
-  };
-
-  /**
-   * Handles the state of the inputs
-   */
-  const handleChange = (
-    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    const value = event.target.value;
-    const name = event.target.name;
-    setInputs((prevState) => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
-    });
-  };
-
-  /**
-   * Handles the action of submit button
-   */
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(inputs);
-    onClose();
-  };
 
   return (
     <Modal
@@ -141,35 +132,32 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
               <Typography component="h1" variant="h5">
                 {t("signIn")}
               </Typography>
-              <form className={classes.form} noValidate onSubmit={handleSubmit}>
+              <form className={classes.form} noValidate onSubmit={submit}>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="email"
-                      label={t("email")}
-                      name="email"
+                    <InputLabel text="Email" htmlFor="email" />
+                    <InputText
                       value={email}
-                      onChange={handleChange}
-                      autoComplete="email"
-                      {...textFieldProps}
+                      name="email"
+                      min={4}
+                      autoFocus={autoFocus}
+                      onChange={handleInputChange}
+                      debounce={inputsReady}
+                      validate={["isEmail"]}
+                      validateOnChange
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      name="password"
-                      label={t("password")}
-                      type="password"
-                      id="password"
+                    <InputLabel text="Password" htmlFor="password" />
+                    <InputPassword
                       value={password}
-                      onChange={handleChange}
-                      autoComplete="current-password"
-                      {...textFieldProps}
+                      name="password"
+                      min={6}
+                      validate={["strongPassword"]}
+                      autoFocus={autoFocus}
+                      onChange={handleInputChange}
+                      debounce={inputsReady}
+                      validateOnChange
                     />
                   </Grid>
                   <Grid item xs={12}>
