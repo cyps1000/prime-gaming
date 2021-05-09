@@ -6,7 +6,7 @@ const hookSettings = {
   urlRegex: /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/,
   telNumberRegex: /[+-\d()\s]/,
   postalCodeRegex: /^[0-9a-zA-Z\s]*$/,
-  strongPassword: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/,
+  // strongPassword: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/,
   passwordRegex: {
     lowerCase: /[a-z]/,
     upperCase: /[A-Z]/,
@@ -27,7 +27,6 @@ const useUtils = () => {
     urlRegex,
     telNumberRegex,
     passwordRegex,
-    strongPassword,
     postalCodeRegex,
   } = hookSettings;
 

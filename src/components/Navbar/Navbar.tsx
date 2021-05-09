@@ -27,7 +27,6 @@ import NavbarMobileFooter from "../NavbarMobileFooter";
 import FooterSocials from "../FooterSocials";
 import RegisterModal from "../RegisterModal";
 import LoginModal from "../LoginModal";
-import ModalTitle from "../ModalTitle";
 
 /**
  * Imports the component styles
@@ -190,9 +189,11 @@ const Navbar: React.FC<NavbarProps> = (props) => {
           open={modals.signUpModal}
           isMobile
         />
-        <LoginModal onClose={closeModal} open={modals.signInModal}>
-          <ModalTitle onClick={closeModal} />
-        </LoginModal>
+        <LoginModal
+          onClose={closeModal}
+          open={modals.signInModal}
+          isMobile
+        ></LoginModal>
       </div>
     );
   }

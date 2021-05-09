@@ -1,5 +1,3 @@
-import { ChangeEvent, FormEvent, useState } from "react";
-
 /**
  * Imports i18n
  */
@@ -11,7 +9,6 @@ import { useTranslation } from "react-i18next";
 import LockOpenOutlinedIcon from "@material-ui/icons/LockOpenOutlined";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -22,6 +19,7 @@ import Checkbox from "@material-ui/core/Checkbox";
  * Components Imports
  */
 import Modal from "../Modal";
+import ModalTitle from "../ModalTitle";
 import ModalContent from "../ModalContent";
 import InputLabel from "../InputLabel";
 import InputPassword from "../InputPassword";
@@ -51,6 +49,7 @@ export interface LoginModalProps {
   text?: string;
   onClose: () => void;
   open: boolean;
+  isMobile?: boolean;
 }
 
 /**
@@ -65,7 +64,7 @@ interface FormInputs {
  * Displays the component
  */
 const LoginModal: React.FC<LoginModalProps> = (props) => {
-  const { onClose, open, children } = props;
+  const { onClose, open, isMobile } = props;
 
   /**
    * Handles the translations
@@ -121,7 +120,15 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
         paper: classes.modal,
       }}
     >
-      {children}
+      {isMobile && (
+        <ModalTitle
+          onClick={onClose}
+          classes={{
+            container: classes.titleContainer,
+            icon: classes.modalIcon,
+          }}
+        />
+      )}
       <ModalContent>
         <Grid container>
           <Grid item xs={12}>
@@ -135,7 +142,7 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
               <form className={classes.form} noValidate onSubmit={submit}>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
-                    <InputLabel text="Email" htmlFor="email" />
+                    <InputLabel text={t("email")} htmlFor="email" />
                     <InputText
                       value={email}
                       name="email"
@@ -148,7 +155,7 @@ const LoginModal: React.FC<LoginModalProps> = (props) => {
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <InputLabel text="Password" htmlFor="password" />
+                    <InputLabel text={t("password")} htmlFor="password" />
                     <InputPassword
                       value={password}
                       name="password"

@@ -44,8 +44,9 @@ const useValidator = (props: UseValidatorProps) => {
 
   /**
    * Gets the utility function
+   * ( temporarily remove of hasUppercase )
    */
-  const { isEmpty, isEmail, isSecurePassword, hasUppercase } = useUtils();
+  const { isEmpty, isEmail, isSecurePassword } = useUtils();
 
   /**
    * Checks if the input has a certain length
