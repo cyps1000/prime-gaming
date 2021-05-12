@@ -100,6 +100,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
   },
+  activeTrue: {
+    backgroundColor: fade(theme.palette.secondary.main, 0.21),
+  },
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
@@ -117,6 +120,18 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "center",
     marginRight: "2rem",
     marginBottom: "0.5rem",
+  },
+  switcherColor: {
+    color: theme.palette.common.white,
+    "&.Mui-checked + .MuiSwitch-track": {
+      backgroundColor: "#737373",
+    },
+    "&.Mui-checked": {
+      color: theme.palette.common.white,
+    },
+  },
+  switcherTrack: {
+    backgroundColor: "#737373",
   },
 }));
 

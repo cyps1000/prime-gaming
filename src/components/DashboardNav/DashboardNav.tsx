@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+
+import {
+  useHistory,
+  useLocation,
+  useRouteMatch,
+  matchPath,
+} from "react-router-dom";
 
 /**
  * Material UI Imports
@@ -86,6 +92,20 @@ const DashboardNav: React.FC = (props) => {
   const goToOverview = () => routeTo("/dashboard/overview");
   const goToArticles = () => routeTo("/dashboard/articles");
 
+  /**
+   * Gets the location path
+   */
+  const location = useLocation();
+
+  /* Checks if the current path matches the path of the menu item
+   *
+   */
+  const checkPathMatch = (path: string): boolean => {
+    const result = matchPath(location.pathname, path);
+    return result ? (result.isExact ? true : false) : false;
+  };
+
+  console.log(checkPathMatch("/dashboard/articles"));
   return (
     <div className={classes.root}>
       <AppBar
@@ -135,17 +155,22 @@ const DashboardNav: React.FC = (props) => {
         </div>
         <Divider />
         <List className={classes.list}>
-          <ListItem>
+          <ListItem button>
             <ListItemIcon
               className={clsx(
                 classes.languageButton,
                 open && classes.languageButtonHidden
               )}
             >
-              <TranslateOutlinedIcon />
+              <TranslateOutlinedIcon onClick={handleDrawerOpen} />
             </ListItemIcon>
             <div className={classes.actions}>
-              <LanguageSwitcher />
+              <LanguageSwitcher
+                classes={{
+                  color: classes.switcherColor,
+                  track: classes.switcherTrack,
+                }}
+              />
             </div>
           </ListItem>
           <Divider />
@@ -167,7 +192,13 @@ const DashboardNav: React.FC = (props) => {
             </ListItemIcon>
             <ListItemText primary="Messages" />
           </ListItem>
-          <ListItem button onClick={goToArticles}>
+          <ListItem
+            button
+            onClick={goToArticles}
+            className={clsx({
+              [classes.activeTrue]: checkPathMatch("/dashboard/articles"),
+            })}
+          >
             <ListItemIcon>
               <DescriptionOutlinedIcon />
             </ListItemIcon>
@@ -198,7 +229,7 @@ const DashboardNav: React.FC = (props) => {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
+        <Container maxWidth="xl" className={classes.container}>
           <div>{children}</div>
         </Container>
       </main>
