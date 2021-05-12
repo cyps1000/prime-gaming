@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 /**
  * Material UI Imports
@@ -24,6 +25,13 @@ import PeopleAltOutlinedIcon from "@material-ui/icons/PeopleAltOutlined";
 import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined";
 import ReportProblemOutlinedIcon from "@material-ui/icons/ReportProblemOutlined";
 import PowerSettingsNewOutlinedIcon from "@material-ui/icons/PowerSettingsNewOutlined";
+import Container from "@material-ui/core/Container";
+import TranslateOutlinedIcon from "@material-ui/icons/TranslateOutlined";
+
+/**
+ * Component Imports
+ */
+import LanguageSwitcher from "../LanguageSwitcher";
 
 /**
  * Imports the component styles
@@ -33,7 +41,9 @@ import { useStyles } from "./DashboardNav.styles";
 /**
  * Displays the component
  */
-const DashboardNav: React.FC = () => {
+const DashboardNav: React.FC = (props) => {
+  const { children } = props;
+
   /**
    * Gets the component styles
    */
@@ -57,6 +67,24 @@ const DashboardNav: React.FC = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  /**
+   * Gets the history object
+   */
+  const history = useHistory();
+
+  /**
+   * Handles routing
+   */
+  const routeTo = (url: string) => {
+    history.push(url);
+  };
+
+  /**
+   * Defines the routing functions
+   */
+  const goToOverview = () => routeTo("/dashboard/overview");
+  const goToArticles = () => routeTo("/dashboard/articles");
 
   return (
     <div className={classes.root}>
@@ -107,7 +135,21 @@ const DashboardNav: React.FC = () => {
         </div>
         <Divider />
         <List className={classes.list}>
-          <ListItem button>
+          <ListItem>
+            <ListItemIcon
+              className={clsx(
+                classes.languageButton,
+                open && classes.languageButtonHidden
+              )}
+            >
+              <TranslateOutlinedIcon />
+            </ListItemIcon>
+            <div className={classes.actions}>
+              <LanguageSwitcher />
+            </div>
+          </ListItem>
+          <Divider />
+          <ListItem button onClick={goToOverview}>
             <ListItemIcon>
               <DashboardOutlinedIcon />
             </ListItemIcon>
@@ -125,7 +167,7 @@ const DashboardNav: React.FC = () => {
             </ListItemIcon>
             <ListItemText primary="Messages" />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={goToArticles}>
             <ListItemIcon>
               <DescriptionOutlinedIcon />
             </ListItemIcon>
@@ -154,6 +196,12 @@ const DashboardNav: React.FC = () => {
           </ListItem>
         </List>
       </Drawer>
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="lg" className={classes.container}>
+          <div>{children}</div>
+        </Container>
+      </main>
     </div>
   );
 };

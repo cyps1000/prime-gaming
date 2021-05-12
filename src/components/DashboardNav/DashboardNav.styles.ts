@@ -10,6 +10,7 @@ import { makeStyles, Theme, fade } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: "flex",
+    backgroundColor: "#121212",
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -43,6 +44,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.palette.secondary.main,
   },
   menuButtonHidden: {
+    display: "none",
+  },
+  languageButton: {},
+  languageButtonHidden: {
     display: "none",
   },
   title: {
@@ -79,12 +84,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: theme.spacing(7),
     },
   },
-  paper: {
-    padding: theme.spacing(2),
-    display: "flex",
-    overflow: "auto",
-    flexDirection: "column",
-  },
   fixedHeight: {
     height: 240,
   },
@@ -100,6 +99,24 @@ const useStyles = makeStyles((theme: Theme) => ({
         backgroundColor: fade(theme.palette.secondary.main, 0.21),
       },
     },
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    height: "100vh",
+    overflow: "auto",
+  },
+  container: {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
+  actions: {
+    display: "flex",
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+    marginRight: "2rem",
+    marginBottom: "0.5rem",
   },
 }));
 
