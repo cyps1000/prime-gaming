@@ -15,7 +15,7 @@ export const factories = {
     /**
      * Generates content
      */
-    content: () => faker.lorem.paragraph(2),
+    content: () => faker.lorem.paragraph(20),
 
     /**
      * Generates an author name

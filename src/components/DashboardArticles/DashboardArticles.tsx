@@ -102,12 +102,12 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
    *
    */
   const [modalData, setModalData] = useState({
-    articleTitle: "",
-    articleContent: "",
-    articleAuthor: "",
-    articleComments: "",
-    articleLikes: "",
-    articleShares: "",
+    title: "",
+    content: "",
+    author: "",
+    comments: "",
+    likes: "",
+    shares: "",
   });
 
   /**
@@ -142,12 +142,12 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
    */
   const closeModal = () => {
     setModalData({
-      articleTitle: "",
-      articleContent: "",
-      articleAuthor: "",
-      articleComments: "",
-      articleLikes: "",
-      articleShares: "",
+      title: "",
+      content: "",
+      author: "",
+      comments: "",
+      likes: "",
+      shares: "",
     });
     setModals({
       viewArticleModal: false,
@@ -176,7 +176,7 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
       <Typography gutterBottom={true} className={classes.articlesTitle}>
         Articles
       </Typography>
-      <DynamicTable
+      {/* <DynamicTable
         config={{
           fields: [
             {
@@ -201,8 +201,8 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
           orderBy: "age",
           order: "desc",
         }}
-      />
-      {/* <TableContainer component={Paper}>
+      /> */}
+      <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
@@ -219,12 +219,12 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
             {articles.map((row) => {
               const handleView = () =>
                 openViewArticleModal({
-                  articleTitle: row.title,
-                  articleContent: row.content,
-                  articleAuthor: row.author,
-                  articleComments: row.comments,
-                  articleLikes: row.likes,
-                  articleShares: row.shares,
+                  title: row.title,
+                  content: row.content,
+                  author: row.author,
+                  comments: row.comments,
+                  likes: row.likes,
+                  shares: row.shares,
                 });
               return (
                 <StyledTableRow key={row.id}>
@@ -259,7 +259,7 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
             })}
           </TableBody>
         </Table>
-      </TableContainer> */}
+      </TableContainer>
       <DashboardViewArticleModal
         {...modalData}
         onClose={closeModal}

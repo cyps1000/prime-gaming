@@ -4,6 +4,17 @@
 import { useTranslation } from "react-i18next";
 
 /**
+ * Imports Material UI Components
+ */
+import Divider from "@material-ui/core/Divider";
+import Typography from "@material-ui/core/Typography";
+import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
+import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
+import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined";
+import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
+import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
+
+/**
  * Components Imports
  */
 import Modal from "../Modal";
@@ -21,12 +32,12 @@ import { useStyles } from "./DashboardViewArticleModal.styles";
 export interface DashboardViewArticleModalProps {
   onClose: () => void;
   open: boolean;
-  articleTitle: string;
-  articleAuthor: string;
-  articleContent: string;
-  articleComments: string;
-  articleLikes: string;
-  articleShares: string;
+  title: string;
+  author: string;
+  content: string;
+  comments: string;
+  likes: string;
+  shares: string;
 }
 
 /**
@@ -38,12 +49,12 @@ const DashboardViewArticleModal: React.FC<DashboardViewArticleModalProps> = (
   const {
     onClose,
     open,
-    articleTitle,
-    articleContent,
-    articleAuthor,
-    articleComments,
-    articleLikes,
-    articleShares,
+    title,
+    content,
+    author,
+    comments,
+    likes,
+    shares,
   } = props;
 
   /**
@@ -57,15 +68,65 @@ const DashboardViewArticleModal: React.FC<DashboardViewArticleModalProps> = (
   const classes = useStyles();
 
   return (
-    <Modal open={open} onClose={onClose} scroll="paper">
-      <ModalTitle onClick={onClose} />
+    <Modal
+      open={open}
+      onClose={onClose}
+      scroll="paper"
+      classes={{
+        paper: classes.modal,
+      }}
+    >
+      <ModalTitle
+        onClick={onClose}
+        classes={{
+          container: classes.titleContainer,
+          icon: classes.modalIcon,
+        }}
+      />
       <ModalContent>
-        <h1>{articleTitle}</h1>
-        <h2>by {articleAuthor}</h2>
-        <h2>article shares: {articleShares}</h2>
-        <h2>article likes: {articleLikes}</h2>
-        <h2>article comments: {articleComments}</h2>
-        <p>{articleContent}</p>
+        <Typography className={classes.title} variant="h3" gutterBottom>
+          <DescriptionOutlinedIcon
+            fontSize="large"
+            className={classes.articleTitle}
+          />
+          {title}
+        </Typography>
+        <Divider className={classes.divider} />
+        <Typography className={classes.author} variant="h5" gutterBottom>
+          <CreateOutlinedIcon
+            fontSize="small"
+            color="secondary"
+            className={classes.writtenBy}
+          />
+          {`Written by ${author}`}
+        </Typography>
+        <Typography className={classes.content} variant="h6">
+          {content}
+        </Typography>
+        <Divider className={classes.divider} />
+        <div className={classes.socials}>
+          <Typography variant="h5">
+            <FavoriteBorderOutlinedIcon
+              fontSize="small"
+              className={classes.likeButton}
+            />
+            {`Likes: ${likes}`}
+          </Typography>
+          <Typography variant="h5">
+            <ShareOutlinedIcon
+              fontSize="small"
+              className={classes.shareButton}
+            />
+            {`Shares: ${shares}`}
+          </Typography>
+          <Typography variant="h5">
+            <CommentOutlinedIcon
+              fontSize="small"
+              className={classes.commentButton}
+            />
+            {`Comments: ${comments}`}
+          </Typography>
+        </div>
       </ModalContent>
     </Modal>
   );
