@@ -10,7 +10,7 @@ export const factories = {
     /**
      * Generates a title
      */
-    title: (index: number) => `Article title - #${index}`,
+    title: (index: number) => `Article title - #${index + 1}`,
 
     /**
      * Generates content
@@ -21,6 +21,21 @@ export const factories = {
      * Generates an author name
      */
     author: () => faker.name.firstName(),
+
+    /**
+     * Generates comments
+     */
+    comments: () => faker.datatype.number().toString(),
+
+    /**
+     * Generates likes
+     */
+    likes: () => faker.datatype.number().toString(),
+
+    /**
+     * Generates shares
+     */
+    shares: () => faker.datatype.number().toString(),
   }),
   user: Factory.extend({
     /**

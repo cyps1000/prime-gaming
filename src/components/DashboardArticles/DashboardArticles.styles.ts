@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {},
   table: {
     minWidth: 700,
+    backgroundColor: "#343434",
   },
   articlesTitle: {
     fontSize: "3rem",
@@ -24,6 +25,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.palette.secondary.main,
     display: "flex",
     justifyContent: "center",
+  },
+  operations: {
+    display: "flex",
+    justifyContent: "space-evenly",
   },
 }));
 

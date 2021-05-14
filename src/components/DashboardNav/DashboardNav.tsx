@@ -1,11 +1,6 @@
 import { useState } from "react";
 
-import {
-  useHistory,
-  useLocation,
-  useRouteMatch,
-  matchPath,
-} from "react-router-dom";
+import { useHistory, useLocation, matchPath } from "react-router-dom";
 
 /**
  * Material UI Imports
@@ -174,7 +169,13 @@ const DashboardNav: React.FC = (props) => {
             </div>
           </ListItem>
           <Divider />
-          <ListItem button onClick={goToOverview}>
+          <ListItem
+            button
+            onClick={goToOverview}
+            className={clsx({
+              [classes.activeTrue]: checkPathMatch("/dashboard/overview"),
+            })}
+          >
             <ListItemIcon>
               <DashboardOutlinedIcon />
             </ListItemIcon>
