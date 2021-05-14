@@ -87,12 +87,12 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
    *
    */
   const [modalData, setModalData] = useState({
-    articleTitle: "",
-    articleContent: "",
-    articleAuthor: "",
-    articleComments: "",
-    articleLikes: "",
-    articleShares: "",
+    title: "",
+    content: "",
+    author: "",
+    comments: "",
+    likes: "",
+    shares: "",
   });
 
   /**
@@ -127,12 +127,12 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
    */
   const closeModal = () => {
     setModalData({
-      articleTitle: "",
-      articleContent: "",
-      articleAuthor: "",
-      articleComments: "",
-      articleLikes: "",
-      articleShares: "",
+      title: "",
+      content: "",
+      author: "",
+      comments: "",
+      likes: "",
+      shares: "",
     });
     setModals({
       viewArticleModal: false,
@@ -204,63 +204,63 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
         }}
       />
       {/* <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>#</StyledTableCell>
-              <StyledTableCell align="left">Title</StyledTableCell>
-              <StyledTableCell align="left">Author</StyledTableCell>
-              <StyledTableCell align="left"># Comments</StyledTableCell>
-              <StyledTableCell align="left">Likes</StyledTableCell>
-              <StyledTableCell align="left"># Shares</StyledTableCell>
-              <StyledTableCell align="center">Operations</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {articles.map((row) => {
-              const handleView = () =>
-                openViewArticleModal({
-                  articleTitle: row.title,
-                  articleContent: row.content,
-                  articleAuthor: row.author,
-                  articleComments: row.comments,
-                  articleLikes: row.likes,
-                  articleShares: row.shares,
-                });
-              return (
-                <StyledTableRow key={row.id}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.id}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">{row.title}</StyledTableCell>
-                  <StyledTableCell align="left">{row.author}</StyledTableCell>
-                  <StyledTableCell align="left">{row.comments}</StyledTableCell>
-                  <StyledTableCell align="left">{row.likes}</StyledTableCell>
-                  <StyledTableCell align="left">{row.shares}</StyledTableCell>
-                  <StyledTableCell align="left">
-                    <div className={classes.operations}>
-                      <IconButton
-                        size="small"
-                        edge="start"
-                        color="inherit"
-                        onClick={handleView}
-                      >
-                        <VisibilityOutlinedIcon />
-                      </IconButton>
-                      <IconButton size="small" edge="start" color="inherit">
-                        <EditOutlinedIcon />
-                      </IconButton>
-                      <IconButton size="small" edge="start" color="inherit">
-                        <DeleteForeverOutlinedIcon />
-                      </IconButton>
-                    </div>
-                  </StyledTableCell>
-                </StyledTableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer> */}
+         <Table className={classes.table} aria-label="customized table">
+           <TableHead>
+             <TableRow>
+               <StyledTableCell>#</StyledTableCell>
+               <StyledTableCell align="left">Title</StyledTableCell>
+               <StyledTableCell align="left">Author</StyledTableCell>
+               <StyledTableCell align="left"># Comments</StyledTableCell>
+               <StyledTableCell align="left">Likes</StyledTableCell>
+               <StyledTableCell align="left"># Shares</StyledTableCell>
+               <StyledTableCell align="center">Operations</StyledTableCell>
+             </TableRow>
+           </TableHead>
+           <TableBody>
+             {articles.map((row) => {
+               const handleView = () =>
+                 openViewArticleModal({
+                   articleTitle: row.title,
+                   articleContent: row.content,
+                   articleAuthor: row.author,
+                   articleComments: row.comments,
+                   articleLikes: row.likes,
+                   articleShares: row.shares,
+                 });
+               return (
+                 <StyledTableRow key={row.id}>
+                   <StyledTableCell component="th" scope="row">
+                     {row.id}
+                   </StyledTableCell>
+                   <StyledTableCell align="left">{row.title}</StyledTableCell>
+                   <StyledTableCell align="left">{row.author}</StyledTableCell>
+                   <StyledTableCell align="left">{row.comments}</StyledTableCell>
+                   <StyledTableCell align="left">{row.likes}</StyledTableCell>
+                   <StyledTableCell align="left">{row.shares}</StyledTableCell>
+                   <StyledTableCell align="left">
+                     <div className={classes.operations}>
+                       <IconButton
+                         size="small"
+                         edge="start"
+                         color="inherit"
+                         onClick={handleView}
+                       >
+                         <VisibilityOutlinedIcon />
+                       </IconButton>
+                       <IconButton size="small" edge="start" color="inherit">
+                         <EditOutlinedIcon />
+                       </IconButton>
+                       <IconButton size="small" edge="start" color="inherit">
+                         <DeleteForeverOutlinedIcon />
+                       </IconButton>
+                     </div>
+                   </StyledTableCell>
+                 </StyledTableRow>
+               );
+             })}
+           </TableBody>
+         </Table>
+       </TableContainer> */}
       <DashboardViewArticleModal
         {...modalData}
         onClose={closeModal}
