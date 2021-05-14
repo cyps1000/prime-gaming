@@ -1,5 +1,9 @@
-import { getApiClient } from "../../utils/api";
+/**
+ * Imports i18n
+ */
+import { useTranslation } from "react-i18next";
 
+import { getApiClient } from "../../utils/api";
 import { useState, useEffect } from "react";
 import { withStyles, Theme, createStyles } from "@material-ui/core/styles";
 
@@ -43,30 +47,6 @@ export interface DashboardArticlesProps {
   text?: string;
 }
 
-const StyledTableCell = withStyles((theme: Theme) =>
-  createStyles({
-    head: {
-      backgroundColor: "#343434",
-      color: theme.palette.secondary.main,
-    },
-    body: {
-      fontSize: 14,
-      color: theme.palette.secondary.main,
-    },
-  })
-)(TableCell);
-
-const StyledTableRow = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      "&:nth-of-type(odd)": {
-        backgroundColor: "#121212c7",
-      },
-      backgroundColor: "#121212eb",
-    },
-  })
-)(TableRow);
-
 /**
  * Articles interface
  */
@@ -84,6 +64,11 @@ interface Article {
  * Displays the component
  */
 const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
+  /**
+   * Handles the translations
+   */
+  const { t } = useTranslation();
+
   /**
    * Gets the component styles
    */
@@ -178,28 +163,44 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
       </Typography>
       <DynamicTable
         config={{
-          fields: [
+          columns: [
             {
-              label: "Name",
-              key: "name",
+              label: t("title"),
+              rowKey: "title",
+              sort: true,
             },
             {
-              label: "Age",
-              key: "age",
+              label: t("author"),
+              rowKey: "author",
+              sort: true,
+            },
+            {
+              label: t("comments"),
+              rowKey: "comments",
+            },
+            {
+              label: t("likes"),
+              rowKey: "likes",
+            },
+            {
+              label: t("shares"),
+              rowKey: "shares",
             },
           ],
-          collection: [
-            {
-              name: "Tom",
-              age: 23,
-            },
-            {
-              name: "jesus",
-              age: 50,
-            },
-          ],
+          rows: articles,
+          plugins: ["withSort", "withCount"],
           orderBy: "age",
           order: "desc",
+        }}
+        classes={{
+          table: classes.table,
+          tableCell: {
+            head: classes.head,
+            body: classes.body,
+          },
+          tableRow: {
+            root: classes.tableRow,
+          },
         }}
       />
       {/* <TableContainer component={Paper}>

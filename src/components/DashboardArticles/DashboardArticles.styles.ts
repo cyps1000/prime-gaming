@@ -30,6 +30,20 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     justifyContent: "space-evenly",
   },
+  head: {
+    backgroundColor: "#343434",
+    color: theme.palette.secondary.main,
+  },
+  body: {
+    fontSize: 14,
+    color: theme.palette.secondary.main,
+  },
+  tableRow: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: "#121212c7",
+    },
+    backgroundColor: "#121212eb",
+  },
 }));
 
 export { useStyles };

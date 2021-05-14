@@ -8,7 +8,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
  * Styles the component
  */
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {},
+  table: {},
 }));
 
 export { useStyles };
