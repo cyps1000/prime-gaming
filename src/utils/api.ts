@@ -17,10 +17,7 @@ export const getApiClient = (config: Config) => {
    * Handles getting the base api url
    */
   const getApiUrl = () => {
-    if (
-      process.env.NODE_ENV === "development" ||
-      process.env.NODE_ENV === "production"
-    ) {
+    if (process.env.NODE_ENV === "development") {
       if (mock) return "/";
       return process.env.REACT_APP_LOCAL_API;
     }

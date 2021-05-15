@@ -18,6 +18,8 @@ import { makeServer } from "./mock/server";
 /**
  * Mocks an api server during development only
  */
-makeServer({ environment: "development" });
+if (process.env.NODE_ENV === "development") {
+  makeServer({ environment: "development" });
+}
 
 ReactDOM.render(<App />, document.getElementById("root"));
