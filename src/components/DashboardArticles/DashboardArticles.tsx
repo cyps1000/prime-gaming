@@ -5,26 +5,18 @@ import { useTranslation } from "react-i18next";
 
 import { getApiClient } from "../../utils/api";
 import { useState, useEffect } from "react";
-import { withStyles, Theme, createStyles } from "@material-ui/core/styles";
 
 /**
  * Component Imports
  */
 import DashboardViewArticleModal from "../DashboardViewArticleModal";
 import DynamicTable from "../DynamicTable";
-
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteForeverOutlinedIcon from "@material-ui/icons/DeleteForeverOutlined";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 /**
  * Imports the component styles
@@ -73,6 +65,11 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
    * Gets the component styles
    */
   const classes = useStyles();
+
+  /**
+   * Init the loading state
+   */
+  const [loading, setLoading] = useState(true);
 
   /**
    * Initializes the Modal state
@@ -148,7 +145,7 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
   const fetchArticles = async () => {
     const { data } = await apiClient.get("/v1/articles");
     const { articles }: { articles: Article[] } = data;
-    console.log(data.articles);
+
     setArticles(articles);
   };
 
@@ -156,12 +153,27 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
     fetchArticles();
   }, []);
 
+  const handleClick = () => {
+    console.log("articles:", articles);
+  };
+
+  useEffect(() => {
+    if (articles.length > 0) {
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [articles]);
+
   return (
     <div className={classes.root}>
       <Typography gutterBottom={true} className={classes.articlesTitle}>
         Articles
       </Typography>
       <DynamicTable
+        loading={loading}
         config={{
           columns: [
             {
@@ -186,8 +198,55 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
               label: t("shares"),
               rowKey: "shares",
             },
+            {
+              label: t("operations"),
+              rowKey: "operations",
+            },
           ],
-          rows: articles,
+          rows: articles.map((article) => {
+            const handleView = () => openViewArticleModal(article);
+
+            return {
+              ...article,
+              operations: (
+                <div className={classes.operations}>
+                  <IconButton
+                    size="small"
+                    edge="start"
+                    color="inherit"
+                    onClick={handleView}
+                  >
+                    <VisibilityOutlinedIcon />
+                  </IconButton>
+                  <IconButton size="small" edge="start" color="inherit">
+                    <EditOutlinedIcon />
+                  </IconButton>
+                  <IconButton size="small" edge="start" color="inherit">
+                    <DeleteForeverOutlinedIcon />
+                  </IconButton>
+                </div>
+              ),
+            };
+          }),
+          loadingComponent: (
+            <div className={classes.loader}>
+              <CircularProgress size={25} color="secondary" /> Please wait while
+              we're fetching your data
+            </div>
+          ),
+          notFoundComponent: (
+            <div className={classes.notFound}>
+              We apologize but the collection is empty.😢
+            </div>
+          ),
+          materialProps: {
+            tableContainerProps: {
+              className: classes.tableContainer,
+            },
+            tableProps: {
+              stickyHeader: true,
+            },
+          },
           plugins: ["withSort", "withCount"],
           orderBy: "age",
           order: "desc",
@@ -203,64 +262,6 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
           },
         }}
       />
-      {/* <TableContainer component={Paper}>
-         <Table className={classes.table} aria-label="customized table">
-           <TableHead>
-             <TableRow>
-               <StyledTableCell>#</StyledTableCell>
-               <StyledTableCell align="left">Title</StyledTableCell>
-               <StyledTableCell align="left">Author</StyledTableCell>
-               <StyledTableCell align="left"># Comments</StyledTableCell>
-               <StyledTableCell align="left">Likes</StyledTableCell>
-               <StyledTableCell align="left"># Shares</StyledTableCell>
-               <StyledTableCell align="center">Operations</StyledTableCell>
-             </TableRow>
-           </TableHead>
-           <TableBody>
-             {articles.map((row) => {
-               const handleView = () =>
-                 openViewArticleModal({
-                   articleTitle: row.title,
-                   articleContent: row.content,
-                   articleAuthor: row.author,
-                   articleComments: row.comments,
-                   articleLikes: row.likes,
-                   articleShares: row.shares,
-                 });
-               return (
-                 <StyledTableRow key={row.id}>
-                   <StyledTableCell component="th" scope="row">
-                     {row.id}
-                   </StyledTableCell>
-                   <StyledTableCell align="left">{row.title}</StyledTableCell>
-                   <StyledTableCell align="left">{row.author}</StyledTableCell>
-                   <StyledTableCell align="left">{row.comments}</StyledTableCell>
-                   <StyledTableCell align="left">{row.likes}</StyledTableCell>
-                   <StyledTableCell align="left">{row.shares}</StyledTableCell>
-                   <StyledTableCell align="left">
-                     <div className={classes.operations}>
-                       <IconButton
-                         size="small"
-                         edge="start"
-                         color="inherit"
-                         onClick={handleView}
-                       >
-                         <VisibilityOutlinedIcon />
-                       </IconButton>
-                       <IconButton size="small" edge="start" color="inherit">
-                         <EditOutlinedIcon />
-                       </IconButton>
-                       <IconButton size="small" edge="start" color="inherit">
-                         <DeleteForeverOutlinedIcon />
-                       </IconButton>
-                     </div>
-                   </StyledTableCell>
-                 </StyledTableRow>
-               );
-             })}
-           </TableBody>
-         </Table>
-       </TableContainer> */}
       <DashboardViewArticleModal
         {...modalData}
         onClose={closeModal}

@@ -1,4 +1,9 @@
-import { useState, useEffect, memo, MouseEventHandler } from "react";
+import { useState, useEffect, memo, MouseEventHandler, ReactNode } from "react";
+
+/**
+ * Imports i18n
+ */
+import { useTranslation } from "react-i18next";
 
 /**
  * External Imports
@@ -26,6 +31,11 @@ import TableHead, { TableHeadProps } from "@material-ui/core/TableHead";
 import TableRow, { TableRowProps } from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import SearchIcon from "@material-ui/icons/Search";
+import UndoIcon from "@material-ui/icons/Undo";
 
 /**
  * Defines the Order Type
@@ -44,6 +54,7 @@ export type Plugin =
   | "withAdd"
   | "withSearch"
   | "withPagination"
+  | "withStats"
   | "withSort"
   | "resetSearch"
   | "resetFilters"
@@ -68,6 +79,7 @@ export interface TableColumnData {
  * Defines the props interface
  */
 export interface DynamicTableProps {
+  loading?: boolean;
   config: {
     columns: TableColumnData[];
     rows: TableRowData[];
@@ -75,6 +87,8 @@ export interface DynamicTableProps {
     orderBy: string;
     order: SortOrder;
     dateFormat?: string;
+    loadingComponent?: JSX.Element;
+    notFoundComponent?: JSX.Element;
     materialProps?: {
       tableContainerProps?: TableContainerProps;
       tableProps?: TableProps;
@@ -93,14 +107,27 @@ export interface DynamicTableProps {
  * Displays the component
  */
 const DynamicTable: React.FC<DynamicTableProps> = (props) => {
-  const { config, classes } = props;
-  const { rows, columns, materialProps = {}, plugins, dateFormat } = config;
+  const { loading, config, classes } = props;
+  const {
+    rows,
+    columns,
+    materialProps = {},
+    plugins,
+    loadingComponent,
+    notFoundComponent,
+    dateFormat,
+  } = config;
   const {
     tableContainerProps,
     tableProps,
     tableHeadProps,
     tableBodyProps,
   } = materialProps;
+
+  /**
+   * Handles the translations
+   */
+  const { t } = useTranslation();
 
   /**
    * Gets the component styles
@@ -267,39 +294,71 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
     isCounter: boolean,
     column: TableColumnData,
     row: TableRowData,
+    key: string,
     index: number
   ) => {
-    const { displayCount, rowKey } = column;
+    const { displayCount } = column;
 
     if (isCounter && displayCount) return displayCount(index);
 
-    if (rowKey) {
-      if (row[rowKey] instanceof Date) {
+    if (key) {
+      if (row[key] instanceof Date) {
         const defaultDateFormat = "dd-MM-yyyy HH:mm";
-        return formatDate(
-          new Date(row[rowKey]),
-          dateFormat || defaultDateFormat
-        );
+        return formatDate(new Date(row[key]), dateFormat || defaultDateFormat);
       }
 
-      return row[rowKey];
+      return row[key];
     }
 
-    return undefined;
+    return null;
   };
 
   const renderTableBody = () => {
     const preparedCollection = prepareTableCollection();
+
+    if (loading) {
+      return (
+        <TableRow classes={tableRowClasses}>
+          <TableCell
+            align="center"
+            colSpan={tableHeaders.length}
+            classes={tableCellClasses}
+          >
+            {loadingComponent ? (
+              loadingComponent
+            ) : (
+              <CircularProgress color="secondary" />
+            )}
+          </TableCell>
+        </TableRow>
+      );
+    }
+
+    if (!loading && preparedCollection.length < 1) {
+      return (
+        <TableRow classes={tableRowClasses}>
+          <TableCell
+            align="center"
+            colSpan={tableHeaders.length}
+            classes={tableCellClasses}
+          >
+            {notFoundComponent ? notFoundComponent : <h1> No data found </h1>}
+          </TableCell>
+        </TableRow>
+      );
+    }
 
     return preparedCollection.map((row, index) => {
       return (
         <TableRow classes={tableRowClasses}>
           {tableHeaders.map((column) => {
             const { rowKey, isCounter, align } = column;
-            const key = rowKey ? rowKey : 0;
+            const key = rowKey ? rowKey : "";
+
+            console.log("row[key]:", row[key]);
 
             const displayValue =
-              getValue(isCounter || false, column, row, index) || row[key];
+              getValue(isCounter || false, column, row, key, index) || row[key];
 
             return (
               <TableCell align={align} classes={tableCellClasses}>

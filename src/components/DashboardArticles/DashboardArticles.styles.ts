@@ -44,6 +44,21 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     backgroundColor: "#121212eb",
   },
+  loader: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    "& .MuiCircularProgress-root": {
+      marginRight: "1rem",
+    },
+  },
+  notFound: {
+    padding: 15,
+    fontSize: 20,
+  },
+  tableContainer: {
+    maxHeight: 700,
+  },
 }));
 
 export { useStyles };
