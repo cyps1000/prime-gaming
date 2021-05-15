@@ -25,7 +25,6 @@ import ModalTitle from "../ModalTitle";
 import InputLabel from "../InputLabel";
 import InputPassword from "../InputPassword";
 import InputText from "../InputText";
-import NewInputText from "../NewInputText";
 
 /**
  * Imports hooks
