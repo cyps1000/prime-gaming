@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginBottom: 0,
   },
   icon: {
-    color: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
   },
   flex: {
     display: "flex",

@@ -18,6 +18,11 @@ import shortid from "shortid";
 import TextField, { TextFieldProps } from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Typography from "@material-ui/core/Typography";
+import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import OutlinedInput, {
+  OutlinedInputProps,
+} from "@material-ui/core/OutlinedInput";
 
 /**
  * Imports i18n
@@ -64,7 +69,9 @@ export interface InputTextProps {
   };
   apiErrors?: any;
   placeholder?: string;
+  prefix?: JSX.Element | null;
   sufix?: JSX.Element | null;
+  label?: string;
 }
 
 /**
@@ -98,6 +105,8 @@ const defaultProps: InputTextProps = {
   apiErrors: {},
   placeholder: "",
   sufix: null,
+  prefix: null,
+  label: "",
 };
 
 /**
@@ -129,7 +138,9 @@ const InputText: React.FC<InputTextProps> = (props) => {
     validateOnChangeDelay,
     apiErrors,
     placeholder,
+    prefix,
     sufix,
+    label,
   } = props;
 
   /**
@@ -343,76 +354,19 @@ const InputText: React.FC<InputTextProps> = (props) => {
 
   const getInputAdornment = (type: "start" | "end", adornment: JSX.Element) => {
     return (
-      <InputAdornment position={type}>
-        <Typography variant="caption">{adornment}</Typography>
+      <InputAdornment
+        classes={{
+          root: clsx({
+            [_classes.startAdornment]: type === "start",
+            [_classes.endAdornment]: type === "end",
+            [_classes.errorAdornment]: !!error,
+          }),
+        }}
+        position={type}
+      >
+        {adornment}
       </InputAdornment>
     );
-  };
-
-  /**
-   * Handles getting the text field props
-   */
-  const getTextFieldProps = () => {
-    const props: TextFieldProps = {
-      inputRef: inputRef,
-      name: name,
-      required: required,
-      disabled: disabled,
-      fullWidth: true,
-      placeholder: placeholder,
-      multiline: multiline,
-      onChange: handleChange,
-      onKeyPress: handleKeyPress,
-      onBlur: handleOnBlur,
-      onFocus: handleOnFocus,
-      className: clsx(_classes.root, { [className]: !!className }),
-      size: "small",
-      variant: "outlined",
-      value: displayValue(input),
-      id: getInputID(),
-      autoFocus: isFocused(),
-      inputProps: {
-        maxLength: max ? max : maxLengthDefault,
-        className: clsx(_classes.inputBase, {
-          [_classes.inputBaseError]: error,
-        }),
-      },
-      InputProps: {
-        endAdornment: sufix ? getInputAdornment("end", sufix) : null,
-        classes: {
-          root: clsx(_classes.inputRoot, {
-            [_classes.inputRootDisabled]: disabled,
-          }),
-          input: clsx(_classes.input, {
-            // @ts-ignore
-            [classes.input]: !!classes.input,
-            [_classes.error]: error,
-          }),
-          focused: _classes.inputFocused,
-          notchedOutline: clsx(_classes.inputOutlined, {
-            [_classes.error]: error,
-          }),
-          adornedEnd: _classes.adornedEnd,
-          error: _classes.error,
-        },
-        notched: false,
-      },
-      FormHelperTextProps: {
-        classes: {
-          error: _classes.errorMessage,
-        },
-      },
-    };
-
-    /**
-     * Adds the error to the props
-     */
-    if (hasError(error) && !noValidate) {
-      props["error"] = !!error;
-      props["helperText"] = error;
-    }
-
-    return props;
   };
 
   /**
@@ -558,7 +512,67 @@ const InputText: React.FC<InputTextProps> = (props) => {
     if (input.length > 0 && !inputChanged) setInputChanged(true);
   }, [input, inputChanged]);
 
-  return <TextField {...getTextFieldProps()} />;
+  const inputId = getInputID();
+
+  return (
+    <FormControl variant="outlined" size="small" fullWidth>
+      {label && (
+        <label
+          className={clsx(_classes.label, {
+            [_classes.labelError]: !!error,
+          })}
+          htmlFor={inputId}
+        >
+          {label}
+        </label>
+      )}
+      <OutlinedInput
+        autoComplete="off"
+        inputRef={inputRef}
+        name={name}
+        required={required}
+        disabled={disabled}
+        placeholder={placeholder}
+        multiline={multiline}
+        onChange={handleChange}
+        onKeyPress={handleKeyPress}
+        onBlur={handleOnBlur}
+        onFocus={handleOnFocus}
+        value={displayValue(input)}
+        id={inputId}
+        autoFocus={isFocused()}
+        inputProps={{
+          maxLength: max ? max : maxLengthDefault,
+          className: clsx({
+            [_classes.inputBaseError]: error,
+          }),
+        }}
+        margin="dense"
+        notched={false}
+        classes={{
+          root: _classes.root,
+          input: clsx(_classes.input, {
+            [_classes.inputError]: !!error,
+          }),
+          notchedOutline: clsx(_classes.notchedOutline, {
+            [_classes.notchedOutlineError]: !!error,
+          }),
+          adornedStart: _classes.adornedStart,
+          adornedEnd: _classes.adornedEnd,
+        }}
+        startAdornment={prefix ? getInputAdornment("start", prefix) : null}
+        endAdornment={sufix ? getInputAdornment("end", sufix) : null}
+      />
+      {hasError(error) && !noValidate && !!error && (
+        <FormHelperText
+          error={!!error}
+          classes={{ error: _classes.errorMessage }}
+        >
+          {error}
+        </FormHelperText>
+      )}
+    </FormControl>
+  );
 };
 
 InputText.defaultProps = defaultProps;

@@ -14,6 +14,7 @@ import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
+import EmailOutlinedIcon from "@material-ui/icons/EmailOutlined";
 
 /**
  * Components Imports
@@ -24,6 +25,7 @@ import ModalTitle from "../ModalTitle";
 import InputLabel from "../InputLabel";
 import InputPassword from "../InputPassword";
 import InputText from "../InputText";
+import NewInputText from "../NewInputText";
 
 /**
  * Imports hooks
@@ -144,10 +146,10 @@ const RegisterModal: React.FC<RegisterModalProps> = (props) => {
             <form className={classes.form} noValidate onSubmit={submit}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
-                  <InputLabel text={t("firstName")} htmlFor="firstName" />
                   <InputText
                     value={firstName}
                     name="firstName"
+                    label={t("firstName")}
                     min={1}
                     max={20}
                     autoFocus={autoFocus}
@@ -157,10 +159,10 @@ const RegisterModal: React.FC<RegisterModalProps> = (props) => {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <InputLabel text={t("lastName")} htmlFor="lastName" />
                   <InputText
                     value={lastName}
                     name="lastName"
+                    label={t("lastName")}
                     min={1}
                     max={20}
                     autoFocus={autoFocus}
@@ -169,29 +171,31 @@ const RegisterModal: React.FC<RegisterModalProps> = (props) => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <InputLabel text={t("email")} htmlFor="email" />
                   <InputText
                     value={email}
                     name="email"
+                    label={t("email")}
                     min={4}
                     autoFocus={autoFocus}
                     onChange={handleInputChange}
                     debounce={inputsReady}
                     validate={["isEmail"]}
                     validateOnChange
+                    prefix={<EmailOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <InputLabel text={t("password")} htmlFor="password" />
                   <InputPassword
                     value={password}
                     name="password"
+                    label={t("password")}
                     min={6}
                     validate={["strongPassword"]}
                     autoFocus={autoFocus}
                     onChange={handleInputChange}
                     debounce={inputsReady}
                     validateOnChange
+                    prefix={<LockOutlinedIcon />}
                   />
                 </Grid>
                 <Grid item xs={12}>

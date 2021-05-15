@@ -490,7 +490,7 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
       setSearchReady(false);
       setTimeout(() => {
         setSearchLoading(false);
-      }, 400);
+      }, 600);
     }
     // eslint-disable-next-line
   }, [searchReady]);
@@ -509,6 +509,17 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
     // eslint-disable-next-line
   }, [search]);
 
+  /**
+   * Gets the search input prefix
+   */
+  const getPrefix = () => {
+    return searchLoading ? (
+      <CircularProgress size={20} color="secondary" />
+    ) : (
+      <SearchIcon className={baseClasses.icon} />
+    );
+  };
+
   return (
     <Paper className={baseClasses.paper} {...paperProps}>
       <Toolbar {...toolbarProps}>
@@ -520,12 +531,8 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
             debounce={searchReady}
             onChange={handleSearch}
             autoFocus={false}
+            prefix={getPrefix()}
           />
-          {searchLoading && (
-            <div className={baseClasses.loader}>
-              <CircularProgress size={25} color="secondary" />
-            </div>
-          )}
         </div>
       </Toolbar>
       <TableContainer {...tableContainerProps}>
