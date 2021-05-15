@@ -180,23 +180,28 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
               label: t("title"),
               rowKey: "title",
               sort: true,
+              searchField: true,
             },
             {
               label: t("author"),
               rowKey: "author",
               sort: true,
+              searchField: true,
             },
             {
               label: t("comments"),
               rowKey: "comments",
+              sort: true,
             },
             {
               label: t("likes"),
               rowKey: "likes",
+              sort: true,
             },
             {
               label: t("shares"),
               rowKey: "shares",
+              sort: true,
             },
             {
               label: t("operations"),
@@ -240,11 +245,23 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
             </div>
           ),
           materialProps: {
-            tableContainerProps: {
-              className: classes.tableContainer,
+            // tableContainerProps: {
+            //   className: classes.tableContainer,
+            // },
+            // tableProps: {
+            //   stickyHeader: true,
+            // },
+            paperProps: {
+              className: classes.paper,
             },
-            tableProps: {
-              stickyHeader: true,
+            toolbarProps: {
+              className: classes.toolbar,
+            },
+            tableHeadProps: {
+              className: classes.tableHead,
+            },
+            tableBodyProps: {
+              className: classes.tableBody,
             },
           },
           plugins: ["withSort", "withCount"],

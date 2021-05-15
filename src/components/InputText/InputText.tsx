@@ -16,6 +16,8 @@ import shortid from "shortid";
  * Material UI Imports
  */
 import TextField, { TextFieldProps } from "@material-ui/core/TextField";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Typography from "@material-ui/core/Typography";
 
 /**
  * Imports i18n
@@ -61,6 +63,8 @@ export interface InputTextProps {
     input?: string;
   };
   apiErrors?: any;
+  placeholder?: string;
+  sufix?: JSX.Element | null;
 }
 
 /**
@@ -92,6 +96,8 @@ const defaultProps: InputTextProps = {
     input: "",
   },
   apiErrors: {},
+  placeholder: "",
+  sufix: null,
 };
 
 /**
@@ -122,6 +128,8 @@ const InputText: React.FC<InputTextProps> = (props) => {
     validateOnChange,
     validateOnChangeDelay,
     apiErrors,
+    placeholder,
+    sufix,
   } = props;
 
   /**
@@ -333,6 +341,14 @@ const InputText: React.FC<InputTextProps> = (props) => {
     }
   };
 
+  const getInputAdornment = (type: "start" | "end", adornment: JSX.Element) => {
+    return (
+      <InputAdornment position={type}>
+        <Typography variant="caption">{adornment}</Typography>
+      </InputAdornment>
+    );
+  };
+
   /**
    * Handles getting the text field props
    */
@@ -343,6 +359,7 @@ const InputText: React.FC<InputTextProps> = (props) => {
       required: required,
       disabled: disabled,
       fullWidth: true,
+      placeholder: placeholder,
       multiline: multiline,
       onChange: handleChange,
       onKeyPress: handleKeyPress,
@@ -361,6 +378,7 @@ const InputText: React.FC<InputTextProps> = (props) => {
         }),
       },
       InputProps: {
+        endAdornment: sufix ? getInputAdornment("end", sufix) : null,
         classes: {
           root: clsx(_classes.inputRoot, {
             [_classes.inputRootDisabled]: disabled,
@@ -374,6 +392,7 @@ const InputText: React.FC<InputTextProps> = (props) => {
           notchedOutline: clsx(_classes.inputOutlined, {
             [_classes.error]: error,
           }),
+          adornedEnd: _classes.adornedEnd,
           error: _classes.error,
         },
         notched: false,

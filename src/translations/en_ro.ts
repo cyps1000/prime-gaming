@@ -34,6 +34,7 @@ const en_ro: LanguageResource = {
   keepSignedIn: "Ține-mă minte",
   signInAlternative: "Sau",
   alreadyHaveAnAccount: "Ai deja un cont? Loghează-te",
+  searchTable: "Căutare rapidă",
 };
 
 export { en_ro };

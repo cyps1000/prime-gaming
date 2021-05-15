@@ -36,6 +36,9 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import SearchIcon from "@material-ui/icons/Search";
 import UndoIcon from "@material-ui/icons/Undo";
+import Toolbar, { ToolbarProps } from "@material-ui/core/Toolbar";
+import Paper, { PaperProps } from "@material-ui/core/Paper";
+import InpuText from "../InputText";
 
 /**
  * Defines the Order Type
@@ -90,6 +93,8 @@ export interface DynamicTableProps {
     loadingComponent?: JSX.Element;
     notFoundComponent?: JSX.Element;
     materialProps?: {
+      paperProps?: PaperProps;
+      toolbarProps?: ToolbarProps;
       tableContainerProps?: TableContainerProps;
       tableProps?: TableProps;
       tableHeadProps?: TableHeadProps;
@@ -108,6 +113,7 @@ export interface DynamicTableProps {
  */
 const DynamicTable: React.FC<DynamicTableProps> = (props) => {
   const { loading, config, classes } = props;
+
   const {
     rows,
     columns,
@@ -117,7 +123,10 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
     notFoundComponent,
     dateFormat,
   } = config;
+
   const {
+    paperProps,
+    toolbarProps,
     tableContainerProps,
     tableProps,
     tableHeadProps,
@@ -153,6 +162,24 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
    * Initializes collection
    */
   const [collection, setCollection] = useState<typeof rows>([]);
+
+  const [search, setSearch] = useState("");
+
+  /**
+   * Initializes the search loading state
+   */
+  const [searchLoading, setSearchLoading] = useState(false);
+
+  /**
+   * Initializes the search failed flag
+   */
+  const [searchFailed, setSearchFailed] = useState(false);
+
+  /**
+   * Initializes the inputs ready flag
+   * Used to debounce all inputs, updating the inputs object, used in the onSubmit function
+   */
+  const [searchReady, setSearchReady] = useState(false);
 
   /**
    * Defines the table cell classes
@@ -279,7 +306,7 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
       return (
         <TableCell
           classes={tableCellClasses}
-          key={column.label}
+          key={shortid.generate()}
           align={column.align}
           sortDirection={sortDirection}
           onClick={handleClick}
@@ -334,7 +361,7 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
       );
     }
 
-    if (!loading && preparedCollection.length < 1) {
+    if (searchFailed || (!loading && preparedCollection.length < 1)) {
       return (
         <TableRow classes={tableRowClasses}>
           <TableCell
@@ -350,18 +377,20 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
 
     return preparedCollection.map((row, index) => {
       return (
-        <TableRow classes={tableRowClasses}>
+        <TableRow key={shortid.generate()} classes={tableRowClasses}>
           {tableHeaders.map((column) => {
             const { rowKey, isCounter, align } = column;
             const key = rowKey ? rowKey : "";
-
-            console.log("row[key]:", row[key]);
 
             const displayValue =
               getValue(isCounter || false, column, row, key, index) || row[key];
 
             return (
-              <TableCell align={align} classes={tableCellClasses}>
+              <TableCell
+                key={shortid.generate()}
+                align={align}
+                classes={tableCellClasses}
+              >
                 {displayValue}
               </TableCell>
             );
@@ -391,20 +420,126 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
         });
       }
 
-      console.log("tableHeaders:", tableHeaders);
       setTableHeaders(tableHeaders);
     }
   }, [columns]);
 
+  const handleSearch = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setSearch(event.target.value);
+  };
+
+  /**
+   * Handles formatting the value, to normalize it for search comparisons
+   * @param {String|Number|Boolean} value
+   */
+  const formatValue = (value: string, dict: { [key: string]: string }) => {
+    const excessWhitespace = /^\s+|\s+$|\s+(?=\s)/g;
+    if (!value) return "";
+    return value
+      .toString()
+      .toLowerCase()
+      .replace(excessWhitespace, "")
+      .replace(/[^\w ]/g, function (char) {
+        return dict[char] || char;
+      });
+  };
+
+  /**
+   * Handles getting the first match during search
+   */
+  const getFirstMatch = (row: TableRowData) => {
+    let matchFound = false;
+    tableHeaders.forEach((header) => {
+      const { searchField, rowKey } = header;
+      if (matchFound) return;
+
+      if (searchField && rowKey) {
+        let dict = { â: "a", ă: "a", ș: "s", î: "i", ț: "t" };
+        const value = getValue(false, header, row, rowKey, 0);
+        matchFound = formatValue(value, dict).includes(search.toLowerCase());
+      }
+    });
+
+    return matchFound;
+  };
+
+  /**
+   * Handles triggering a search
+   */
+  useEffect(() => {
+    if (searchLoading) {
+      setTimeout(() => {
+        setSearchReady(true);
+      }, 200);
+    }
+  }, [searchLoading]);
+
+  /**
+   * Handles the dynamic search
+   */
+  useEffect(() => {
+    if (searchReady) {
+      const updatedCollection = collection.filter((row) => getFirstMatch(row));
+
+      if (updatedCollection.length < 1 && !searchFailed) setSearchFailed(true);
+      if (updatedCollection.length > 0 && searchFailed) setSearchFailed(false);
+
+      setCollection(updatedCollection);
+      setSearchReady(false);
+      setTimeout(() => {
+        setSearchLoading(false);
+      }, 400);
+    }
+    // eslint-disable-next-line
+  }, [searchReady]);
+
+  /**
+   * Handles updating the loading state or resetting the data
+   */
+  useEffect(() => {
+    if (search.length >= 2) setSearchLoading(true);
+    if (search.length < 2) {
+      setCollection(rows);
+      setSearchReady(false);
+      setSearchFailed(false);
+      setSearchLoading(false);
+    }
+    // eslint-disable-next-line
+  }, [search]);
+
   return (
-    <TableContainer {...tableContainerProps}>
-      <Table {...tableProps} className={clsx(baseClasses.table, classes.table)}>
-        <TableHead {...tableHeadProps}>
-          <TableRow classes={tableRowClasses}>{renderTableHead()}</TableRow>
-        </TableHead>
-        <TableBody {...tableBodyProps}>{renderTableBody()}</TableBody>
-      </Table>
-    </TableContainer>
+    <Paper className={baseClasses.paper} {...paperProps}>
+      <Toolbar {...toolbarProps}>
+        <div className={baseClasses.actions}>
+          <InpuText
+            value={search}
+            name="search"
+            placeholder={t("searchTable")}
+            debounce={searchReady}
+            onChange={handleSearch}
+            autoFocus={false}
+          />
+          {searchLoading && (
+            <div className={baseClasses.loader}>
+              <CircularProgress size={25} color="secondary" />
+            </div>
+          )}
+        </div>
+      </Toolbar>
+      <TableContainer {...tableContainerProps}>
+        <Table
+          {...tableProps}
+          className={clsx(baseClasses.table, classes.table)}
+        >
+          <TableHead {...tableHeadProps}>
+            <TableRow classes={tableRowClasses}>{renderTableHead()}</TableRow>
+          </TableHead>
+          <TableBody {...tableBodyProps}>{renderTableBody()}</TableBody>
+        </Table>
+      </TableContainer>
+    </Paper>
   );
 };
 

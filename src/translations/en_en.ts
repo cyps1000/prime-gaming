@@ -34,6 +34,7 @@ const en_en: LanguageResource = {
   keepSignedIn: "Keep me signed in.",
   signInAlternative: "Or",
   alreadyHaveAnAccount: "Already have an account? Sign in",
+  searchTable: "Quick search",
 };
 
 export { en_en };

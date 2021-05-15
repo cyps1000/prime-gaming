@@ -11,10 +11,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   table: {},
   actions: {
     display: "flex",
-    background: theme.palette.common.white,
-    border: `1px solid #eaeaea`,
-    borderBottom: "none",
-    padding: "0.5rem 1rem",
+    alignItems: "center",
+  },
+  loader: {
+    display: "flex",
+    alignItems: "center",
+    marginLeft: "1rem",
   },
   field: {
     marginBottom: 0,
@@ -58,6 +60,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: "0.8rem",
     fontWeight: 800,
     fontFamily: theme.typography.fontFamily,
+  },
+  paper: {
+    width: "100%",
+    boxShadow: "none",
   },
 }));
 

@@ -59,6 +59,28 @@ const useStyles = makeStyles((theme: Theme) => ({
   tableContainer: {
     maxHeight: 700,
   },
+  paper: {
+    width: "100%",
+    boxShadow: "none",
+    border: "1px solid #129fbf",
+  },
+  toolbar: {
+    background: "#272727",
+    borderBottom: "1px solid #129fbf",
+    borderRadius: 4,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 0,
+  },
+  tableHead: {
+    "& .MuiTableCell-root": {
+      borderColor: "#129fbf",
+    },
+  },
+  tableBody: {
+    "& .MuiTableCell-root": {
+      borderColor: "#129fbf",
+    },
+  },
 }));
 
 export { useStyles };

@@ -10,7 +10,7 @@ export const factories = {
     /**
      * Generates a title
      */
-    title: (index: number) => `Article title - #${index + 1}`,
+    title: (index: number) => faker.lorem.sentence(5, 10),
 
     /**
      * Generates content

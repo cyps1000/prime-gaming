@@ -75,6 +75,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   inputRootDisabled: {
     background: "#fbfbfb",
   },
+  adornedEnd: {
+    paddingRight: 5,
+  },
 }));
 
 export { useStyles };
