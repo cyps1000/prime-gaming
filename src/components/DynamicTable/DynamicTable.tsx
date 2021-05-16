@@ -832,10 +832,10 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
                     rowSpan={1}
                     count={
                       pagination.type === "automatic"
-                        ? collection.length
+                        ? rows.length
                         : pagination?.total
                         ? pagination.total
-                        : collection.length
+                        : rows.length
                     }
                     rowsPerPage={
                       pagination.type === "automatic"
