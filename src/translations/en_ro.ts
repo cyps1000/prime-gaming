@@ -35,6 +35,14 @@ const en_ro: LanguageResource = {
   signInAlternative: "Sau",
   alreadyHaveAnAccount: "Ai deja un cont? Loghează-te",
   searchTable: "Căutare rapidă",
+  outOf: " din ",
+  shownResults: "rezultate afișate.",
+  title: "Title",
+  author: "Author",
+  comments: "Comments",
+  likes: "Likes",
+  shares: "Shares",
+  operations: "Operations",
 };
 
 export { en_ro };

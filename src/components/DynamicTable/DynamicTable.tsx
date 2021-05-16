@@ -1,4 +1,13 @@
-import { useState, useEffect, memo, MouseEventHandler, ReactNode } from "react";
+import {
+  useState,
+  useEffect,
+  memo,
+  MouseEventHandler,
+  ReactNode,
+  MouseEvent,
+  ChangeEvent,
+  Fragment,
+} from "react";
 
 /**
  * Imports i18n
@@ -39,6 +48,13 @@ import UndoIcon from "@material-ui/icons/Undo";
 import Toolbar, { ToolbarProps } from "@material-ui/core/Toolbar";
 import Paper, { PaperProps } from "@material-ui/core/Paper";
 import InpuText from "../InputText";
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import Checkbox from "@material-ui/core/Checkbox";
+import { DeleteOutlineOutlined } from "@material-ui/icons";
+import { IconButton } from "@material-ui/core";
+import TablePagination from "@material-ui/core/TablePagination";
+import Pagination from "@material-ui/lab/Pagination";
 
 /**
  * Defines the Order Type
@@ -59,6 +75,7 @@ export type Plugin =
   | "withPagination"
   | "withStats"
   | "withSort"
+  | "withBulkDelete"
   | "resetSearch"
   | "resetFilters"
   | "addResult";
@@ -68,14 +85,15 @@ export type Plugin =
  */
 export interface TableColumnData {
   isCounter?: boolean;
-  label: string;
+  label?: string;
   rowKey: string | null;
   skipKey?: boolean;
   align?: TableCellProps["align"];
   displayCount?: (index: number) => number;
   sort?: boolean;
+  addedByPlugin?: boolean;
   searchField?: boolean;
-  type?: "text" | "date";
+  type?: "text" | "date" | "checkbox";
 }
 
 /**
@@ -87,11 +105,29 @@ export interface DynamicTableProps {
     columns: TableColumnData[];
     rows: TableRowData[];
     plugins?: Plugin[];
+    onAdd?: MouseEventHandler<HTMLButtonElement> | undefined;
+    onBulkDelete: (data: TableRowData[]) => void;
+    selectKey?: string;
+    excluseSelectKeys?: string[];
     orderBy: string;
     order: SortOrder;
     dateFormat?: string;
     loadingComponent?: JSX.Element;
     notFoundComponent?: JSX.Element;
+    pagination?: {
+      enabled: boolean;
+      type: "automatic" | "manual";
+      total?: number;
+      rowsPerPageOptions: number[];
+      currentPage?: number;
+      rowsPerPage: number;
+      handlePageChange?: (
+        event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent> | null
+      ) => void;
+      handleRowsPerChange?: (
+        event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      ) => any;
+    };
     materialProps?: {
       paperProps?: PaperProps;
       toolbarProps?: ToolbarProps;
@@ -117,10 +153,15 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
   const {
     rows,
     columns,
+    onAdd,
+    onBulkDelete,
+    selectKey,
+    excluseSelectKeys,
     materialProps = {},
     plugins,
     loadingComponent,
     notFoundComponent,
+    pagination,
     dateFormat,
   } = config;
 
@@ -180,6 +221,14 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
    * Used to debounce all inputs, updating the inputs object, used in the onSubmit function
    */
   const [searchReady, setSearchReady] = useState(false);
+
+  const [selected, setSelected] = useState<string[]>([]);
+
+  const [page, setPage] = useState(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState(
+    pagination?.rowsPerPage ? pagination.rowsPerPage : 10
+  );
 
   /**
    * Defines the table cell classes
@@ -261,8 +310,18 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
    * Handles getting the table data
    * Also makes sure to sort it
    */
-  const prepareTableCollection = () => {
+  const prepareTableCollection = (collection: TableRowData[]) => {
     if (columns && columns.length > 0 && collection && collection.length > 0) {
+      if (pagination?.enabled && pagination.type === "automatic") {
+        if (!(page + 1) || !rowsPerPage)
+          return stableSort(collection, getComparator(order, orderBy));
+
+        return stableSort(collection, getComparator(order, orderBy)).slice(
+          page * rowsPerPage,
+          page * rowsPerPage + rowsPerPage
+        );
+      }
+
       return stableSort(collection, getComparator(order, orderBy));
     }
     return [];
@@ -277,9 +336,38 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
     if (property) setOrderBy(property);
   };
 
+  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked && selectKey) {
+      const newSelecteds = collection.map((item) => item[selectKey]);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
+
+  const handleSelectRow = (event: React.MouseEvent<unknown>, key: string) => {
+    const selectedIndex = selected.indexOf(key);
+    let newSelected: string[] = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, key);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+
+    setSelected(newSelected);
+  };
+
   const renderTableHead = () => {
     return tableHeaders.map((column) => {
-      const { label, rowKey, sort } = column;
+      const { label, rowKey, sort, type, addedByPlugin } = column;
       const active = orderBy === rowKey;
       const sortDirection = active ? order : false;
       const isSortCell = sort && plugins?.includes("withSort");
@@ -303,6 +391,24 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
         </TableSortLabel>
       );
 
+      let columnLabel = isSortCell ? sortingCell : column.label;
+
+      if (type === "checkbox" && addedByPlugin) {
+        columnLabel = (
+          <Checkbox
+            color="secondary"
+            checked={
+              collection.length > 0 && selected.length === collection.length
+            }
+            indeterminate={
+              selected.length > 0 && selected.length < collection.length
+            }
+            classes={{ root: baseClasses.checkboxRoot }}
+            onChange={handleSelectAllClick}
+          />
+        );
+      }
+
       return (
         <TableCell
           classes={tableCellClasses}
@@ -310,12 +416,18 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
           align={column.align}
           sortDirection={sortDirection}
           onClick={handleClick}
+          className={clsx({
+            [baseClasses.checkboxCell]: type === "checkbox" && addedByPlugin,
+          })}
         >
-          {isSortCell ? sortingCell : column.label}
+          {columnLabel}
         </TableCell>
       );
     });
   };
+
+  const isSelected = (selectedKey: string) =>
+    selected.indexOf(selectedKey) !== -1;
 
   const getValue = (
     isCounter: boolean,
@@ -324,9 +436,27 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
     key: string,
     index: number
   ) => {
-    const { displayCount } = column;
+    const { displayCount, addedByPlugin, type } = column;
 
-    if (isCounter && displayCount) return displayCount(index);
+    if (addedByPlugin) {
+      if (isCounter && displayCount) {
+        if (pagination?.enabled && pagination.type === "automatic") {
+          return displayCount(rowsPerPage * page + index);
+        }
+        return displayCount(index);
+      }
+
+      if (type === "checkbox") {
+        const isItemSelected = selectKey ? isSelected(row[selectKey]) : false;
+
+        return (
+          <Checkbox
+            className={baseClasses.checkboxRoot}
+            checked={isItemSelected}
+          />
+        );
+      }
+    }
 
     if (key) {
       if (row[key] instanceof Date) {
@@ -341,8 +471,6 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
   };
 
   const renderTableBody = () => {
-    const preparedCollection = prepareTableCollection();
-
     if (loading) {
       return (
         <TableRow classes={tableRowClasses}>
@@ -350,6 +478,7 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
             align="center"
             colSpan={tableHeaders.length}
             classes={tableCellClasses}
+            className={baseClasses.loadingCell}
           >
             {loadingComponent ? (
               loadingComponent
@@ -361,7 +490,7 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
       );
     }
 
-    if (searchFailed || (!loading && preparedCollection.length < 1)) {
+    if (searchFailed || (!loading && collection.length < 1)) {
       return (
         <TableRow classes={tableRowClasses}>
           <TableCell
@@ -375,21 +504,50 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
       );
     }
 
-    return preparedCollection.map((row, index) => {
+    return collection.map((row, index) => {
+      const isItemSelected = selectKey ? isSelected(row[selectKey]) : false;
+
       return (
-        <TableRow key={shortid.generate()} classes={tableRowClasses}>
+        <TableRow
+          key={shortid.generate()}
+          role={plugins?.includes("withBulkDelete") ? "checkbox" : "row"}
+          selected={isItemSelected}
+          tabIndex={-1}
+          classes={tableRowClasses}
+        >
           {tableHeaders.map((column) => {
-            const { rowKey, isCounter, align } = column;
+            const { rowKey, isCounter, align, type, addedByPlugin } = column;
             const key = rowKey ? rowKey : "";
 
             const displayValue =
               getValue(isCounter || false, column, row, key, index) || row[key];
+            let cellOnClick:
+              | (MouseEventHandler<HTMLTableHeaderCellElement> &
+                  MouseEventHandler<HTMLTableDataCellElement>)
+              | undefined;
+
+            const isSelectable =
+              (rowKey &&
+                plugins?.includes("withBulkDelete") &&
+                !excluseSelectKeys?.includes(rowKey)) ||
+              (type === "checkbox" && addedByPlugin);
+
+            if (isSelectable) {
+              cellOnClick = (event) =>
+                handleSelectRow(event, selectKey ? row[selectKey] : "");
+            }
 
             return (
               <TableCell
                 key={shortid.generate()}
                 align={align}
+                onClick={cellOnClick}
                 classes={tableCellClasses}
+                className={clsx({
+                  [baseClasses.checkboxCell]:
+                    type === "checkbox" && addedByPlugin,
+                  [baseClasses.selectableCell]: isSelectable,
+                })}
               >
                 {displayValue}
               </TableCell>
@@ -401,8 +559,8 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
   };
 
   useEffect(() => {
-    if (rows.length > 0) setCollection(rows);
-  }, [rows]);
+    setCollection(prepareTableCollection(rows));
+  }, [rows, page, rowsPerPage]);
 
   useEffect(() => {
     if (columns.length > 0) {
@@ -417,6 +575,17 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
           align: "center",
           searchField: false,
           displayCount: (index: number) => index + 1,
+          addedByPlugin: true,
+        });
+      }
+
+      if (plugins?.includes("withBulkDelete")) {
+        tableHeaders.unshift({
+          rowKey: null,
+          align: "center",
+          searchField: false,
+          type: "checkbox",
+          addedByPlugin: true,
         });
       }
 
@@ -466,6 +635,14 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
   };
 
   /**
+   * Handles resetting the search state
+   */
+  const handleResetSearch = () => {
+    setSearch("");
+    setSearchFailed(false);
+  };
+
+  /**
    * Handles triggering a search
    */
   useEffect(() => {
@@ -481,8 +658,9 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
    */
   useEffect(() => {
     if (searchReady) {
-      const updatedCollection = collection.filter((row) => getFirstMatch(row));
-
+      console.log("rows:", rows);
+      const updatedCollection = rows.filter((row) => getFirstMatch(row));
+      console.log("updatedCollection:", updatedCollection);
       if (updatedCollection.length < 1 && !searchFailed) setSearchFailed(true);
       if (updatedCollection.length > 0 && searchFailed) setSearchFailed(false);
 
@@ -494,7 +672,7 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
     }
     // eslint-disable-next-line
   }, [searchReady]);
-
+  console.log("collection X :", collection);
   /**
    * Handles updating the loading state or resetting the data
    */
@@ -520,20 +698,111 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
     );
   };
 
+  /**
+   * Gets the table stats text
+   */
+  const getStatsText = () => {
+    if (loading) return <CircularProgress size={20} color="secondary" />;
+    return `${collection.length} ${t("outOf")} ${rows.length} ${t(
+      "shownResults"
+    )}`;
+  };
+
+  const getActiveStatus = () => {
+    return selected.length > 0;
+  };
+
+  const handleBulkDelete = () => {
+    if (selected.length > 0) {
+      const toBeDeleted = collection.filter((row) => selected.includes(row.id));
+
+      onBulkDelete(toBeDeleted);
+      setSelected([]);
+    }
+  };
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   return (
     <Paper className={baseClasses.paper} {...paperProps}>
-      <Toolbar {...toolbarProps}>
-        <div className={baseClasses.actions}>
-          <InpuText
-            value={search}
-            name="search"
-            placeholder={t("searchTable")}
-            debounce={searchReady}
-            onChange={handleSearch}
-            autoFocus={false}
-            prefix={getPrefix()}
-          />
-        </div>
+      <Toolbar
+        {...toolbarProps}
+        className={clsx(toolbarProps?.className, {
+          [baseClasses.toolbarActive]: getActiveStatus(),
+        })}
+      >
+        <Grid container alignItems="center">
+          {selected.length > 0 ? (
+            <Grid item xs={12}>
+              <div className={baseClasses.bulkDeleteContainer}>
+                <Typography className={baseClasses.bulkSelectedCount}>
+                  {selected.length} {t("selected")}
+                </Typography>
+                <IconButton
+                  onClick={handleBulkDelete}
+                  className={baseClasses.bulkDeleteBtn}
+                >
+                  <DeleteOutlineOutlined />
+                </IconButton>
+              </div>
+            </Grid>
+          ) : (
+            <Grid item xs={12} sm={3}>
+              <div className={baseClasses.actions}>
+                {plugins?.includes("withSearch") && (
+                  <Fragment>
+                    <InpuText
+                      value={search}
+                      name="search"
+                      placeholder={t("searchTable")}
+                      debounce={searchReady}
+                      onChange={handleSearch}
+                      autoFocus={false}
+                      prefix={getPrefix()}
+                    />
+                    <Button
+                      type="button"
+                      variant="contained"
+                      title={t("undo")}
+                      onClick={handleResetSearch}
+                      className={baseClasses.undoBtn}
+                    >
+                      <UndoIcon />
+                    </Button>
+                  </Fragment>
+                )}
+                {plugins?.includes("withAdd") && onAdd && (
+                  <Button
+                    type="button"
+                    variant="contained"
+                    title={t("undo")}
+                    onClick={onAdd}
+                    className={baseClasses.addBtn}
+                  >
+                    <AddIcon />
+                  </Button>
+                )}
+              </div>
+            </Grid>
+          )}
+
+          {selected.length < 1 && plugins?.includes("withStats") && (
+            <Grid item xs={12} sm={9}>
+              <Typography variant="caption" className={baseClasses.stats}>
+                {getStatsText()}
+              </Typography>
+            </Grid>
+          )}
+        </Grid>
       </Toolbar>
       <TableContainer {...tableContainerProps}>
         <Table
@@ -545,6 +814,59 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
           </TableHead>
           <TableBody {...tableBodyProps}>{renderTableBody()}</TableBody>
         </Table>
+        {pagination && (
+          <Fragment>
+            <Table
+              {...tableProps}
+              className={clsx(baseClasses.table, classes.table)}
+            >
+              <TableBody {...tableBodyProps}>
+                <TableRow classes={tableRowClasses}>
+                  <TablePagination
+                    classes={{
+                      root: baseClasses.paginationRoot,
+                      spacer: baseClasses.paginationSpacer,
+                    }}
+                    rowsPerPageOptions={pagination.rowsPerPageOptions}
+                    colSpan={tableHeaders.length}
+                    rowSpan={1}
+                    count={
+                      pagination.type === "automatic"
+                        ? collection.length
+                        : pagination?.total
+                        ? pagination.total
+                        : collection.length
+                    }
+                    rowsPerPage={
+                      pagination.type === "automatic"
+                        ? rowsPerPage
+                        : pagination.rowsPerPage
+                    }
+                    page={
+                      pagination.type === "automatic"
+                        ? page
+                        : pagination.currentPage
+                        ? pagination.currentPage - 1
+                        : 1
+                    }
+                    onChangePage={
+                      pagination.type === "automatic"
+                        ? handleChangePage
+                        : pagination.handlePageChange
+                        ? pagination.handlePageChange
+                        : () => {}
+                    }
+                    onChangeRowsPerPage={
+                      pagination.type === "automatic"
+                        ? handleChangeRowsPerPage
+                        : pagination.handleRowsPerChange
+                    }
+                  />
+                </TableRow>
+              </TableBody>
+            </Table>
+          </Fragment>
+        )}
       </TableContainer>
     </Paper>
   );

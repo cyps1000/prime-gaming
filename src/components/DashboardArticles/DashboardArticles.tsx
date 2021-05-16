@@ -17,11 +17,15 @@ import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteForeverOutlinedIcon from "@material-ui/icons/DeleteForeverOutlined";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import CreateIcon from "@material-ui/icons/Create";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 /**
  * Imports the component styles
  */
 import { useStyles } from "./DashboardArticles.styles";
+import { TableRowData } from "../DynamicTable/DynamicTable";
 
 /**
  * Defines the Modals' State interface
@@ -157,6 +161,15 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
     console.log("articles:", articles);
   };
 
+  const handleBulkDelete = (data: TableRowData[]) => {
+    console.log("Deleting articles:", data);
+    const toDeleteIds = data.map((article) => article.id);
+    const newArticles = articles.filter(
+      (article) => !toDeleteIds.includes(article.id)
+    );
+    setArticles(newArticles);
+  };
+
   useEffect(() => {
     if (articles.length > 0) {
       const timer = setTimeout(() => {
@@ -218,15 +231,23 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
                   <IconButton
                     size="small"
                     edge="start"
-                    color="inherit"
                     onClick={handleView}
+                    className={classes.viewBtn}
                   >
                     <VisibilityOutlinedIcon />
                   </IconButton>
-                  <IconButton size="small" edge="start" color="inherit">
+                  <IconButton
+                    size="small"
+                    edge="start"
+                    className={classes.editBtn}
+                  >
                     <EditOutlinedIcon />
                   </IconButton>
-                  <IconButton size="small" edge="start" color="inherit">
+                  <IconButton
+                    size="small"
+                    edge="start"
+                    className={classes.deleteBtn}
+                  >
                     <DeleteForeverOutlinedIcon />
                   </IconButton>
                 </div>
@@ -244,13 +265,19 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
               We apologize but the collection is empty.😢
             </div>
           ),
+          pagination: {
+            enabled: true,
+            type: "automatic",
+            rowsPerPage: 10,
+            rowsPerPageOptions: [5, 10, 15, 20, 25, 30],
+          },
           materialProps: {
             // tableContainerProps: {
             //   className: classes.tableContainer,
             // },
-            // tableProps: {
-            //   stickyHeader: true,
-            // },
+            tableProps: {
+              size: "small",
+            },
             paperProps: {
               className: classes.paper,
             },
@@ -264,7 +291,18 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
               className: classes.tableBody,
             },
           },
-          plugins: ["withSort", "withCount"],
+          plugins: [
+            "withSort",
+            "withCount",
+            "withSearch",
+            "withStats",
+            "withAdd",
+            "withBulkDelete",
+          ],
+          onAdd: () => console.log("articles:", articles),
+          onBulkDelete: (data) => handleBulkDelete(data),
+          selectKey: "id",
+          excluseSelectKeys: ["operations"],
           orderBy: "age",
           order: "desc",
         }}

@@ -35,6 +35,14 @@ const en_en: LanguageResource = {
   signInAlternative: "Or",
   alreadyHaveAnAccount: "Already have an account? Sign in",
   searchTable: "Quick search",
+  outOf: " out of ",
+  shownResults: "results displayed.",
+  title: "Title",
+  author: "Author",
+  comments: "Comments",
+  likes: "Likes",
+  shares: "Shares",
+  operations: "Operations",
 };
 
 export { en_en };
