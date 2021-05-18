@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { useHistory, useLocation, matchPath } from "react-router-dom";
+
 /**
  * Material UI Imports
  */
@@ -24,6 +26,13 @@ import PeopleAltOutlinedIcon from "@material-ui/icons/PeopleAltOutlined";
 import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined";
 import ReportProblemOutlinedIcon from "@material-ui/icons/ReportProblemOutlined";
 import PowerSettingsNewOutlinedIcon from "@material-ui/icons/PowerSettingsNewOutlined";
+import Container from "@material-ui/core/Container";
+import TranslateOutlinedIcon from "@material-ui/icons/TranslateOutlined";
+
+/**
+ * Component Imports
+ */
+import LanguageSwitcher from "../LanguageSwitcher";
 
 /**
  * Imports the component styles
@@ -33,7 +42,9 @@ import { useStyles } from "./DashboardNav.styles";
 /**
  * Displays the component
  */
-const DashboardNav: React.FC = () => {
+const DashboardNav: React.FC = (props) => {
+  const { children } = props;
+
   /**
    * Gets the component styles
    */
@@ -58,6 +69,38 @@ const DashboardNav: React.FC = () => {
     setOpen(false);
   };
 
+  /**
+   * Gets the history object
+   */
+  const history = useHistory();
+
+  /**
+   * Handles routing
+   */
+  const routeTo = (url: string) => {
+    history.push(url);
+  };
+
+  /**
+   * Defines the routing functions
+   */
+  const goToOverview = () => routeTo("/dashboard/overview");
+  const goToArticles = () => routeTo("/dashboard/articles");
+
+  /**
+   * Gets the location path
+   */
+  const location = useLocation();
+
+  /* Checks if the current path matches the path of the menu item
+   *
+   */
+  const checkPathMatch = (path: string): boolean => {
+    const result = matchPath(location.pathname, path);
+    return result ? (result.isExact ? true : false) : false;
+  };
+
+  console.log(checkPathMatch("/dashboard/articles"));
   return (
     <div className={classes.root}>
       <AppBar
@@ -108,6 +151,31 @@ const DashboardNav: React.FC = () => {
         <Divider />
         <List className={classes.list}>
           <ListItem button>
+            <ListItemIcon
+              className={clsx(
+                classes.languageButton,
+                open && classes.languageButtonHidden
+              )}
+            >
+              <TranslateOutlinedIcon onClick={handleDrawerOpen} />
+            </ListItemIcon>
+            <div className={classes.actions}>
+              <LanguageSwitcher
+                classes={{
+                  color: classes.switcherColor,
+                  track: classes.switcherTrack,
+                }}
+              />
+            </div>
+          </ListItem>
+          <Divider />
+          <ListItem
+            button
+            onClick={goToOverview}
+            className={clsx({
+              [classes.activeTrue]: checkPathMatch("/dashboard/overview"),
+            })}
+          >
             <ListItemIcon>
               <DashboardOutlinedIcon />
             </ListItemIcon>
@@ -125,7 +193,13 @@ const DashboardNav: React.FC = () => {
             </ListItemIcon>
             <ListItemText primary="Messages" />
           </ListItem>
-          <ListItem button>
+          <ListItem
+            button
+            onClick={goToArticles}
+            className={clsx({
+              [classes.activeTrue]: checkPathMatch("/dashboard/articles"),
+            })}
+          >
             <ListItemIcon>
               <DescriptionOutlinedIcon />
             </ListItemIcon>
@@ -154,6 +228,12 @@ const DashboardNav: React.FC = () => {
           </ListItem>
         </List>
       </Drawer>
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="xl" className={classes.container}>
+          <div>{children}</div>
+        </Container>
+      </main>
     </div>
   );
 };
