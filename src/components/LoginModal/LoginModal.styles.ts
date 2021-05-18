@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.main,
   },
   avatar: {
-    margin: theme.spacing(1),
+    marginTop: "0.1rem",
+    marginBottom: "1rem",
     backgroundColor: "#ee82ee", // Violet
   },
   form: {
@@ -77,6 +78,17 @@ const useStyles = makeStyles((theme) => ({
     "&.Mui-focused": {
       color: theme.palette.secondary.main,
     },
+  },
+  modal: {
+    backgroundColor: theme.palette.primary.main,
+  },
+  titleContainer: {
+    display: "flex",
+    justifyContent: "flex-end",
+    borderBottom: "none",
+  },
+  modalIcon: {
+    color: "#ee82ee",
   },
 }));
 

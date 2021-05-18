@@ -7,7 +7,7 @@ import { Story, Meta } from "@storybook/react";
 /**
  * Component Imports
  */
-import Banner, { BannerProps } from "./Banner";
+import Banner from "./Banner";
 
 export default {
   title: "Components/Banner",
@@ -19,9 +19,7 @@ export default {
  * @param args BannerProps
  * @returns
  */
-const Template: Story<BannerProps> = (args) => (
-  <Banner {...args} />
-);
+const Template: Story = (args) => <Banner {...args} />;
 
 /**
  * Default case

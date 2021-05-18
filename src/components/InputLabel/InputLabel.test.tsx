@@ -7,7 +7,7 @@ import { render } from "@testing-library/react";
 /**
  * Imports component
  */
-import RegisterBlock from "./RegisterBlock";
+import InputLabel from "./InputLabel";
 
 /**
  * Mocking the useTranslation hook
@@ -21,8 +21,8 @@ jest.mock("react-i18next", () => ({
 /**
  * Default test
  */
-describe("RegisterBlock", () => {
+describe("InputLabel", () => {
   it("renders the component", () => {
-    // render(<RegisterBlock />);
+    // render(<InputLabel />);
   });
 });

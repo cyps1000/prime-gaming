@@ -22,6 +22,9 @@ export interface NavbarMenuProps {
 const NavbarMenu: React.FC<NavbarMenuProps> = (props) => {
   const { onClick } = props;
 
+  /**
+   * Gets the component styles
+   */
   const classes = useStyles();
 
   return (

@@ -33,18 +33,41 @@ const Routes: React.FC = () => {
 
   return (
     <Router>
-      <Navbar />
-      <Body>
-        <Grid data-testid="router-grid" container className={classes.routes}>
+      <Switch>
+        <Route path="/dashboard">
           <Switch>
-            <Route exact path="/" children={<LandingPage />} />
-            <Route exact path="/news" children={<Main text="News" />} />
-            <Route exact path="/about" children={<Main text="About" />} />
-            <Route exact path="/contact" children={<Main text="Contact" />} />
+            <Route exact path="/dashboard/main">
+              <h1>main</h1>
+            </Route>
+            <Route exact path="/dashboard/login">
+              <h1>login</h1>
+            </Route>
           </Switch>
-        </Grid>
-      </Body>
-      <Footer />
+        </Route>
+
+        <Route path="/">
+          <Navbar />
+          <Body>
+            <Grid
+              data-testid="router-grid"
+              container
+              className={classes.routes}
+            >
+              <Switch>
+                <Route exact path="/" children={<LandingPage />} />
+                <Route exact path="/news" children={<Main text="News" />} />
+                <Route exact path="/about" children={<Main text="About" />} />
+                <Route
+                  exact
+                  path="/contact"
+                  children={<Main text="Contact" />}
+                />
+              </Switch>
+            </Grid>
+          </Body>
+          <Footer />
+        </Route>
+      </Switch>
     </Router>
   );
 };

@@ -2,7 +2,7 @@
  *  Material UI Imports
  * @see https://material-ui.com/styles/basics/
  */
-import { lighten, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 /**
  * Styles the component
@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.main,
   },
   avatar: {
-    margin: theme.spacing(1),
+    marginTop: "0.1rem",
+    marginBottom: "1rem",
     backgroundColor: "#ee82ee", // Violet
   },
   form: {
@@ -33,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
   },
   inputs: {
     color: theme.palette.secondary.main,
+    ":-webkit-autofill": {
+      WebkitBoxShadow: "0 0 0 1000px white inset",
+      backgroundColor: "red !important",
+    },
   },
   inputOutlined: {
     borderColor: theme.palette.secondary.main,
@@ -41,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   inputRoot: {
+    ":-webkit-autofill": {
+      WebkitBoxShadow: "0 0 0 1000px white inset",
+      backgroundColor: "red !important",
+    },
     "&$inputFocused $inputOutlined": {
       borderColor: theme.palette.secondary.main,
     },
@@ -54,6 +63,17 @@ const useStyles = makeStyles((theme) => ({
     "&.Mui-focused": {
       color: theme.palette.secondary.main,
     },
+  },
+  modal: {
+    backgroundColor: theme.palette.primary.main,
+  },
+  titleContainer: {
+    display: "flex",
+    justifyContent: "flex-end",
+    borderBottom: "none",
+  },
+  modalIcon: {
+    color: "#ee82ee",
   },
 }));
 
