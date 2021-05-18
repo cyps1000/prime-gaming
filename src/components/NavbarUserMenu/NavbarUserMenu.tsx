@@ -57,9 +57,11 @@ const NavbarUserMenu: React.FC<NavbarUserMenuProps> = (props) => {
   const goToNews = () => routeTo("/news");
   const goToAbout = () => routeTo("/about");
   const goToContact = () => routeTo("/contact");
+  const goToDashboard = () => routeTo("/dashboard");
 
   return (
     <div className={classes.menuItems}>
+      <Button onClick={goToDashboard}>Dashboard</Button>
       <Button onClick={goToHome}>{t("home")}</Button>
       <Button onClick={goToNews}>{t("news")}</Button>
       <Button onClick={goToAbout}>{t("about")}</Button>

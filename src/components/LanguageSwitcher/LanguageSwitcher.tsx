@@ -2,6 +2,7 @@
  * Imports Material UI Components
  */
 import Switch from "@material-ui/core/Switch";
+import clsx from "clsx";
 
 /**
  * Imports Hooks
@@ -19,6 +20,7 @@ import { useStyles } from "./LanguageSwitcher.styles";
 export interface LanguageSwitcherProps {
   ukFlagUrl?: string;
   roFlagUrl?: string;
+  classes?: { color: string; track: string };
 }
 
 /**
@@ -30,13 +32,17 @@ const defaultProps: LanguageSwitcherProps = {
     "https://www.countryflags.com/wp-content/uploads/united-kingdom-flag-png-large.png",
   roFlagUrl:
     "https://www.countryflags.com/wp-content/uploads/romania-flag-png-xl.png",
+  classes: {
+    color: "",
+    track: "",
+  },
 };
 
 /**
  * Displays the component
  */
 const LanguageSwitcher: React.FC<LanguageSwitcherProps> = (props) => {
-  const { ukFlagUrl, roFlagUrl } = props;
+  const { ukFlagUrl, roFlagUrl, classes } = props;
 
   /**
    * Gets the active language and language changer
@@ -46,7 +52,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = (props) => {
   /**
    * Gets the component styles
    */
-  const classes = useStyles();
+  const _classes = useStyles();
 
   /**
    * Handles changing the language
@@ -60,8 +66,8 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = (props) => {
   };
 
   return (
-    <div data-testid="language-switcher" className={classes.container}>
-      <img className={classes.flag} src={roFlagUrl} alt="ro" />
+    <div data-testid="language-switcher" className={_classes.container}>
+      <img className={_classes.flag} src={roFlagUrl} alt="ro" />
       <div>
         <Switch
           data-testid="language-switch-input"
@@ -69,12 +75,16 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = (props) => {
           onChange={handleLanguageChange}
           color="secondary"
           classes={{
-            colorPrimary: classes.switchPrimary,
-            track: classes.switchTrack,
+            colorSecondary: clsx(_classes.switchPrimary, {
+              [classes!.color]: !!classes!.color,
+            }),
+            track: clsx(_classes.switchTrack, {
+              [classes!.track]: !!classes!.track,
+            }),
           }}
         />
       </div>
-      <img className={classes.flag} src={ukFlagUrl} alt="uk" />
+      <img className={_classes.flag} src={ukFlagUrl} alt="uk" />
     </div>
   );
 };
