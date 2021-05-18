@@ -7,7 +7,7 @@ import { render } from "@testing-library/react";
 /**
  * Imports component
  */
-import { DynamicTable } from "./DynamicTable";
+import PrimeTable from "./PrimeTable";
 
 /**
  * Mocking the useTranslation hook
@@ -21,8 +21,8 @@ jest.mock("react-i18next", () => ({
 /**
  * Default test
  */
-describe("DynamicTable", () => {
+describe("PrimeTable", () => {
   it("renders the component", () => {
-    // render(<DynamicTable />);
+    // render(<PrimeTable />);
   });
 });

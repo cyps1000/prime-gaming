@@ -96,6 +96,30 @@ export interface TableColumnData {
   type?: "text" | "date" | "checkbox";
 }
 
+export interface MaterialProps {
+  paperProps?: PaperProps;
+  toolbarProps?: ToolbarProps;
+  tableContainerProps?: TableContainerProps;
+  tableProps?: TableProps;
+  tableHeadProps?: TableHeadProps;
+  tableBodyProps?: TableBodyProps;
+}
+
+export interface TablePaginationProps {
+  enabled: boolean;
+  type: "automatic" | "manual";
+  total?: number;
+  rowsPerPageOptions: number[];
+  currentPage?: number;
+  rowsPerPage: number;
+  handlePageChange?: (
+    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent> | null
+  ) => void;
+  handleRowsPerChange?: (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => any;
+}
+
 /**
  * Defines the props interface
  */
@@ -106,7 +130,7 @@ export interface DynamicTableProps {
     rows: TableRowData[];
     plugins?: Plugin[];
     onAdd?: MouseEventHandler<HTMLButtonElement> | undefined;
-    onBulkDelete: (data: TableRowData[]) => void;
+    onBulkDelete?: (data: TableRowData[]) => void;
     selectKey?: string;
     excluseSelectKeys?: string[];
     orderBy: string;
@@ -114,28 +138,8 @@ export interface DynamicTableProps {
     dateFormat?: string;
     loadingComponent?: JSX.Element;
     notFoundComponent?: JSX.Element;
-    pagination?: {
-      enabled: boolean;
-      type: "automatic" | "manual";
-      total?: number;
-      rowsPerPageOptions: number[];
-      currentPage?: number;
-      rowsPerPage: number;
-      handlePageChange?: (
-        event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent> | null
-      ) => void;
-      handleRowsPerChange?: (
-        event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-      ) => any;
-    };
-    materialProps?: {
-      paperProps?: PaperProps;
-      toolbarProps?: ToolbarProps;
-      tableContainerProps?: TableContainerProps;
-      tableProps?: TableProps;
-      tableHeadProps?: TableHeadProps;
-      tableBodyProps?: TableBodyProps;
-    };
+    pagination?: TablePaginationProps;
+    materialProps?: MaterialProps;
   };
   classes: {
     table: string;
@@ -147,7 +151,7 @@ export interface DynamicTableProps {
 /**
  * Displays the component
  */
-const DynamicTable: React.FC<DynamicTableProps> = (props) => {
+export const DynamicTable: React.FC<DynamicTableProps> = (props) => {
   const { loading, config, classes } = props;
 
   const {
@@ -713,7 +717,7 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
   };
 
   const handleBulkDelete = () => {
-    if (selected.length > 0) {
+    if (selected.length > 0 && onBulkDelete) {
       const toBeDeleted = collection.filter((row) => selected.includes(row.id));
 
       onBulkDelete(toBeDeleted);
@@ -871,5 +875,3 @@ const DynamicTable: React.FC<DynamicTableProps> = (props) => {
     </Paper>
   );
 };
-
-export default DynamicTable;

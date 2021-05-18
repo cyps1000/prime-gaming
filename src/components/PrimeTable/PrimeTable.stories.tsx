@@ -7,19 +7,19 @@ import { Story, Meta } from "@storybook/react";
 /**
  * Component Imports
  */
-import { DynamicTable, DynamicTableProps } from "./DynamicTable";
+import PrimeTable, { PrimeTableProps } from "./PrimeTable";
 
 export default {
-  title: "Components/DynamicTable",
-  component: DynamicTable,
+  title: "Components/PrimeTable",
+  component: PrimeTable,
 } as Meta;
 
 /**
  * Defines the Template
- * @param args DynamicTableProps
+ * @param args PrimeTableProps
  * @returns
  */
-const Template: Story<DynamicTableProps> = (args) => <DynamicTable {...args} />;
+const Template: Story<PrimeTableProps> = (args) => <PrimeTable {...args} />;
 
 /**
  * Default case

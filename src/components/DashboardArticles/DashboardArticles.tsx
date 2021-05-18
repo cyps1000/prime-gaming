@@ -10,7 +10,8 @@ import { useState, useEffect } from "react";
  * Component Imports
  */
 import DashboardViewArticleModal from "../DashboardViewArticleModal";
-import DynamicTable from "../DynamicTable";
+import { DynamicTable } from "../DynamicTable";
+import PrimeTable from "../PrimeTable";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
@@ -97,6 +98,43 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
   });
 
   /**
+   * Defines the table columns
+   */
+  const tableColumns = [
+    {
+      label: t("title"),
+      rowKey: "title",
+      sort: true,
+      searchField: true,
+    },
+    {
+      label: t("author"),
+      rowKey: "author",
+      sort: true,
+      searchField: true,
+    },
+    {
+      label: t("comments"),
+      rowKey: "comments",
+      sort: true,
+    },
+    {
+      label: t("likes"),
+      rowKey: "likes",
+      sort: true,
+    },
+    {
+      label: t("shares"),
+      rowKey: "shares",
+      sort: true,
+    },
+    {
+      label: t("operations"),
+      rowKey: "operations",
+    },
+  ];
+
+  /**
    * Handles opening the modal
    */
   const openModal = (modalType: string) => {
@@ -170,6 +208,34 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
     setArticles(newArticles);
   };
 
+  const geTableRows = () => {
+    return articles.map((article) => {
+      const handleView = () => openViewArticleModal(article);
+
+      return {
+        ...article,
+        operations: (
+          <div className={classes.operations}>
+            <IconButton
+              size="small"
+              edge="start"
+              onClick={handleView}
+              className={classes.viewBtn}
+            >
+              <VisibilityOutlinedIcon />
+            </IconButton>
+            <IconButton size="small" edge="start" className={classes.editBtn}>
+              <EditOutlinedIcon />
+            </IconButton>
+            <IconButton size="small" edge="start" className={classes.deleteBtn}>
+              <DeleteForeverOutlinedIcon />
+            </IconButton>
+          </div>
+        ),
+      };
+    });
+  };
+
   useEffect(() => {
     if (articles.length > 0) {
       const timer = setTimeout(() => {
@@ -180,142 +246,31 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
     }
   }, [articles]);
 
+  const handleAdd = () => console.log("articles:", articles);
+
   return (
     <div className={classes.root}>
       <Typography gutterBottom={true} className={classes.articlesTitle}>
         Articles
       </Typography>
-      <DynamicTable
+      <PrimeTable
         loading={loading}
-        config={{
-          columns: [
-            {
-              label: t("title"),
-              rowKey: "title",
-              sort: true,
-              searchField: true,
-            },
-            {
-              label: t("author"),
-              rowKey: "author",
-              sort: true,
-              searchField: true,
-            },
-            {
-              label: t("comments"),
-              rowKey: "comments",
-              sort: true,
-            },
-            {
-              label: t("likes"),
-              rowKey: "likes",
-              sort: true,
-            },
-            {
-              label: t("shares"),
-              rowKey: "shares",
-              sort: true,
-            },
-            {
-              label: t("operations"),
-              rowKey: "operations",
-            },
-          ],
-          rows: articles.map((article) => {
-            const handleView = () => openViewArticleModal(article);
-
-            return {
-              ...article,
-              operations: (
-                <div className={classes.operations}>
-                  <IconButton
-                    size="small"
-                    edge="start"
-                    onClick={handleView}
-                    className={classes.viewBtn}
-                  >
-                    <VisibilityOutlinedIcon />
-                  </IconButton>
-                  <IconButton
-                    size="small"
-                    edge="start"
-                    className={classes.editBtn}
-                  >
-                    <EditOutlinedIcon />
-                  </IconButton>
-                  <IconButton
-                    size="small"
-                    edge="start"
-                    className={classes.deleteBtn}
-                  >
-                    <DeleteForeverOutlinedIcon />
-                  </IconButton>
-                </div>
-              ),
-            };
-          }),
-          loadingComponent: (
-            <div className={classes.loader}>
-              <CircularProgress size={25} color="secondary" /> Please wait while
-              we're fetching your data
-            </div>
-          ),
-          notFoundComponent: (
-            <div className={classes.notFound}>
-              We apologize but the collection is empty.😢
-            </div>
-          ),
-          pagination: {
-            enabled: true,
-            type: "automatic",
-            rowsPerPage: 10,
-            rowsPerPageOptions: [5, 10, 15, 20, 25, 30],
-          },
-          materialProps: {
-            // tableContainerProps: {
-            //   className: classes.tableContainer,
-            // },
-            tableProps: {
-              size: "small",
-            },
-            paperProps: {
-              className: classes.paper,
-            },
-            toolbarProps: {
-              className: classes.toolbar,
-            },
-            tableHeadProps: {
-              className: classes.tableHead,
-            },
-            tableBodyProps: {
-              className: classes.tableBody,
-            },
-          },
-          plugins: [
-            "withSort",
-            "withCount",
-            "withSearch",
-            "withStats",
-            "withAdd",
-            "withBulkDelete",
-          ],
-          onAdd: () => console.log("articles:", articles),
-          onBulkDelete: (data) => handleBulkDelete(data),
-          selectKey: "id",
-          excluseSelectKeys: ["operations"],
-          orderBy: "age",
-          order: "desc",
-        }}
-        classes={{
-          table: classes.table,
-          tableCell: {
-            head: classes.head,
-            body: classes.body,
-          },
-          tableRow: {
-            root: classes.tableRow,
-          },
-        }}
+        columns={tableColumns}
+        rows={geTableRows()}
+        onAdd={handleAdd}
+        onBulkDelete={handleBulkDelete}
+        plugins={[
+          "withSort",
+          "withCount",
+          "withSearch",
+          "withStats",
+          "withAdd",
+          "withBulkDelete",
+        ]}
+        selectKey="id"
+        excluseSelectKeys={["operations"]}
+        orderBy="age"
+        order="desc"
       />
       <DashboardViewArticleModal
         {...modalData}
