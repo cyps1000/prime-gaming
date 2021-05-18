@@ -8,37 +8,110 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
  * Styles the component
  */
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {},
-  input: {
-    color: "#47bffb",
-    borderRadius: 4,
-    border: "1px solid #47bffb",
-  },
-  inputBase: {
-    lineHeight: "normal",
-    height: "auto",
-    padding: "11px 14px",
-    paddingRight: 60,
+  root: {
+    minHeight: "2.5rem",
+    outline: 0,
+    "& $notchedOutline": {
+      borderColor: theme.palette.secondary.main,
+    },
+    "& $notchedOutlineError": {
+      borderColor: theme.palette.error.main,
+    },
     "&:hover": {
-      borderColor: "#47bffb",
+      "& $notchedOutline": {
+        border: `1px solid ${theme.palette.secondary.main}`,
+      },
+      "& $notchedOutlineError": {
+        borderColor: theme.palette.error.main,
+      },
+    },
+    "&.Mui-focused": {
+      "& $notchedOutline": {
+        border: `1px solid ${theme.palette.secondary.main}`,
+      },
+      "& $notchedOutlineError": {
+        borderColor: theme.palette.error.main,
+      },
+    },
+  },
+  input: {
+    outline: 0,
+    padding: "10px 15px",
+    color: theme.palette.secondary.main,
+    "&:-webkit-autofill": {
+      boxShadow: `0 0 0 50px ${theme.palette.primary.main} inset`,
+      borderRadius: 0,
+      "-webkit-box-shadow": `0 0 0 50px ${theme.palette.primary.main} inset`,
+      "-webkit-text-fill-color": theme.palette.secondary.main,
+    },
+    "&:-webkit-autofill:focus": {
+      boxShadow: `0 0 0 50px ${theme.palette.primary.main} inset`,
+      borderRadius: 0,
+      "-webkit-box-shadow": `0 0 0 50px ${theme.palette.primary.main} inset`,
+      "-webkit-text-fill-color": theme.palette.secondary.main,
+    },
+  },
+  inputError: {
+    color: theme.palette.error.main,
+    "&:-webkit-autofill": {
+      "-webkit-text-fill-color": theme.palette.error.main,
+    },
+    "&:-webkit-autofill:focus": {
+      "-webkit-text-fill-color": theme.palette.error.main,
+    },
+  },
+  notchedOutline: {
+    outline: 0,
+    borderColor: theme.palette.secondary.main,
+    "&:hover": {
+      borderColor: theme.palette.secondary.main,
+    },
+  },
+  notchedOutlineError: {
+    borderColor: theme.palette.error.main,
+    "&:hover": {
+      borderColor: theme.palette.error.main,
     },
     "&:focus": {
-      borderColor: "#47bffb",
+      borderColor: theme.palette.error.main,
+    },
+  },
+  startAdornment: {
+    minHeight: 40,
+    width: 60,
+    borderRight: `1px solid ${theme.palette.secondary.main}`,
+    borderBottomLeftRadius: 4,
+    borderTopLeftRadius: 4,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    background: theme.palette.primary.main,
+    "& svg": {
+      color: theme.palette.secondary.main,
     },
   },
   endAdornment: {
-    marginLeft: -60,
-    "& .MuiIconButton-root": {
-      color: "#47bffb",
-    },
-    "& .MuiIconButton-root:hover": {
-      backgroundColor: "transparent",
+    minHeight: 40,
+    width: 60,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    background: theme.palette.primary.main,
+    "& svg": {
+      color: theme.palette.secondary.main,
     },
   },
-  adornmentError: {
-    "& .MuiIconButton-root": {
+  errorAdornment: {
+    borderColor: theme.palette.error.main,
+    "& svg": {
       color: theme.palette.error.main,
     },
+  },
+  adornedStart: {
+    paddingLeft: 0,
+  },
+  adornedEnd: {
+    paddingRight: 0,
   },
   inputBaseError: {
     borderColor: theme.palette.error.main,
@@ -48,25 +121,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:focus": {
       borderColor: theme.palette.error.main,
     },
-  },
-  inputRoot: {
-    "& $inputOutlined": {
-      display: "none",
-    },
-    "&$inputFocused $inputOutlined": {
-      outline: 0,
-      borderWidth: 1,
-    },
-  },
-  inputFocused: {
-    "& $inputOutlined": {
-      borderWidth: 1,
-    },
-  },
-  inputOutlined: {
-    borderWidth: 1,
-    borderColor: "transparent",
-    display: "none",
   },
   error: {
     borderColor: theme.palette.error.main,
@@ -85,11 +139,24 @@ const useStyles = makeStyles((theme: Theme) => ({
     minHeight: 30,
     "&.Mui-error": {
       color: "#ff6363",
-      maxWidth: "calc(100% - 2px)",
     },
   },
   inputRootDisabled: {
     background: "#fbfbfb",
+  },
+  label: {
+    color: theme.palette.secondary.main,
+    fontSize: 15,
+    fontFamily: theme.typography.fontFamily,
+    fontWeight: "bold",
+  },
+  labelError: {
+    color: "#ff6363",
+  },
+  adornmentError: {
+    "& .MuiIconButton-root": {
+      color: theme.palette.error.main,
+    },
   },
 }));
 
