@@ -13,6 +13,12 @@ import Footer from "../Footer";
 import LandingPage from "../LandingPage";
 
 /**
+ * Dashboard component imports
+ */
+import DashboardNav from "../DashboardNav";
+import DashboardArticles from "../DashboardArticles";
+
+/**
  *  Material UI Imports
  */
 import Grid from "@material-ui/core/Grid";
@@ -33,18 +39,43 @@ const Routes: React.FC = () => {
 
   return (
     <Router>
-      <Navbar />
-      <Body>
-        <Grid data-testid="router-grid" container className={classes.routes}>
-          <Switch>
-            <Route exact path="/" children={<LandingPage />} />
-            <Route exact path="/news" children={<Main text="News" />} />
-            <Route exact path="/about" children={<Main text="About" />} />
-            <Route exact path="/contact" children={<Main text="Contact" />} />
-          </Switch>
-        </Grid>
-      </Body>
-      <Footer />
+      <Switch>
+        <Route path="/dashboard">
+          <DashboardNav>
+            <Switch>
+              <Route exact path="/dashboard/overview">
+                <h1>Overview</h1>
+              </Route>
+              <Route exact path="/dashboard/articles">
+                <DashboardArticles />
+              </Route>
+            </Switch>
+          </DashboardNav>
+        </Route>
+
+        <Route path="/">
+          <Navbar />
+          <Body>
+            <Grid
+              data-testid="router-grid"
+              container
+              className={classes.routes}
+            >
+              <Switch>
+                <Route exact path="/" children={<LandingPage />} />
+                <Route exact path="/news" children={<Main text="News" />} />
+                <Route exact path="/about" children={<Main text="About" />} />
+                <Route
+                  exact
+                  path="/contact"
+                  children={<Main text="Contact" />}
+                />
+              </Switch>
+            </Grid>
+          </Body>
+          <Footer />
+        </Route>
+      </Switch>
     </Router>
   );
 };

@@ -1,10 +1,8 @@
-import { useState } from "react";
-
+import { useHistory } from "react-router-dom";
 /**
- * Modules Imports
+ * Imports i18n
  */
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router-dom";
 
 /**
  * Imports Material UI Components
@@ -16,6 +14,9 @@ import Button from "@material-ui/core/Button";
  */
 import { useStyles } from "./NavbarUserMenu.styles";
 
+/**
+ * Defines the props interface
+ */
 interface NavbarUserMenuProps {
   openSignUpModal: () => void;
   openSignInModal: () => void;
@@ -56,9 +57,11 @@ const NavbarUserMenu: React.FC<NavbarUserMenuProps> = (props) => {
   const goToNews = () => routeTo("/news");
   const goToAbout = () => routeTo("/about");
   const goToContact = () => routeTo("/contact");
+  const goToDashboard = () => routeTo("/dashboard");
 
   return (
     <div className={classes.menuItems}>
+      <Button onClick={goToDashboard}>Dashboard</Button>
       <Button onClick={goToHome}>{t("home")}</Button>
       <Button onClick={goToNews}>{t("news")}</Button>
       <Button onClick={goToAbout}>{t("about")}</Button>
