@@ -77,6 +77,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       borderColor: "#129fbf",
       borderRight: `1px solid ${theme.palette.secondary.main}`,
       color: theme.palette.common.white,
+      padding: "3.5px 15px",
     },
   },
 }));

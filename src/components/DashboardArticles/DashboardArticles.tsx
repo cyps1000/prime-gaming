@@ -26,7 +26,7 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
  * Imports the component styles
  */
 import { useStyles } from "./DashboardArticles.styles";
-import { TableRowData } from "../DynamicTable/DynamicTable";
+import { TableRowData } from "../DynamicTable";
 
 /**
  * Defines the Modals' State interface
@@ -106,6 +106,10 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
       rowKey: "title",
       sort: true,
       searchField: true,
+      style: {
+        width: "40%",
+        minWidth: 150,
+      },
     },
     {
       label: t("author"),
@@ -131,6 +135,11 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
     {
       label: t("operations"),
       rowKey: "operations",
+      style: {
+        width: "10%",
+        minWidth: 150,
+        maxWidth: 100,
+      },
     },
   ];
 
@@ -263,12 +272,11 @@ const DashboardArticles: React.FC<DashboardArticlesProps> = (props) => {
           "withSort",
           "withCount",
           "withSearch",
-          "withStats",
-          "withAdd",
           "withBulkDelete",
+          "withStats",
         ]}
         selectKey="id"
-        excluseSelectKeys={["operations"]}
+        excludeSelectKeys={["operations"]}
         orderBy="age"
         order="desc"
       />

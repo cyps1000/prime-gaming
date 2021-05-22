@@ -78,11 +78,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     boxShadow: "none",
   },
   loadingCell: {
-    padding: 15,
+    padding: "15px !important",
   },
   checkboxCell: {
-    maxWidth: 30,
-    padding: 0,
+    padding: "0 !important",
+    maxWidth: 40,
   },
   checkboxRoot: {
     padding: 5,
